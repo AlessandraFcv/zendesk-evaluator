@@ -1,0 +1,1418 @@
+[
+  {
+    "id": "admin",
+    "username": "admin",
+    "name": "Administrador",
+    "role": "admin",
+    "email": "alessandra.santos@tecnospeed.com.br",
+    "assignee_ids": [],
+    "password": "$2a$10$0ycozkbKfjf8R4w2o.RaKO7ILeBqxVvwkenn236UPoc9q5uzTFqta"
+  },
+  {
+    "id": "tiago",
+    "username": "tiago",
+    "name": "Tiago",
+    "role": "evaluator",
+    "email": "tiago.valverde@tecnospeed.com.br",
+    "assignee_ids": [],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "leticia",
+    "username": "leticia",
+    "name": "Leticia",
+    "role": "consultant",
+    "email": "leticia.pessoa@tecnospeed.com.br",
+    "assignee_ids": [
+      "30235984721815"
+    ],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "erika",
+    "username": "erika",
+    "name": "Erika",
+    "role": "consultant",
+    "email": "erika.silva@tecnospeed.com.br",
+    "assignee_ids": [
+      "34323495409943"
+    ],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "gabriel",
+    "username": "gabriel",
+    "name": "Gabriel",
+    "role": "consultant",
+    "email": "gabriel.carvalho@tecnospeed.com.br",
+    "assignee_ids": [
+      "27566549990295"
+    ],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "marcelo",
+    "username": "marcelo",
+    "name": "Marcelo",
+    "role": "consultant",
+    "email": "marcelo.rocha@tecnospeed.com.br",
+    "assignee_ids": [
+      "1529827574762"
+    ],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "henrique",
+    "username": "henrique",
+    "name": "Henrique",
+    "role": "consultant",
+    "email": "henrique.medeiros@tecnospeed.com.br",
+    "assignee_ids": [
+      "27566497005975"
+    ],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "alessandra",
+    "username": "alessandra",
+    "name": "Alessandra",
+    "role": "admin",
+    "email": "alessandra.santos@tecnospeed.com.br",
+    "assignee_ids": [
+      "412356865654"
+    ],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "emilly",
+    "username": "emilly",
+    "name": "Emilly",
+    "role": "consultant",
+    "email": "emilly.santana@tecnospeed.com.br",
+    "assignee_ids": [
+      "23339270934935"
+    ],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "gilberto",
+    "username": "gilberto",
+    "name": "Gilberto",
+    "role": "manager",
+    "email": "gilberto.almeida@tecnospeed.com.br",
+    "assignee_ids": [
+      "424200531334"
+    ],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "ives",
+    "username": "ives",
+    "name": "Ives",
+    "role": "consultant",
+    "email": "ives.hirose@tecnospeed.com.br",
+    "assignee_ids": [
+      "34323518871063"
+    ],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "miriam",
+    "username": "miriam",
+    "name": "Miriam",
+    "role": "consultant",
+    "email": "miriam.alves@tecnospeed.com.br",
+    "assignee_ids": [
+      "34323447873559"
+    ],
+    "password": "$2a$10$YN6/bvYepAXdwMwba7s8u.05eBf2mc1Dcr6n/t.u9v32I/DkAyZx."
+  },
+  {
+    "id": "d88248b5-fec4-467d-b433-d8f4621b6e3c",
+    "username": "luiz.martins",
+    "name": "Luiz Martins",
+    "role": "consultant",
+    "email": "luiz.martins@tecnospeed.com.br",
+    "assignee_ids": [
+      "363488161754"
+    ],
+    "zendesk_agent_id": "363488161754",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "e0fa343b-576c-489d-b6ff-11fd6ca38df4",
+    "username": "joao.henrique.cardoso",
+    "name": "Joao Henrique Cardoso",
+    "role": "consultant",
+    "email": "joao.cardoso@tecnospeed.com.br",
+    "assignee_ids": [
+      "363667743693"
+    ],
+    "zendesk_agent_id": "363667743693",
+    "zendesk_groups": [
+      "Comercial"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "19ddb64d-ac58-4492-9ce3-d36b35b16c68",
+    "username": "dorival.gobeti.junior",
+    "name": "Dorival Gobeti Junior",
+    "role": "consultant",
+    "email": "gobeti.junior@tecnospeed.com.br",
+    "assignee_ids": [
+      "364682357654"
+    ],
+    "zendesk_agent_id": "364682357654",
+    "zendesk_groups": [
+      "InternoNFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "406b89ca-0e70-43af-be17-ff168ae0289d",
+    "username": "yago.xavier",
+    "name": "Yago Xavier",
+    "role": "consultant",
+    "email": "yago.xavier@tecnospeed.com.br",
+    "assignee_ids": [
+      "367649622393"
+    ],
+    "zendesk_agent_id": "367649622393",
+    "zendesk_groups": [
+      "PlugMobile"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "a651248e-11de-445b-93ce-faa559abf017",
+    "username": "cleitimara.alves",
+    "name": "Cleitimara Alves",
+    "role": "consultant",
+    "email": "cleitimara.alves@tecnospeed.com.br",
+    "assignee_ids": [
+      "368049672193"
+    ],
+    "zendesk_agent_id": "368049672193",
+    "zendesk_groups": [
+      "Financeiro"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "f34d735b-ebc4-4360-b69f-0352800f5823",
+    "username": "alan.tanoue.de.mello",
+    "name": "Alan Tanoue de Mello",
+    "role": "consultant",
+    "email": "alan.mello@tecnospeed.com.br",
+    "assignee_ids": [
+      "385661985053"
+    ],
+    "zendesk_agent_id": "385661985053",
+    "zendesk_groups": [
+      "Financeiro"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "d67a1f05-03b0-45dc-879a-a99d44883307",
+    "username": "erika.raugusto",
+    "name": "Erika Raugusto",
+    "role": "consultant",
+    "email": "erika.raugusto@tecnospeed.com.br",
+    "assignee_ids": [
+      "386065614033"
+    ],
+    "zendesk_agent_id": "386065614033",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "987487e6-3e5b-421d-85ca-cf6f2175f3cd",
+    "username": "guilherme.noce",
+    "name": "Guilherme Noce",
+    "role": "consultant",
+    "email": "guilherme.noce@tecnospeed.com.br",
+    "assignee_ids": [
+      "386387810574"
+    ],
+    "zendesk_agent_id": "386387810574",
+    "zendesk_groups": [
+      "Componentes"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "e295002b-2f30-4a83-8bd1-5a794944f45e",
+    "username": "matheus.augusto.silva.rodrigues",
+    "name": "Matheus Augusto Silva Rodrigues",
+    "role": "consultant",
+    "email": "matheus.rodrigues@tecnospeed.com.br",
+    "assignee_ids": [
+      "397972978833"
+    ],
+    "zendesk_agent_id": "397972978833",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "b67b661e-884d-4381-838b-ccfa97fca7e4",
+    "username": "leonardo.souza",
+    "name": "Leonardo Souza",
+    "role": "consultant",
+    "email": "leonardo.souza@tecnospeed.com.br",
+    "assignee_ids": [
+      "403332001173"
+    ],
+    "zendesk_agent_id": "403332001173",
+    "zendesk_groups": [
+      "Fintech"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "2d42292d-f06c-410f-8fa9-90b12aeae307",
+    "username": "gabriel.laranjeiras",
+    "name": "Gabriel Laranjeiras",
+    "role": "consultant",
+    "email": "gabriel.laranjeiras@tecnospeed.com.br",
+    "assignee_ids": [
+      "406178134014"
+    ],
+    "zendesk_agent_id": "406178134014",
+    "zendesk_groups": [
+      "Customer Success"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "4f9219b7-8b7a-41d2-a281-655ba5a43691",
+    "username": "carlos",
+    "name": "Carlos",
+    "role": "consultant",
+    "email": "carlos.machado@tecnospeed.com.br",
+    "assignee_ids": [
+      "414482534793"
+    ],
+    "zendesk_agent_id": "414482534793",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "b6e1d72b-e3fa-490a-b6a6-8002c103c461",
+    "username": "guilherme.americo",
+    "name": "Guilherme Americo",
+    "role": "consultant",
+    "email": "guilherme.americo@tecnospeed.com.br",
+    "assignee_ids": [
+      "426224513234"
+    ],
+    "zendesk_agent_id": "426224513234",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "74e2eb8c-2306-4c5d-b5dc-8c9fcf236504",
+    "username": "wendel.caon",
+    "name": "Wendel Caon",
+    "role": "consultant",
+    "email": "wendel.caon@tecnospeed.com.br",
+    "assignee_ids": [
+      "428384736614"
+    ],
+    "zendesk_agent_id": "428384736614",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "58237812-9a11-4994-a3a4-a64ad4573d0b",
+    "username": "luis.lima",
+    "name": "Luis Lima",
+    "role": "consultant",
+    "email": "luis.lima@tecnospeed.com.br",
+    "assignee_ids": [
+      "428384838094"
+    ],
+    "zendesk_agent_id": "428384838094",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "6611d37e-28ed-43c0-96bd-d32b673b3987",
+    "username": "dev.nfse",
+    "name": "Dev NFSe",
+    "role": "consultant",
+    "email": "giofranceno.pujolli@tecnospeed.com.br",
+    "assignee_ids": [
+      "1500256975882"
+    ],
+    "zendesk_agent_id": "1500256975882",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "4371f5f7-83a3-4e2e-9c9a-1912008a6514",
+    "username": "eduardo.montanhole",
+    "name": "Eduardo Montanhole",
+    "role": "consultant",
+    "email": "eduardo.montanhole@tecnospeed.com.br",
+    "assignee_ids": [
+      "1501063449781"
+    ],
+    "zendesk_agent_id": "1501063449781",
+    "zendesk_groups": [
+      "Fintech"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "aeaeb4e6-f807-484a-a75a-e40326db06d0",
+    "username": "marcio.henrique.hirata",
+    "name": "Marcio Henrique Hirata",
+    "role": "consultant",
+    "email": "marcio.hirata@tecnospeed.com.br",
+    "assignee_ids": [
+      "1503189740942"
+    ],
+    "zendesk_agent_id": "1503189740942",
+    "zendesk_groups": [
+      "DPO"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "c4930d07-7dce-4309-bc95-5ed191d4f88a",
+    "username": "jose.souza",
+    "name": "José Souza",
+    "role": "consultant",
+    "email": "jose.souza@tecnospeed.com.br",
+    "assignee_ids": [
+      "1504153590981"
+    ],
+    "zendesk_agent_id": "1504153590981",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "d1187870-f94e-41b1-8b92-6026dccd086e",
+    "username": "lucas.costa.de.almeida",
+    "name": "Lucas Costa de Almeida",
+    "role": "consultant",
+    "email": "lucas.almeida@tecnospeed.com.br",
+    "assignee_ids": [
+      "1507156665182"
+    ],
+    "zendesk_agent_id": "1507156665182",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "29461786-60a9-4c16-8133-afff45bfe70f",
+    "username": "marcelo.luiz.baraldi",
+    "name": "Marcelo Luiz Baraldi",
+    "role": "consultant",
+    "email": "marcelo.baraldi@tecnospeed.com.br",
+    "assignee_ids": [
+      "1507297126281"
+    ],
+    "zendesk_agent_id": "1507297126281",
+    "zendesk_groups": [
+      "Componentes"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "30dbcd7a-9d0d-40e4-9cfa-5e743e321087",
+    "username": "mykaelly.carvalho",
+    "name": "Mykaelly Carvalho",
+    "role": "consultant",
+    "email": "mykaelly.carvalho@tecnospeed.com.br",
+    "assignee_ids": [
+      "1507297440621"
+    ],
+    "zendesk_agent_id": "1507297440621",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "7e113913-d33d-4095-84f6-275823aab960",
+    "username": "paulo.calletti",
+    "name": "Paulo Calletti",
+    "role": "consultant",
+    "email": "paulo.calletti@tecnospeed.com.br",
+    "assignee_ids": [
+      "1508434089802"
+    ],
+    "zendesk_agent_id": "1508434089802",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "64286d77-25d5-4206-a238-6b70d6ca9ec2",
+    "username": "matheus.barucho",
+    "name": "Matheus Barucho",
+    "role": "consultant",
+    "email": "matheus.barucho@tecnospeed.com.br",
+    "assignee_ids": [
+      "1512086118222"
+    ],
+    "zendesk_agent_id": "1512086118222",
+    "zendesk_groups": [
+      "InternoNFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "118d58d7-bbec-46f4-9dc4-ea2d17a8499a",
+    "username": "kleverson.cruz",
+    "name": "Kleverson Cruz",
+    "role": "consultant",
+    "email": "kleverson.cruz@tecnospeed.com.br",
+    "assignee_ids": [
+      "1513684965721"
+    ],
+    "zendesk_agent_id": "1513684965721",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "ffbdc6b3-218e-4e71-a604-bc468271bab3",
+    "username": "yagor.assis",
+    "name": "Yagor Assis",
+    "role": "consultant",
+    "email": "yagor.assis@tecnospeed.com.br",
+    "assignee_ids": [
+      "1517490351042"
+    ],
+    "zendesk_agent_id": "1517490351042",
+    "zendesk_groups": [
+      "SpeedLab"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "500446c9-9513-472f-90a0-193c8cd7ae59",
+    "username": "mauricio.bruning",
+    "name": "Maurício Bruning",
+    "role": "consultant",
+    "email": "mauricio.bruning@tecnospeed.com.br",
+    "assignee_ids": [
+      "1520586808601"
+    ],
+    "zendesk_agent_id": "1520586808601",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "a4b6b075-229d-4ee3-809e-b2a2e7e1f265",
+    "username": "guilherme.borges",
+    "name": "Guilherme Borges",
+    "role": "consultant",
+    "email": "guilherme.borges@tecnospeed.com.br",
+    "assignee_ids": [
+      "1522204674441"
+    ],
+    "zendesk_agent_id": "1522204674441",
+    "zendesk_groups": [
+      "Fintech"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "34ed24aa-fd30-4470-8d49-ae6a9724b4ac",
+    "username": "dev.desktop.ml",
+    "name": "Dev Desktop ML",
+    "role": "consultant",
+    "email": "thiago.alves@tecnospeed.com.br",
+    "assignee_ids": [
+      "1523136077662"
+    ],
+    "zendesk_agent_id": "1523136077662",
+    "zendesk_groups": [
+      "InternoDFeDesktopML"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "8a98336b-1729-4784-9829-32fcb6000b92",
+    "username": "guilherme.zenata.gines",
+    "name": "Guilherme Zenata Gines",
+    "role": "consultant",
+    "email": "guilherme.gines@tecnospeed.com.br",
+    "assignee_ids": [
+      "1528218255601"
+    ],
+    "zendesk_agent_id": "1528218255601",
+    "zendesk_groups": [
+      "Fintech"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "b8de54a1-5285-4520-b89f-c9c06703abeb",
+    "username": "andreia.wachesk",
+    "name": "Andreia Wachesk",
+    "role": "consultant",
+    "email": "andreia.wachesk@tecnospeed.com.br",
+    "assignee_ids": [
+      "1528282833302"
+    ],
+    "zendesk_agent_id": "1528282833302",
+    "zendesk_groups": [
+      "Customer Success"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "e866bc49-f2de-4421-94ce-7c9b72378f2b",
+    "username": "andreia.souza",
+    "name": "Andreia Souza",
+    "role": "consultant",
+    "email": "andreia.souza@tecnospeed.com.br",
+    "assignee_ids": [
+      "1528795213742"
+    ],
+    "zendesk_agent_id": "1528795213742",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "815e339e-f4d7-44cd-892c-0e861d562acc",
+    "username": "marcelo.rocha",
+    "name": "Marcelo Rocha",
+    "role": "consultant",
+    "email": "marcelo.rocha@tecnospeed.com.br",
+    "assignee_ids": [
+      "1529827574762"
+    ],
+    "zendesk_agent_id": "1529827574762",
+    "zendesk_groups": [
+      "DFeSuite HIGH"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "c3f73af4-b5e7-4093-a8db-6ab8e8ec78f1",
+    "username": "yasmin.leski",
+    "name": "yasmin.leski",
+    "role": "consultant",
+    "email": "yasmin.leski@tecnospeed.com.br",
+    "assignee_ids": [
+      "1534637873121"
+    ],
+    "zendesk_agent_id": "1534637873121",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "4b87e0a5-29b5-4669-8b43-a494222b1ba3",
+    "username": "daniele.zangeroli",
+    "name": "Daniele Zangeroli",
+    "role": "consultant",
+    "email": "daniele.zangeroli@tecnospeed.com.br",
+    "assignee_ids": [
+      "1902371022865"
+    ],
+    "zendesk_agent_id": "1902371022865",
+    "zendesk_groups": [
+      "Consultoria Tributária"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "6dd9cade-724f-4790-b6ff-cfc8f33b7e91",
+    "username": "maria.ferreira",
+    "name": "Maria Ferreira",
+    "role": "consultant",
+    "email": "maria.ferreira@tecnospeed.com.br",
+    "assignee_ids": [
+      "1906162224185"
+    ],
+    "zendesk_agent_id": "1906162224185",
+    "zendesk_groups": [
+      "Managers"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "5f447a63-9c3e-43aa-8854-348e79484ac6",
+    "username": "lucas.silva",
+    "name": "Lucas Silva",
+    "role": "consultant",
+    "email": "lucas.silva@tecnospeed.com.br",
+    "assignee_ids": [
+      "1913677491105"
+    ],
+    "zendesk_agent_id": "1913677491105",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "bce106b8-57de-4a5e-a338-808e24ab8c1d",
+    "username": "joao.yoshio",
+    "name": "João Yoshio",
+    "role": "consultant",
+    "email": "joao.yoshio@tecnospeed.com.br",
+    "assignee_ids": [
+      "1920428188865"
+    ],
+    "zendesk_agent_id": "1920428188865",
+    "zendesk_groups": [
+      "Homologação"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "31c1e3cd-9fc0-4236-a972-17ea2ba24d8d",
+    "username": "willian.santos",
+    "name": "Willian Santos",
+    "role": "consultant",
+    "email": "willian.santos@tecnospeed.com.br",
+    "assignee_ids": [
+      "6331924167191"
+    ],
+    "zendesk_agent_id": "6331924167191",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "8b815094-eba3-453e-8618-a6cf8b5e6cff",
+    "username": "heron.rahel",
+    "name": "Heron Rahel",
+    "role": "consultant",
+    "email": "heron.rahel@tecnospeed.com.br",
+    "assignee_ids": [
+      "6375144123159"
+    ],
+    "zendesk_agent_id": "6375144123159",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "44ca48ca-bc66-4168-948d-5e24f3b8e6e4",
+    "username": "lucas.ribeiro",
+    "name": "Lucas Ribeiro",
+    "role": "consultant",
+    "email": "lucas.ribeiro@tecnospeed.com.br",
+    "assignee_ids": [
+      "6632753087895"
+    ],
+    "zendesk_agent_id": "6632753087895",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "4158bdc7-2ffe-4434-8937-4f4f2fb95f78",
+    "username": "felipe.villaca",
+    "name": "Felipe Villaca",
+    "role": "consultant",
+    "email": "felipe.villaca@tecnospeed.com.br",
+    "assignee_ids": [
+      "6848505374871"
+    ],
+    "zendesk_agent_id": "6848505374871",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "f647ec75-f921-4224-b7c8-83a8c0cc7708",
+    "username": "joao.pedro.rosa",
+    "name": "João Pedro Rosa",
+    "role": "consultant",
+    "email": "joao.rosa@tecnospeed.com.br",
+    "assignee_ids": [
+      "6856185443479"
+    ],
+    "zendesk_agent_id": "6856185443479",
+    "zendesk_groups": [
+      "SpeedLab"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "30d0a073-33fe-43d7-bf1f-43055e030df1",
+    "username": "estevan.bartmann.silveira",
+    "name": "Estevan Bartmann Silveira",
+    "role": "consultant",
+    "email": "estevan.silveira@tecnospeed.com.br",
+    "assignee_ids": [
+      "8269936060183"
+    ],
+    "zendesk_agent_id": "8269936060183",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "7bdc2a76-daea-4365-9429-7c3f23396398",
+    "username": "dev.cloud.ml",
+    "name": "Dev Cloud ML",
+    "role": "consultant",
+    "email": "chatdevcloud@tecnospeed.com.br",
+    "assignee_ids": [
+      "8286185885335"
+    ],
+    "zendesk_agent_id": "8286185885335",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "5d421799-ed3b-4820-aebb-021ad02d7cd0",
+    "username": "gustavo.simao",
+    "name": "Gustavo Simão",
+    "role": "consultant",
+    "email": "gustavo.simao@tecnospeed.com.br",
+    "assignee_ids": [
+      "9070197266327"
+    ],
+    "zendesk_agent_id": "9070197266327",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "791ebca8-fd3d-483b-869b-778806cea754",
+    "username": "henrique.vedovato",
+    "name": "Henrique Vedovato",
+    "role": "consultant",
+    "email": "henrique.vedovato@tecnospeed.com.br",
+    "assignee_ids": [
+      "9086446887575"
+    ],
+    "zendesk_agent_id": "9086446887575",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "308710b6-ee35-4611-a8c5-7dc97dc8af74",
+    "username": "vitoria.elias",
+    "name": "Vitória Elias",
+    "role": "consultant",
+    "email": "vitoria.elias@tecnospeed.com.br",
+    "assignee_ids": [
+      "9831425177495"
+    ],
+    "zendesk_agent_id": "9831425177495",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "6b0a4dcf-7d89-4688-bd07-c458e8973325",
+    "username": "matheus.soares",
+    "name": "Matheus Soares",
+    "role": "consultant",
+    "email": "matheus.soares@tecnospeed.com.br",
+    "assignee_ids": [
+      "10436536429463"
+    ],
+    "zendesk_agent_id": "10436536429463",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "1fd2edb4-7474-4473-ba06-cef0967ed6ce",
+    "username": "jorge.amaral",
+    "name": "Jorge Amaral",
+    "role": "consultant",
+    "email": "jorge.amaral@tecnospeed.com.br",
+    "assignee_ids": [
+      "11398947969559"
+    ],
+    "zendesk_agent_id": "11398947969559",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "3aed6cde-6a20-4d37-87a7-9d71a715fe41",
+    "username": "marcos.santos",
+    "name": "Marcos Santos",
+    "role": "consultant",
+    "email": "marcos.santos@tecnospeed.com.br",
+    "assignee_ids": [
+      "12127943368215"
+    ],
+    "zendesk_agent_id": "12127943368215",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "4a54c97e-1c86-42e9-891a-d9bdf111ebad",
+    "username": "liziane.santos",
+    "name": "Liziane Santos",
+    "role": "consultant",
+    "email": "liziane.santos@tecnospeed.com.br",
+    "assignee_ids": [
+      "13840304402839"
+    ],
+    "zendesk_agent_id": "13840304402839",
+    "zendesk_groups": [
+      "Customer Success"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "4bdb8fe3-d073-4a83-9c54-f6fb78d60808",
+    "username": "antonio.junior",
+    "name": "Antonio Junior",
+    "role": "consultant",
+    "email": "antonio.junior@procfit.com.br",
+    "assignee_ids": [
+      "16309837675287"
+    ],
+    "zendesk_agent_id": "16309837675287",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "fad8a305-9e6c-4f1a-b989-577035a4623a",
+    "username": "isabel.sleigman",
+    "name": "Isabel Sleigman",
+    "role": "consultant",
+    "email": "isabel.sleigman@tecnospeed.com.br",
+    "assignee_ids": [
+      "17974621351063"
+    ],
+    "zendesk_agent_id": "17974621351063",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "710bf663-ca33-42f3-84bc-511edccb9fd6",
+    "username": "guilherme.felicio",
+    "name": "Guilherme Felicio",
+    "role": "consultant",
+    "email": "guilherme.felicio@tecnospeed.com.br",
+    "assignee_ids": [
+      "18330705625367"
+    ],
+    "zendesk_agent_id": "18330705625367",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "14b805eb-824b-4fd5-b1fb-dcf0b10cefe0",
+    "username": "anderson.silva",
+    "name": "Anderson Silva",
+    "role": "consultant",
+    "email": "anderson.silva@tecnospeed.com.br",
+    "assignee_ids": [
+      "19998240967447"
+    ],
+    "zendesk_agent_id": "19998240967447",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "c8fd83cb-2204-4f96-9e09-31278a9860c3",
+    "username": "barbara.schiavetto",
+    "name": "Barbara Schiavetto",
+    "role": "consultant",
+    "email": "barbara.schiavetto@tecnospeed.com.br",
+    "assignee_ids": [
+      "20415094170007"
+    ],
+    "zendesk_agent_id": "20415094170007",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "3ca2bc70-b8fe-4f2a-b544-e49b7362fd0c",
+    "username": "renan.ortiz",
+    "name": "Renan Ortiz",
+    "role": "consultant",
+    "email": "renan.ortiz@tecnospeed.com.br",
+    "assignee_ids": [
+      "20415140164887"
+    ],
+    "zendesk_agent_id": "20415140164887",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "861d7915-e207-4b73-8e60-132ab6a8c9b6",
+    "username": "leandro.dias",
+    "name": "Leandro Dias",
+    "role": "consultant",
+    "email": "leandro.dias@tecnospeed.com.br",
+    "assignee_ids": [
+      "20679013216535"
+    ],
+    "zendesk_agent_id": "20679013216535",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "bcf3f5a3-3459-4926-ad41-4f60d790a615",
+    "username": "jean.paula",
+    "name": "Jean Paula",
+    "role": "consultant",
+    "email": "jean.paula@tecnospeed.com.br",
+    "assignee_ids": [
+      "20679018875031"
+    ],
+    "zendesk_agent_id": "20679018875031",
+    "zendesk_groups": [
+      "Consultoria Técnica"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "b6283de8-8225-4c89-9f29-3c1eb18be844",
+    "username": "gabriel.teixeira",
+    "name": "Gabriel Teixeira",
+    "role": "consultant",
+    "email": "gabriel.teixeira@tecnospeed.com.br",
+    "assignee_ids": [
+      "21968378701591"
+    ],
+    "zendesk_agent_id": "21968378701591",
+    "zendesk_groups": [
+      "Fintech"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "2c59b7ef-e24a-4474-99c9-76d8ec1d56b4",
+    "username": "antonio.junior",
+    "name": "Antonio Junior",
+    "role": "consultant",
+    "email": "antonio.junior@tecnospeed.com.br",
+    "assignee_ids": [
+      "22730867748119"
+    ],
+    "zendesk_agent_id": "22730867748119",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "236771b9-2c10-49c9-8d71-596dfa448eea",
+    "username": "debora.gonzales",
+    "name": "Debora Gonzales",
+    "role": "consultant",
+    "email": "debora.gonzales@tecnospeed.com.br",
+    "assignee_ids": [
+      "22730892961175"
+    ],
+    "zendesk_agent_id": "22730892961175",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "7eb0a15f-f77d-4cae-9e89-ee76dfc265ab",
+    "username": "lucas.cordeiro.siqueira",
+    "name": "Lucas Cordeiro Siqueira",
+    "role": "consultant",
+    "email": "lucas.siqueira@tecnospeed.com.br",
+    "assignee_ids": [
+      "24672635700247"
+    ],
+    "zendesk_agent_id": "24672635700247",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "efd5b148-b43e-4116-b61e-91d9e585065e",
+    "username": "thaina.correia",
+    "name": "Thaina Correia",
+    "role": "consultant",
+    "email": "thaina.correia@tecnospeed.com.br",
+    "assignee_ids": [
+      "25497723944855"
+    ],
+    "zendesk_agent_id": "25497723944855",
+    "zendesk_groups": [
+      "Fintech"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "b053b449-c42f-4b3b-a24a-becda6b8e777",
+    "username": "marco.cestaro",
+    "name": "Marco Cestaro",
+    "role": "consultant",
+    "email": "marco.cestaro@tecnospeed.com.br",
+    "assignee_ids": [
+      "27308203380631"
+    ],
+    "zendesk_agent_id": "27308203380631",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "40ec8e62-a899-4ed1-8fd4-cd8cc8f73056",
+    "username": "willian.fattori",
+    "name": "Willian Fattori",
+    "role": "consultant",
+    "email": "willian.paula@tecnospeed.com.br",
+    "assignee_ids": [
+      "27566434868503"
+    ],
+    "zendesk_agent_id": "27566434868503",
+    "zendesk_groups": [
+      "Managers"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "504e4d4b-06ed-4e5f-9208-8ffd989cedfd",
+    "username": "henrique.medeiros",
+    "name": "Henrique Medeiros",
+    "role": "consultant",
+    "email": "henrique.medeiros@tecnospeed.com.br",
+    "assignee_ids": [
+      "27566497005975"
+    ],
+    "zendesk_agent_id": "27566497005975",
+    "zendesk_groups": [
+      "Managers"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "830905f9-6811-4a98-a938-182801d5c4c8",
+    "username": "gabriel.carvalho",
+    "name": "Gabriel Carvalho",
+    "role": "consultant",
+    "email": "gabriel.carvalho@tecnospeed.com.br",
+    "assignee_ids": [
+      "27566549990295"
+    ],
+    "zendesk_agent_id": "27566549990295",
+    "zendesk_groups": [
+      "Componentes"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "c66d1d73-af14-4418-82d7-263882a2b3ff",
+    "username": "almir.silva",
+    "name": "Almir Silva",
+    "role": "consultant",
+    "email": "almir.silva@tecnospeed.com.br",
+    "assignee_ids": [
+      "28646602471575"
+    ],
+    "zendesk_agent_id": "28646602471575",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "276305be-415a-4bf3-a499-f0c0fc1886bb",
+    "username": "leticia.pessoa",
+    "name": "Leticia Pessoa",
+    "role": "consultant",
+    "email": "leticia.pessoa@tecnospeed.com.br",
+    "assignee_ids": [
+      "30235984721815"
+    ],
+    "zendesk_agent_id": "30235984721815",
+    "zendesk_groups": [
+      "PlugNotas HIGH"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "308e9d7a-f59e-466a-99ba-d98605386c50",
+    "username": "joao.vitor.lima.barbosa",
+    "name": "João Vitor Lima Barbosa",
+    "role": "consultant",
+    "email": "joao.barbosa@tecnospeed.com.br",
+    "assignee_ids": [
+      "30477600833303"
+    ],
+    "zendesk_agent_id": "30477600833303",
+    "zendesk_groups": [
+      "Fintech"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "bfc105a5-c3e1-43db-8e3a-3a68861e428b",
+    "username": "lucas.pereira",
+    "name": "Lucas Pereira",
+    "role": "consultant",
+    "email": "lucas.pereira@tecnospeed.com.br",
+    "assignee_ids": [
+      "30709364869655"
+    ],
+    "zendesk_agent_id": "30709364869655",
+    "zendesk_groups": [
+      "Fintech"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "e3a910c7-75b4-4468-9ad8-933f6e5d550a",
+    "username": "eduardo.magnani",
+    "name": "Eduardo Magnani",
+    "role": "consultant",
+    "email": "eduardo.magnani@tecnospeed.com.br",
+    "assignee_ids": [
+      "30883705328279"
+    ],
+    "zendesk_agent_id": "30883705328279",
+    "zendesk_groups": [
+      "Customer Success"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "a22daf01-778c-4661-832d-97d904f2c047",
+    "username": "lucas.federle",
+    "name": "Lucas Federle",
+    "role": "consultant",
+    "email": "lucas.nunes@tecnospeed.com.br",
+    "assignee_ids": [
+      "31754471994775"
+    ],
+    "zendesk_agent_id": "31754471994775",
+    "zendesk_groups": [
+      "SpeedLab"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "37310c31-78c0-41a4-852a-f74c5eb98a6b",
+    "username": "hugo.zuin",
+    "name": "Hugo Zuin",
+    "role": "consultant",
+    "email": "hugo.zuin@tecnospeed.com.br",
+    "assignee_ids": [
+      "32579279723543"
+    ],
+    "zendesk_agent_id": "32579279723543",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "31a8c471-3604-46a0-ba75-5f0c9d4b6835",
+    "username": "miriam.alves",
+    "name": "Miriam Alves",
+    "role": "consultant",
+    "email": "miriam.alves@tecnospeed.com.br",
+    "assignee_ids": [
+      "34323447873559"
+    ],
+    "zendesk_agent_id": "34323447873559",
+    "zendesk_groups": [
+      "Componentes"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "7c7d0c65-a2ba-4be4-9209-f7f825025b44",
+    "username": "erika.silva",
+    "name": "Erika Silva",
+    "role": "consultant",
+    "email": "erika.silva@tecnospeed.com.br",
+    "assignee_ids": [
+      "34323495409943"
+    ],
+    "zendesk_agent_id": "34323495409943",
+    "zendesk_groups": [
+      "Managers"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "cb176811-85af-4dab-8de2-495f4308bd58",
+    "username": "hiziane.michalowski",
+    "name": "Hiziane Michalowski",
+    "role": "consultant",
+    "email": "hiziane.michalowski@tecnospeed.com.br",
+    "assignee_ids": [
+      "34323515216791"
+    ],
+    "zendesk_agent_id": "34323515216791",
+    "zendesk_groups": [
+      "Managers"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "3781cd02-557c-415f-b984-ff36508561a1",
+    "username": "ives.hirose",
+    "name": "Ives Hirose",
+    "role": "consultant",
+    "email": "ives.hirose@tecnospeed.com.br",
+    "assignee_ids": [
+      "34323518871063"
+    ],
+    "zendesk_agent_id": "34323518871063",
+    "zendesk_groups": [
+      "Componentes"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "c9445083-e278-4fd1-b1a3-bda8cf848184",
+    "username": "matheus.caccia.ribeiro",
+    "name": "Matheus Caccia Ribeiro",
+    "role": "consultant",
+    "email": "matheus.ribeiro@tecnospeed.com.br",
+    "assignee_ids": [
+      "35039146627863"
+    ],
+    "zendesk_agent_id": "35039146627863",
+    "zendesk_groups": [
+      "Fintech"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "0f13d484-2da8-4e71-a708-4108f2d6abe3",
+    "username": "felipe.ladislau",
+    "name": "Felipe Ladislau",
+    "role": "consultant",
+    "email": "felipe.ladislau@plugsign.com.br",
+    "assignee_ids": [
+      "35603662870807"
+    ],
+    "zendesk_agent_id": "35603662870807",
+    "zendesk_groups": [
+      "Assinadoc"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "e383dbae-b24d-44a3-838f-4c70605a64f0",
+    "username": "caroline.rocha",
+    "name": "Caroline Rocha",
+    "role": "consultant",
+    "email": "caroline.rocha@tecnospeed.com.br",
+    "assignee_ids": [
+      "35790911252247"
+    ],
+    "zendesk_agent_id": "35790911252247",
+    "zendesk_groups": [
+      "Financeiro"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "7ec94550-4f42-4465-9bc2-d5fe91e41d63",
+    "username": "amanda.barros",
+    "name": "Amanda Barros",
+    "role": "consultant",
+    "email": "amanda.barros@tecnospeed.com.br",
+    "assignee_ids": [
+      "36133506691735"
+    ],
+    "zendesk_agent_id": "36133506691735",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "3c407d14-0e0d-496e-92f3-87d2ad66f23f",
+    "username": "joao.santos",
+    "name": "João Santos",
+    "role": "consultant",
+    "email": "joao.santos@tecnospeed.com.br",
+    "assignee_ids": [
+      "36134163686423"
+    ],
+    "zendesk_agent_id": "36134163686423",
+    "zendesk_groups": [
+      "NFSe"
+    ],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  },
+  {
+    "id": "c3318af8-b6e7-4d63-9336-1561d86a622d",
+    "username": "ai.agent",
+    "name": "AI Agent",
+    "role": "consultant",
+    "email": "",
+    "assignee_ids": [
+      "38585826112535"
+    ],
+    "zendesk_agent_id": "38585826112535",
+    "zendesk_groups": [],
+    "password": "$2a$10$0Dx9x2nlfRAVsi4ANyov9eoOSNYEjbUV7jUlRPYWV72yo5AVKsXvy"
+  }
+]

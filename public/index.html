@@ -1,0 +1,3087 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AtendeIA</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Nunito:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0e1a;--bg2:#111627;--bg3:#161d32;--bg4:#1c2540;
+  --border:#1e2d50;--border2:#243460;
+  --text:#e8edf8;--muted:#5b6e9a;
+  --accent:#2563eb;--accent2:#3b82f6;--purple:#6366f1;
+  --warn:#f59e0b;--danger:#ef4444;
+  --radius:10px;
+  --fh:'Nunito',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--fm:'JetBrains Mono',monospace;
+}
+html{font-size:15px}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);min-height:100vh;overflow-x:hidden;background-image:radial-gradient(ellipse 80% 60% at 50% -5%,rgba(37,99,235,.12),transparent)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scaleIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+.view{display:none}.view.active{display:flex}
+
+/* ── LOGIN ── */
+#view-login{align-items:center;justify-content:center;min-height:100vh;position:relative;overflow:hidden}
+.login-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 30% 80%,rgba(37,99,235,.15),transparent 70%),radial-gradient(ellipse 60% 50% at 80% 20%,rgba(59,130,246,.1),transparent 70%);pointer-events:none}
+.login-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:40px 40px;opacity:.3;pointer-events:none}
+.login-card{position:relative;z-index:1;width:100%;max-width:400px;margin:24px;background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:44px 38px;box-shadow:0 0 0 1px rgba(37,99,235,.2),0 32px 80px rgba(0,0,0,.7);animation:fadeUp .5s ease both}
+.login-title{font-family:var(--fh);font-size:1.45rem;font-weight:700;margin-bottom:5px}
+.login-subtitle{color:var(--muted);font-size:.875rem;margin-bottom:28px}
+.login-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:8px;padding:10px 14px;font-size:.83rem;margin-bottom:14px;display:none}
+.form-field{margin-bottom:16px}
+.form-label{display:block;font-size:.75rem;font-weight:500;color:var(--muted);margin-bottom:7px;letter-spacing:.05em;text-transform:uppercase}
+.form-input{width:100%;padding:11px 13px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--fb);font-size:.93rem;outline:none;transition:border-color .2s,box-shadow .2s}
+.form-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.18)}
+.form-input::placeholder{color:var(--muted)}
+.btn-primary{width:100%;padding:12px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;border-radius:8px;color:#fff;font-family:var(--fh);font-weight:700;font-size:.93rem;cursor:pointer;transition:opacity .2s,transform .1s;margin-top:6px}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-google{width:100%;padding:12px;background:#fff;border:1px solid var(--border2);border-radius:8px;color:#1f2937;font-family:var(--fb);font-weight:600;font-size:.93rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;margin-bottom:0}
+.btn-google:hover{background:#f9fafb;border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.15)}
+.login-link{background:none;border:none;color:var(--muted);font-size:.82rem;cursor:pointer;font-family:var(--fb);margin-top:12px;display:block;width:100%;text-align:center;padding:6px;border-radius:6px;transition:color .15s}
+.login-link:hover{color:#60a5fa}
+
+/* ── APP SHELL ── */
+#view-app{flex-direction:column;min-height:100vh}
+.topbar{height:58px;border-bottom:1px solid rgba(37,99,235,.3);background:linear-gradient(180deg,#0f1628,#111627);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100}
+.topbar-brand{display:flex;align-items:center;gap:9px}
+.topbar-brand-name{font-family:var(--fh);font-weight:700;font-size:1rem}
+.topbar-nav{display:flex;gap:2px}
+.nav-btn{padding:6px 14px;border-radius:7px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--fb);font-size:.85rem;font-weight:500;transition:all .2s;display:flex;align-items:center;gap:6px}
+.nav-btn:hover{color:var(--text);background:var(--bg3)}.nav-btn.active{color:#60a5fa;background:rgba(37,99,235,.15)}
+.badge{background:#2563eb;color:#fff;font-size:.68rem;font-weight:700;padding:1px 6px;border-radius:10px;font-family:var(--fm)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.user-chip{display:flex;align-items:center;gap:8px;background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:4px 12px 4px 4px}
+.user-avatar{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#1d4ed8,#3b82f6);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.68rem;font-weight:700;color:#fff;flex-shrink:0}
+.user-name{font-size:.83rem;font-weight:500}
+.user-role{font-size:.68rem;color:var(--accent);font-family:var(--fm)}
+.btn-icon{width:32px;height:32px;border-radius:7px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:all .2s}
+.btn-icon:hover{color:var(--text);border-color:var(--border2)}
+
+/* ── PAGES ── */
+.page{display:none;padding:26px;max-width:1200px;margin:0 auto;width:100%}
+.page.active{display:block;animation:fadeUp .3s ease both}
+.page-title{font-family:var(--fh);font-size:1.5rem;font-weight:800}
+.page-subtitle{color:var(--muted);font-size:.85rem;margin-top:3px;margin-bottom:24px}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:18px;position:relative;overflow:hidden;animation:fadeUp .4s ease both}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2563eb,#60a5fa)}
+.stat-card.warn::before{background:linear-gradient(90deg,var(--warn),#f97316)}
+.stat-card.info::before{background:linear-gradient(90deg,var(--accent2),var(--purple))}
+.stat-label{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;font-family:var(--fm)}
+.stat-value{font-family:var(--fh);font-size:1.9rem;font-weight:800;line-height:1}
+.stat-sub{font-size:.75rem;color:var(--muted);margin-top:5px}
+
+/* ── QUOTA ── */
+.quota-section{margin-bottom:20px}
+.quota-title{font-family:var(--fh);font-size:1rem;font-weight:700;margin-bottom:12px}
+.quota-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:9px}
+.quota-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:13px;cursor:pointer;transition:border-color .15s,background .15s}
+.quota-card:hover{border-color:#3b82f6;background:rgba(37,99,235,.06)}
+.quota-card.active-filter{border-color:#2563eb;background:rgba(37,99,235,.12)}
+.quota-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.quota-name{font-weight:700;font-family:var(--fh);font-size:.88rem}
+.quota-cnt{font-family:var(--fm);font-size:.78rem}
+.quota-cnt.done{color:var(--accent)}.quota-cnt.partial{color:var(--warn)}.quota-cnt.empty{color:var(--danger)}
+.quota-bar{height:4px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:4px}
+.quota-fill{height:100%;border-radius:3px;transition:width .6s ease}
+.quota-fill.done{background:linear-gradient(90deg,#2563eb,#60a5fa)}.quota-fill.partial{background:var(--warn)}.quota-fill.empty{background:var(--danger)}
+.quota-rem{font-size:.68rem;color:var(--muted)}
+
+/* ── FILTER BAR ── */
+.filter-bar{display:flex;gap:7px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.filter-pill{padding:5px 15px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-family:var(--fb);font-size:.8rem;font-weight:500;transition:all .15s;white-space:nowrap}
+.filter-pill:hover{border-color:var(--border2);color:var(--text)}.filter-pill.active{background:rgba(37,99,235,.15);border-color:#3b82f6;color:#60a5fa}
+.filter-pill.blue{border-color:rgba(37,99,235,.5);color:#60a5fa}
+.filter-pill.blue:hover{background:rgba(14,165,233,.08)}
+.filter-pill.purple{border-color:rgba(139,92,246,.35);color:var(--purple)}
+.filter-pill.purple:hover{background:rgba(139,92,246,.08)}
+.filter-pill.danger{border-color:rgba(239,68,68,.35);color:var(--danger)}
+.filter-pill.danger:hover{background:rgba(239,68,68,.08)}
+.ai-init-badge{display:inline-flex;align-items:center;gap:3px;font-size:.65rem;font-family:var(--fm);font-weight:700;padding:2px 7px;border-radius:10px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.35);color:#c4b5fd;white-space:nowrap;vertical-align:middle}
+.agents-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.agents-table th{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-family:var(--fm);padding:8px 10px;border-bottom:1px solid var(--border);text-align:left;font-weight:600;white-space:nowrap}
+.agents-table td{padding:9px 10px;border-bottom:1px solid var(--border);font-size:.84rem;vertical-align:middle;overflow:hidden}
+.agents-table tr:last-child td{border-bottom:none}
+.agents-table tr:hover td{background:rgba(255,255,255,.02)}
+.agents-table .col-name{width:20%}.agents-table .col-group{width:22%}.agents-table .col-email{width:22%}.agents-table .col-roles{width:22%}.agents-table .col-act{width:14%}
+.agent-name{font-weight:600;font-size:.84rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.agent-username{font-family:var(--fm);font-size:.72rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;margin-top:2px}
+.agent-group-tag{display:inline-flex;align-items:center;gap:3px;font-size:.67rem;font-family:var(--fm);padding:2px 6px;border-radius:10px;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.25);color:#38bdf8;white-space:nowrap;margin:1px 2px 1px 0}
+.agent-email-cell{font-size:.76rem;font-family:var(--fm);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;max-width:100%}
+.agent-email-cell.set{color:var(--accent2)}
+.agent-role-checks{display:flex;gap:12px;flex-wrap:wrap}
+.agent-role-check{display:flex;align-items:center;gap:5px;font-size:.76rem;cursor:pointer;white-space:nowrap;color:var(--muted)}
+.agent-role-check input{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.agent-role-check.active{color:var(--text);font-weight:600}
+.agent-edit-btn{background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.3);color:#60a5fa;font-size:.7rem;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:var(--fm);white-space:nowrap;display:block;width:100%;text-align:center;margin-bottom:4px}
+.agent-edit-btn:hover{background:rgba(37,99,235,.2)}
+/* Grupos do responsável inline */
+.mgr-groups-cell{display:flex;flex-direction:column;gap:5px}
+.mgr-tags-wrap{display:flex;flex-wrap:wrap;gap:4px;min-height:20px}
+.mgr-group-tag{display:inline-flex;align-items:center;gap:5px;font-size:.67rem;font-family:var(--fm);padding:3px 7px;border-radius:10px;background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.3);color:#60a5fa;white-space:nowrap}
+.mgr-tag-remove{cursor:pointer;opacity:.65;font-size:.75rem;line-height:1;transition:opacity .15s}.mgr-tag-remove:hover{opacity:1}
+.mgr-empty{font-size:.7rem;color:var(--muted);opacity:.45;font-style:italic}
+.mgr-add-row{display:flex;align-items:center;gap:5px;margin-top:3px}
+.mgr-group-select{background:var(--bg3);border:1px solid var(--border2);color:var(--text);font-size:.7rem;font-family:var(--fm);padding:3px 6px;border-radius:6px;cursor:pointer;max-width:160px}
+.mgr-add-btn{background:rgba(37,99,235,.18);border:1px solid rgba(37,99,235,.35);color:#60a5fa;font-size:.75rem;padding:3px 8px;border-radius:6px;cursor:pointer;font-weight:700;line-height:1.4}.mgr-add-btn:hover{background:rgba(37,99,235,.3)}
+/* Manager panel */
+.manager-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-top:4px}
+.manager-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;transition:border-color .15s}
+.manager-card:hover{border-color:rgba(37,99,235,.4)}
+.manager-card-name{font-weight:700;font-size:.95rem;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.manager-card-email{font-size:.73rem;font-family:var(--fm);color:var(--muted);margin-bottom:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.manager-card-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px}
+.manager-stat{background:var(--bg3);border-radius:8px;padding:8px 6px;text-align:center}
+.manager-stat-val{font-size:1.1rem;font-weight:700;line-height:1}
+.manager-stat-lbl{font-size:.65rem;font-family:var(--fm);color:var(--muted);margin-top:3px}
+.manager-score-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin-top:8px}
+.manager-score-fill{height:100%;border-radius:3px;transition:width .3s}
+.manager-group-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.manager-group-badge{font-size:.78rem;font-family:var(--fm);padding:4px 12px;border-radius:20px;background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.25);color:#60a5fa}
+/* Group manager assignment in settings */
+.group-manager-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);margin-bottom:8px;gap:12px;flex-wrap:wrap}
+.group-manager-name{font-weight:600;font-size:.85rem;flex:1;min-width:120px}
+.group-manager-meta{font-size:.73rem;color:var(--muted);font-family:var(--fm);margin-top:2px}
+.group-picker{position:relative}
+.group-picker-trigger{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;font-size:.84rem;color:var(--text);cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;font-family:var(--fb);transition:border-color .15s}
+.group-picker-trigger:hover{border-color:var(--accent)}
+.group-picker-trigger.open{border-color:var(--accent);border-bottom-left-radius:0;border-bottom-right-radius:0}
+.group-picker-dropdown{position:absolute;top:100%;left:0;right:0;background:var(--bg3);border:1px solid var(--accent);border-top:none;border-bottom-left-radius:8px;border-bottom-right-radius:8px;z-index:200;max-height:200px;overflow-y:auto;display:none}
+.group-picker-dropdown.open{display:block}
+.group-picker-dropdown::-webkit-scrollbar{width:3px}.group-picker-dropdown::-webkit-scrollbar-thumb{background:var(--border2)}
+.group-picker-opt{display:flex;align-items:center;gap:9px;padding:8px 12px;cursor:pointer;font-size:.83rem;transition:background .12s}
+.group-picker-opt:hover{background:rgba(255,255,255,.04)}
+.group-picker-opt input[type=checkbox]{width:15px;height:15px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.group-picker-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;min-height:0}
+.search-wrap{margin-left:auto;position:relative}
+.search-wrap input{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 11px 6px 32px;color:var(--text);font-family:var(--fb);font-size:.83rem;outline:none;width:210px;transition:border-color .2s}
+.search-wrap input:focus{border-color:var(--accent)}
+.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px;pointer-events:none}
+
+/* ── TABLE ── */
+.table-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.table-wrap table{width:100%;border-collapse:collapse}
+.table-wrap th{padding:10px 14px;text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);border-bottom:1px solid var(--border);background:var(--bg3);font-family:var(--fm)}
+.table-wrap td{padding:9px 14px;border-bottom:1px solid var(--border);font-size:.855rem;vertical-align:middle}
+.table-wrap tr:last-child td{border-bottom:none}
+.table-wrap tbody tr{transition:background .15s}.table-wrap tbody tr:hover{background:rgba(255,255,255,.02)}
+.table-wrap tbody tr.discarded-row td{opacity:.45}
+.ticket-id{font-family:var(--fm);font-size:.76rem;color:var(--muted)}
+.ticket-subject{font-weight:500;max-width:250px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block}
+.consultant-tag{display:inline-flex;align-items:center;background:rgba(14,165,233,.1);border:1px solid rgba(14,165,233,.2);color:var(--accent2);border-radius:5px;padding:2px 8px;font-size:.76rem;font-weight:500}
+.status-badge{display:inline-block;padding:2px 8px;border-radius:5px;font-size:.72rem;font-weight:600;font-family:var(--fm)}
+.status-badge.pending{background:rgba(245,158,11,.12);color:var(--warn)}
+.status-badge.done{background:rgba(34,211,160,.12);color:var(--accent)}
+.status-badge.discarded{background:rgba(239,68,68,.1);color:var(--danger)}
+.actions-cell{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.btn-action{padding:5px 12px;border-radius:6px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;border:1px solid;font-family:var(--fb);display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.btn-action.eval{background:rgba(37,99,235,.1);border-color:#3b82f6;color:#60a5fa}
+.btn-action.eval:hover{background:#2563eb;color:#fff}
+.btn-action.view{background:var(--bg3);border-color:var(--border2);color:var(--muted)}
+.btn-action.view:hover{color:var(--text);border-color:var(--muted)}
+.btn-action.comment{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.4);color:var(--purple)}
+.btn-action.comment:hover{background:rgba(139,92,246,.2)}
+.btn-action.discard{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.3);color:var(--danger)}
+.btn-action.discard:hover{background:rgba(239,68,68,.15)}
+.btn-action.restore{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.3);color:var(--warn)}
+.btn-action.reeval{background:rgba(139,92,246,.1);border-color:rgba(139,92,246,.35);color:#a78bfa}
+.btn-action.reeval:hover{background:rgba(139,92,246,.22);border-color:#7c5cfc}
+.btn-action.restore:hover{background:rgba(245,158,11,.15)}
+.table-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--bg3);border-top:1px solid var(--border);font-size:.78rem;color:var(--muted)}
+.pagination{display:flex;gap:3px}
+.page-btn{width:26px;height:26px;border-radius:5px;border:1px solid var(--border);background:var(--bg2);color:var(--muted);cursor:pointer;font-size:.78rem;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.page-btn:hover{border-color:var(--accent);color:var(--accent)}.page-btn.active{background:var(--accent);color:#0a0c10;border-color:var(--accent)}.page-btn:disabled{opacity:.3;cursor:not-allowed}
+.empty-state{text-align:center;padding:50px 20px;color:var(--muted)}
+.empty-state .icon{font-size:2.2rem;margin-bottom:10px;opacity:.5}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.8);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn .2s ease}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:600px;max-height:92vh;overflow-y:auto;box-shadow:0 32px 80px rgba(0,0,0,.8);animation:scaleIn .22s cubic-bezier(.34,1.56,.64,1) both}
+.modal.wide{max-width:760px}
+.modal-header{padding:20px 22px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg2);z-index:1;border-radius:14px 14px 0 0}
+.modal-title{font-family:var(--fh);font-size:1.05rem;font-weight:700}
+.modal-close{width:28px;height:28px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--muted);cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0}
+.modal-close:hover{color:var(--text)}
+.modal-body{padding:20px 22px}
+
+/* ── EVAL FORM ── */
+.ticket-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px}
+.info-field{background:var(--bg3);border-radius:8px;padding:10px}
+.info-field label{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:2px;font-family:var(--fm)}
+.info-field span{font-size:.86rem;font-weight:500}
+.section-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-family:var(--fm);padding-bottom:7px;border-bottom:1px solid var(--border);margin-bottom:14px;margin-top:18px;display:flex;align-items:center;gap:7px}
+.criterion{margin-bottom:18px}
+.criterion-label{display:flex;justify-content:space-between;align-items:center;font-size:.88rem;font-weight:600;margin-bottom:9px}
+.criterion-pts{font-family:var(--fm);font-size:.78rem;color:#60a5fa;background:rgba(37,99,235,.12);border-radius:5px;padding:2px 7px}
+.emoji-row{display:flex;gap:5px}
+.emoji-btn{flex:1;padding:8px 3px;border-radius:9px;border:2px solid var(--border);background:var(--bg3);cursor:pointer;text-align:center;transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:2px}
+.emoji-btn .e{font-size:1.4rem;line-height:1}
+.emoji-btn .l{font-size:.6rem;color:var(--muted);font-family:var(--fm)}
+.emoji-btn:hover{border-color:var(--border2);transform:translateY(-2px)}
+.emoji-btn.sel{border-color:#2563eb;background:rgba(37,99,235,.15)}
+.emoji-btn.sel .l{color:#60a5fa}
+.score-box{background:var(--bg3);border:1px solid var(--border2);border-radius:12px;padding:16px;text-align:center;margin:18px 0;position:relative;overflow:hidden}
+.score-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#2563eb,#60a5fa)}
+.score-box-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-family:var(--fm);margin-bottom:5px}
+.score-num{font-family:var(--fh);font-size:2.8rem;font-weight:800;transition:color .3s}
+.score-pending{font-family:var(--fh);font-size:1rem;color:var(--muted)}
+.score-of{font-size:.8rem;color:var(--muted)}
+.notes-area{width:100%;padding:10px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--fb);font-size:.85rem;resize:vertical;min-height:72px;outline:none;transition:border-color .2s;margin-bottom:16px}
+.notes-area:focus{border-color:var(--accent)}
+.modal-footer{display:flex;gap:9px;margin-top:4px}
+.btn-cancel{flex:1;padding:10px;border-radius:8px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);cursor:pointer;font-family:var(--fb);font-size:.88rem;transition:all .15s}
+.btn-cancel:hover{color:var(--text)}
+.btn-save{flex:2;padding:10px;border-radius:8px;background:linear-gradient(135deg,#2563eb,#1d4ed8);border:none;color:#fff;font-family:var(--fh);font-weight:700;font-size:.9rem;cursor:pointer;transition:opacity .2s}
+.btn-save:hover{opacity:.88}.btn-save:disabled{opacity:.4;cursor:not-allowed}
+.btn-save-blue{flex:2;padding:10px;border-radius:8px;background:linear-gradient(135deg,var(--purple),#7c3aed);border:none;color:#fff;font-family:var(--fh);font-weight:700;font-size:.9rem;cursor:pointer;transition:opacity .2s}
+.btn-save-blue:hover{opacity:.88}
+
+/* ── AI REVIEW BOX ── */
+.ai-loading{text-align:center;padding:30px;color:var(--muted)}
+.ai-spinner{width:36px;height:36px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+.ai-box{background:linear-gradient(135deg,rgba(34,211,160,.05),rgba(14,165,233,.05));border:1px solid rgba(34,211,160,.2);border-radius:12px;padding:16px;margin-bottom:18px}
+.ai-box-header{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.ai-badge{background:linear-gradient(135deg,#2563eb,#3b82f6);color:#fff;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:10px;font-family:var(--fm)}
+.ai-resumo{font-size:.88rem;line-height:1.6;color:var(--text);margin-bottom:12px}
+.ai-lists{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.ai-list-box{background:var(--bg3);border-radius:8px;padding:11px}
+.ai-list-title{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;font-family:var(--fm);margin-bottom:7px}
+.ai-list-title.green{color:var(--accent)}.ai-list-title.orange{color:var(--warn)}
+.ai-list li{font-size:.8rem;color:var(--muted);margin-left:14px;margin-bottom:3px;line-height:1.45}
+.ai-nota{display:flex;align-items:center;gap:10px;background:var(--bg3);border-radius:8px;padding:11px}
+.ai-nota-num{font-family:var(--fh);font-size:2rem;font-weight:800}
+.ai-nota-info{flex:1}
+.ai-nota-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-family:var(--fm)}
+.ai-nota-just{font-size:.8rem;color:var(--text);margin-top:3px;line-height:1.4}
+.email-toggle{display:flex;align-items:center;gap:9px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:11px 14px;margin-bottom:16px;cursor:pointer}
+.email-toggle input[type=checkbox]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+.email-toggle span{font-size:.85rem}
+
+/* ── VIEW SCORES ── */
+.view-score-row{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.view-score-emoji{font-size:1.15rem;width:22px;text-align:center}
+.view-score-label{font-size:.8rem;color:var(--muted);width:88px;flex-shrink:0}
+.view-score-bar{flex:1;height:6px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.view-score-bar-fill{height:100%;background:linear-gradient(90deg,#2563eb,#60a5fa);border-radius:4px}
+.view-score-val{font-family:var(--fm);font-size:.78rem;min-width:88px;text-align:right}
+.eval-note{background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.2);border-radius:9px;padding:12px;margin-top:12px}
+.box-label{font-size:.66rem;font-family:var(--fm);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px}
+.box-label.purple{color:var(--purple)}.box-label.blue{color:var(--accent2)}.box-label.green{color:var(--accent)}
+.box-text{font-size:.85rem;line-height:1.5}
+.box-date{font-size:.68rem;color:var(--muted);margin-top:3px;font-family:var(--fm)}
+
+/* ── HISTORY ── */
+.eval-cards{display:grid;gap:11px}
+.eval-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:16px;animation:fadeUp .35s ease both}
+.eval-card-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:11px}
+.eval-card-name{font-size:.72rem;color:var(--accent2);font-family:var(--fm);margin-bottom:2px}
+.eval-card-title{font-weight:600;font-size:.92rem}
+.eval-card-meta{font-size:.72rem;color:var(--muted);margin-top:2px}
+.score-circle{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:7px 14px;text-align:center;min-width:68px;flex-shrink:0}
+.score-circle-num{font-family:var(--fh);font-size:1.6rem;font-weight:800;line-height:1}
+.score-circle-label{font-size:.66rem;color:var(--muted)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px}
+.chip{background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:4px 8px;display:flex;align-items:center;gap:4px}
+.chip-emoji{font-size:.95rem}.chip-label{font-size:.63rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;display:block}.chip-val{font-family:var(--fm);font-size:.8rem;font-weight:500}
+
+/* ── RANKING ── */
+.ranking-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px}
+.rank-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;align-items:center;gap:12px}
+.rank-pos{font-family:var(--fh);font-size:1.2rem;font-weight:800;color:var(--border2);min-width:24px}
+.rank-pos.gold{color:#f59e0b}.rank-pos.silver{color:#94a3b8}.rank-pos.bronze{color:#a16207}
+.rank-name{font-weight:600;font-family:var(--fh);font-size:.88rem}
+.rank-count{font-size:.7rem;color:var(--muted)}
+.rank-score{margin-left:auto;font-family:var(--fh);font-size:1.35rem;font-weight:800}
+.rank-score.high{color:var(--accent)}.rank-score.mid{color:var(--warn)}.rank-score.low{color:var(--danger)}
+
+/* ── SETTINGS ── */
+.settings-tabs{display:flex;gap:4px;margin-bottom:22px;border-bottom:1px solid var(--border);padding-bottom:0}
+.stab{padding:9px 18px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-family:var(--fb);font-size:.88rem;font-weight:500;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
+.stab:hover{color:var(--text)}.stab.active{color:#60a5fa;border-bottom-color:#2563eb}
+.stab-panel{display:none}.stab-panel.active{display:block;animation:fadeUp .25s ease both}
+.settings-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;max-width:520px;margin-bottom:18px}
+.settings-card-title{font-family:var(--fh);font-weight:700;font-size:.97rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.settings-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.select-input{width:100%;padding:9px 13px;background:var(--bg3);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:var(--fb);font-size:.88rem;outline:none}
+.select-input:focus{border-color:var(--accent)}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;margin-bottom:10px;cursor:pointer}
+.toggle-label{font-size:.85rem;font-weight:500}
+.toggle-sub{font-size:.75rem;color:var(--muted)}
+.toggle-check{width:17px;height:17px;accent-color:var(--accent);cursor:pointer}
+.user-eval-card{display:flex;align-items:center;justify-content:space-between;padding:10px 13px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;margin-bottom:8px}
+.user-eval-info{display:flex;align-items:center;gap:10px}
+.user-eval-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--accent2),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.72rem;font-weight:700;color:#fff}
+.user-eval-name{font-size:.88rem;font-weight:500}
+.user-eval-role{font-size:.7rem;color:var(--muted);font-family:var(--fm)}
+.status-tag{font-size:.68rem;font-family:var(--fm);padding:2px 7px;border-radius:5px;font-weight:600}
+.status-tag.evaluator{background:rgba(37,99,235,.15);color:#60a5fa}
+.status-tag.consultant{background:rgba(14,165,233,.1);color:var(--accent2)}
+.status-tag.admin{background:rgba(245,158,11,.1);color:var(--warn)}
+.key-input{position:relative}
+.key-input .form-input{padding-right:90px}
+.key-input .key-indicator{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:.68rem;font-family:var(--fm);padding:2px 7px;border-radius:4px}
+.key-indicator.set{background:rgba(34,211,160,.15);color:var(--accent)}
+.key-indicator.empty{background:rgba(239,68,68,.1);color:var(--danger)}
+.btn-sm{padding:8px 16px;border-radius:7px;font-family:var(--fh);font-weight:700;font-size:.83rem;cursor:pointer;border:none;transition:all .2s}
+.btn-sm.green{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff}
+.btn-sm.green:hover{opacity:.88}
+.btn-sm.ghost{background:var(--bg3);border:1px solid var(--border);color:var(--muted)}
+.btn-sm.ghost:hover{color:var(--text)}
+.basicamp-area{width:100%;padding:11px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:var(--fm);font-size:.78rem;resize:vertical;min-height:180px;outline:none;transition:border-color .2s;line-height:1.6}
+.basicamp-area:focus{border-color:var(--accent)}
+
+/* ── IMPORT MODAL ── */
+.import-ticket-row{display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid var(--border);border-radius:8px;margin-bottom:7px;background:var(--bg3);transition:border-color .15s}
+.import-ticket-row:hover{border-color:var(--border2)}
+.import-ticket-row.selected{border-color:#3b82f6;background:rgba(37,99,235,.06)}
+.import-ticket-row.already{opacity:.5;cursor:not-allowed}
+.import-ticket-cb{width:16px;height:16px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+.import-ticket-info{flex:1;min-width:0}
+.import-ticket-id{font-family:var(--fm);font-size:.72rem;color:var(--muted)}
+.import-ticket-subj{font-size:.86rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.import-ticket-meta{font-size:.75rem;color:var(--muted)}
+.import-ticket-badge{font-size:.68rem;font-family:var(--fm);padding:2px 7px;border-radius:4px;flex-shrink:0}
+.import-ticket-badge.new{background:rgba(37,99,235,.15);color:#60a5fa}
+.import-ticket-badge.exist{background:rgba(100,116,139,.12);color:var(--muted)}
+.imp-pag{display:flex;align-items:center;justify-content:space-between;padding:10px 0 4px;margin-top:6px}
+.imp-pag-info{font-size:.78rem;color:var(--muted);font-family:var(--fm)}
+.imp-pag-btns{display:flex;gap:4px}
+.imp-pag-btn{padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);color:var(--muted);cursor:pointer;font-size:.78rem;font-family:var(--fm);transition:all .15s}
+.imp-pag-btn:hover{border-color:rgba(37,99,235,.5);color:#60a5fa}
+.imp-pag-btn.active{background:rgba(37,99,235,.15);border-color:#3b82f6;color:#60a5fa}
+.imp-pag-btn:disabled{opacity:.3;cursor:not-allowed}
+.imp-mode-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--muted);cursor:pointer;font-size:.8rem;font-weight:500;transition:all .15s}
+.imp-mode-btn:hover{border-color:rgba(37,99,235,.5);color:#60a5fa}
+.imp-mode-btn.active{background:rgba(37,99,235,.15);border-color:#3b82f6;color:#60a5fa;font-weight:600}
+.import-summary{background:var(--bg3);border-radius:8px;padding:12px;margin-bottom:14px;display:flex;gap:16px;font-size:.82rem}
+.import-summary span{color:var(--muted)}.import-summary strong{color:var(--text)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:22px;right:22px;z-index:9999;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:12px 16px;font-size:.855rem;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,.5);animation:fadeUp .3s cubic-bezier(.34,1.56,.64,1) both;max-width:290px;display:flex;align-items:center;gap:8px}
+.toast.success{border-left:3px solid var(--accent)}.toast.error{border-left:3px solid var(--danger)}.toast.info{border-left:3px solid var(--accent2)}
+
+@media(max-width:640px){
+  .topbar{padding:0 12px}
+  .topbar-nav .nav-btn span:not(.badge){display:none}
+  .page{padding:12px}
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .ticket-info-grid,.settings-row,.ai-lists{grid-template-columns:1fr}
+  .emoji-btn .e{font-size:1.2rem}
+  .modal{border-radius:12px}
+}
+.conv-drawer{background:var(--bg3);border:1px solid var(--border);border-radius:10px;margin-bottom:16px;overflow:hidden}
+.conv-drawer-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;user-select:none}
+.conv-drawer-header:hover{background:rgba(255,255,255,.03)}
+.conv-drawer-title{font-size:.78rem;font-weight:600;font-family:var(--fm);color:var(--muted);display:flex;align-items:center;gap:7px}
+.conv-drawer-toggle{font-size:.7rem;color:var(--muted);font-family:var(--fm)}
+.conv-drawer-body{display:none;padding:0 14px 14px;max-height:320px;overflow-y:auto}
+.conv-drawer-body::-webkit-scrollbar{width:3px}.conv-drawer-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.conv-drawer-body.open{display:block}
+.conv-msg{padding:10px 0;border-bottom:1px solid var(--border)}
+.conv-msg:last-child{border-bottom:none}
+.conv-msg-header{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.conv-msg-author{font-size:.75rem;font-weight:700}
+.conv-msg-author.agent{color:#60a5fa}
+.conv-msg-author.client{color:var(--warn)}
+.conv-msg-time{font-size:.67rem;color:var(--muted);font-family:var(--fm)}
+.conv-msg-text{font-size:.82rem;color:var(--muted);line-height:1.6;white-space:pre-wrap}
+.conv-loading{padding:20px;text-align:center;color:var(--muted);font-size:.82rem}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ LOGIN ═══════════════════════ -->
+<div id="view-login" class="view active">
+  <div class="login-bg"></div><div class="login-grid"></div>
+  <div class="login-card">
+    <div style="background:linear-gradient(160deg,#1d4ed8,#2563eb,#1e3a8a);margin:-44px -38px 28px -38px;padding:24px 38px 20px;border-radius:16px 16px 0 0;text-align:center">
+      <div style="display:flex;align-items:center;justify-content:center">
+        <div style="font-family:var(--fh);font-weight:800;font-size:2.5rem;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.35)">AtendeIA</div>
+      </div>
+      <div style="font-size:.72rem;color:rgba(255,255,255,.55);margin-top:8px;letter-spacing:.08em;text-transform:uppercase;font-family:'JetBrains Mono',monospace">Plataforma de Qualidade · Zendesk</div>
+    </div>
+    <div id="login-main">
+      <div class="login-title">Entrar na plataforma</div>
+      <div class="login-subtitle">Acesse o AtendeIA para visualizar e avaliar atendimentos.</div>
+      <div class="login-error" id="login-error"></div>
+      
+      <button class="btn-google" onclick="loginWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18" style="margin-right:8px">
+          <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+          <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+          <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
+          <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+        </svg>
+        Entrar com Google
+      </button>
+      
+      <div style="display:flex;align-items:center;gap:12px;margin:20px 0">
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+        <span style="font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em">ou</span>
+        <div style="flex:1;height:1px;background:var(--border)"></div>
+      </div>
+      
+      <div class="form-field"><label class="form-label">Usuário</label><input class="form-input" id="inp-user" placeholder="seu.usuario" autocomplete="username"></div>
+      <div class="form-field"><label class="form-label">Senha</label><input class="form-input" type="password" id="inp-pass" placeholder="••••••••" autocomplete="current-password"></div>
+      <button class="btn-primary" id="btn-login" onclick="doLogin()">Entrar</button>
+      <button class="login-link" onclick="toggleChPass(true)">🔑 Alterar minha senha</button>
+    </div>
+    <div id="login-chpass" style="display:none">
+      <div class="login-title" style="font-size:1.2rem">🔑 Alterar Senha</div>
+      <div style="color:var(--muted);font-size:.84rem;margin-bottom:20px">Informe seu usuário e a senha atual para continuar.</div>
+      <div id="chpass-err" style="display:none" class="login-error"></div>
+      <div id="chpass-ok" style="display:none;background:rgba(34,211,160,.1);border:1px solid rgba(34,211,160,.3);color:var(--accent);border-radius:8px;padding:10px 14px;font-size:.83rem;margin-bottom:12px"></div>
+      <div class="form-field"><label class="form-label">Usuário</label><input class="form-input" id="chp-user" placeholder="seu.usuario"></div>
+      <div class="form-field"><label class="form-label">Senha Atual</label><input class="form-input" type="password" id="chp-cur" placeholder="••••••••"></div>
+      <div class="form-field"><label class="form-label">Nova Senha</label><input class="form-input" type="password" id="chp-new" placeholder="Mínimo 6 caracteres"></div>
+      <div class="form-field"><label class="form-label">Confirmar Nova Senha</label><input class="form-input" type="password" id="chp-conf" placeholder="Repita a nova senha"></div>
+      <button class="btn-primary" onclick="doChangePass()">Salvar Nova Senha</button>
+      <button class="login-link" onclick="toggleChPass(false)">← Voltar ao login</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ APP ═══════════════════════ -->
+<div id="view-app" class="view">
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="topbar-brand-name" style="font-family:'Nunito',sans-serif;font-weight:900;letter-spacing:-.02em;color:#fff"><span style="color:#60a5fa">AtendeIA</span></span>
+    </div>
+    <nav class="topbar-nav">
+      <button class="nav-btn active" id="nav-tickets" onclick="goPage('tickets')">
+        <span>📋</span><span>Atendimentos</span><span class="badge" id="pending-badge" style="display:none">0</span>
+      </button>
+      <button class="nav-btn" id="nav-history" onclick="goPage('history')"><span>📊</span><span>Avaliações</span></button>
+      <button class="nav-btn" id="nav-manager" onclick="goPage('manager')" style="display:none"><span>👥</span><span>Meu Grupo</span></button>
+      <button class="nav-btn" id="nav-csat" onclick="goPage('csat')" style="display:none"><span>😞</span><span>CSAT Negativos</span><span class="badge" id="csat-badge" style="display:none">0</span></button>
+      <button class="nav-btn" id="nav-settings" onclick="goPage('settings')"><span>⚙️</span><span>Configurações</span></button>
+    </nav>
+    <div class="topbar-right">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <div><div class="user-name" id="user-name-disp">–</div><div class="user-role" id="user-role-disp">–</div></div>
+      </div>
+      <button class="btn-icon" onclick="doLogout()" title="Sair">🚪</button>
+    </div>
+  </header>
+
+  <!-- ── PAGE: TICKETS ── -->
+  <div class="page active" id="page-tickets">
+    <div class="page-title" id="tickets-title">Atendimentos</div>
+    <div class="page-subtitle" id="tickets-sub">Tickets recebidos do Zendesk</div>
+    <div class="stats-grid">
+      <div class="stat-card" style="animation-delay:.04s"><div class="stat-label">Total</div><div class="stat-value" id="st-total">–</div></div>
+      <div class="stat-card warn" style="animation-delay:.08s"><div class="stat-label">Pendentes</div><div class="stat-value" id="st-pending">–</div></div>
+      <div class="stat-card" style="animation-delay:.12s"><div class="stat-label">Avaliados</div><div class="stat-value" id="st-evaluated">–</div></div>
+      <div class="stat-card info" style="animation-delay:.16s"><div class="stat-label">Nota Média</div><div class="stat-value" id="st-avg">–</div><div class="stat-sub">de 100</div></div>
+    </div>
+    <div id="quota-section" style="display:none" class="quota-section">
+      <div class="quota-title">📊 Meta por Consultor <span style="font-size:.78rem;color:var(--muted);font-weight:400">(10 avaliações)</span></div>
+      <div class="quota-grid" id="quota-grid"></div>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-pill active" onclick="setFilter('all',this)">Todos</button>
+      <button class="filter-pill" onclick="setFilter('pending',this)">⏳ Pendentes</button>
+      <button class="filter-pill" onclick="setFilter('evaluated',this)">✅ Avaliados</button>
+      <button class="filter-pill danger" id="pill-discarded" onclick="setFilter('discarded',this)" style="display:none">🗑 Descartados</button>
+      <button class="filter-pill purple" id="pill-ai" onclick="setFilter('ai',this)">🤖 Iniciado por IA</button>
+      <button class="filter-pill blue" id="btn-import" onclick="openImportModal()" style="display:none">📥 Filtrar e Importar</button>
+      <button class="filter-pill blue" onclick="refreshTickets()">🔄 Atualizar</button>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-inp" placeholder="Buscar assunto ou cliente..." oninput="loadTickets()">
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr id="tickets-thead">
+          <th>ID</th><th>Assunto</th><th>Cliente</th>
+          <th id="th-consultant" style="display:none">Consultor</th>
+          <th>Recebido</th>
+          <th id="th-status">Status</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="tickets-tbody"></tbody>
+      </table>
+      <div class="table-footer">
+        <span id="tickets-count">–</span>
+        <div class="pagination" id="tickets-pag"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PAGE: HISTORY ── -->
+  <div class="page" id="page-history">
+    <div class="page-title" id="history-title">Avaliações</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div class="page-subtitle" id="history-sub">Histórico de avaliações de qualidade</div>
+      <button id="btn-export-csv" onclick="exportHistoryCSV()" style="display:none;background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.3);color:#60a5fa;font-size:.78rem;padding:6px 14px;border-radius:7px;cursor:pointer;font-family:var(--fm);gap:6px;display:none;align-items:center">⬇️ Exportar CSV</button>
+    </div>
+    <div class="stats-grid" id="scores-stats" style="display:none">
+      <div class="stat-card" style="animation-delay:.04s"><div class="stat-label">Solução</div><div class="stat-value" id="avg-solucao">–</div><div class="stat-sub">de 100</div></div>
+      <div class="stat-card" style="animation-delay:.08s"><div class="stat-label">Empatia</div><div class="stat-value" id="avg-empatia">–</div><div class="stat-sub">de 100</div></div>
+      <div class="stat-card" style="animation-delay:.12s"><div class="stat-label">Condução</div><div class="stat-value" id="avg-conducao">–</div><div class="stat-sub">de 100</div></div>
+      <div class="stat-card info" style="animation-delay:.16s"><div class="stat-label">Nota Média</div><div class="stat-value" id="avg-overall">–</div><div class="stat-sub">de 100</div></div>
+    </div>
+    <div id="ranking-section" style="display:none;margin-bottom:24px">
+      <div style="font-family:var(--fh);font-weight:700;font-size:1rem">🏆 Ranking Consultores</div>
+      <div class="ranking-grid" id="ranking-grid"></div>
+    </div>
+    <div class="eval-cards" id="eval-cards"><div class="empty-state"><div class="icon">📭</div><p>Nenhuma avaliação ainda.</p></div></div>
+  </div>
+
+
+  <!-- ── PAGE: MEU GRUPO (MANAGER) ── -->
+  <div class="page" id="page-manager">
+    <div class="page-title">👥 Meu Grupo</div>
+    <div class="page-subtitle" id="manager-group-subtitle">Visão geral dos consultores do seu grupo</div>
+    <div id="manager-content">
+      <div class="empty-state" style="padding:40px"><div class="icon">⏳</div><p>Carregando...</p></div>
+    </div>
+  </div>
+
+  <!-- ── PAGE: CSAT NEGATIVOS ── -->
+  <div class="page" id="page-csat">
+    <div class="page-title">😞 CSAT Negativos</div>
+    <div class="page-subtitle">Tickets com avaliação negativa do cliente</div>
+    <div class="filter-bar" style="margin-bottom:14px">
+      <button class="filter-pill active" id="csat-pill-all"       onclick="setCsatFilter('all',this)">Todos</button>
+      <button class="filter-pill"        id="csat-pill-pending"   onclick="setCsatFilter('pending',this)">⏳ Pendentes</button>
+      <button class="filter-pill"        id="csat-pill-evaluated" onclick="setCsatFilter('evaluated',this)">✅ Avaliados</button>
+      <button class="filter-pill danger" id="csat-pill-discarded" onclick="setCsatFilter('discarded',this)" style="display:none">🗑 Descartados</button>
+      <button class="filter-pill purple" id="csat-pill-ai"        onclick="setCsatFilter('ai',this)">🤖 Iniciado por IA</button>
+      <button class="filter-pill blue"   id="csat-btn-import"     onclick="openCsatImport()" style="display:none">📥 Importar CSAT</button>
+      <button class="filter-pill blue"   onclick="loadCsatTickets()">🔄 Atualizar</button>
+    </div>
+    <div class="table-wrap">
+      <table class="tickets-table">
+        <thead><tr>
+          <th>Ticket</th><th>Assunto</th><th>Cliente</th><th>Consultor</th>
+          <th>Feedback</th><th>Data</th><th>Status</th><th>Ações</th>
+        </tr></thead>
+        <tbody id="csat-tbody"></tbody>
+      </table>
+    </div>
+    <div class="pag-bar" id="csat-pag"></div>
+  </div>
+
+  <!-- ── PAGE: SETTINGS ── -->
+  <div class="page" id="page-settings">
+    <div class="page-title">Configurações</div>
+    <div class="page-subtitle">Integrações, SMTP, IA e permissões</div>
+    <div class="settings-tabs">
+      <button class="stab active" onclick="switchStab('zendesk',this)">🔗 Zendesk</button>
+      <button class="stab" onclick="switchStab('smtp',this)">📧 E-mail SMTP</button>
+      <button class="stab" onclick="switchStab('ai',this)">🤖 Inteligência Artificial</button>
+      <button class="stab" onclick="switchStab('agents',this)">👤 Agentes</button>
+      <button class="stab" id="stab-simulate" onclick="switchStab('simulate',this)" style="display:none">🧪 Simular</button>
+    </div>
+
+    <!-- Zendesk -->
+    <div class="stab-panel active" id="panel-zendesk">
+      <div class="settings-card" style="max-width:540px">
+        <div class="settings-card-title">🔗 Integração Zendesk</div>
+        <div class="form-field"><label class="form-label">Subdomínio</label>
+          <div style="display:flex;align-items:center;gap:0">
+            <input class="form-input" id="cfg-subdomain" placeholder="suaempresa" style="border-radius:8px 0 0 8px">
+            <span style="background:var(--bg3);border:1px solid var(--border2);border-left:none;padding:11px 10px;border-radius:0 8px 8px 0;color:var(--muted);font-size:.82rem;font-family:var(--fm);white-space:nowrap">.zendesk.com</span>
+          </div>
+        </div>
+        <div class="form-field"><label class="form-label">E-mail do Agente</label><input class="form-input" id="cfg-zd-email" placeholder="admin@suaempresa.com"></div>
+        <div class="form-field"><label class="form-label">Token de API</label>
+          <div class="key-input"><input class="form-input" type="password" id="cfg-zd-token" placeholder="Digite para atualizar">
+          <span class="key-indicator" id="zd-token-ind">não definido</span></div>
+        </div>
+        <div style="margin-bottom:16px;background:var(--bg3);border-radius:8px;padding:12px">
+          <div style="font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-family:var(--fm);margin-bottom:5px">📡 URL do Webhook</div>
+          <div style="font-family:var(--fm);font-size:.82rem;color:var(--accent2)" id="webhook-url-box"></div>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:5px">Zendesk Admin → Webhooks → disparar em: <strong>Ticket solved</strong></div>
+        </div>
+        <button class="btn-sm green" onclick="saveCfgZendesk()">Salvar Zendesk</button>
+      </div>
+    </div>
+
+    <!-- SMTP -->
+    <div class="stab-panel" id="panel-smtp">
+      <div class="settings-card" style="max-width:540px">
+        <div class="settings-card-title">📧 Configuração SMTP</div>
+        <div class="settings-row">
+          <div class="form-field"><label class="form-label">Host SMTP</label><input class="form-input" id="cfg-smtp-host" placeholder="smtp.gmail.com"></div>
+          <div class="form-field"><label class="form-label">Porta</label><input class="form-input" id="cfg-smtp-port" placeholder="587" type="number"></div>
+        </div>
+        <label class="toggle-row" style="max-width:100%">
+          <div><div class="toggle-label">SSL/TLS (porta 465)</div><div class="toggle-sub">Desative para STARTTLS (porta 587)</div></div>
+          <input type="checkbox" class="toggle-check" id="cfg-smtp-secure">
+        </label>
+        <div class="form-field"><label class="form-label">Usuário / E-mail</label><input class="form-input" id="cfg-smtp-user" placeholder="noreply@suaempresa.com"></div>
+        <div class="form-field"><label class="form-label">Senha / App Password</label>
+          <div class="key-input"><input class="form-input" type="password" id="cfg-smtp-pass" placeholder="Digite para atualizar">
+          <span class="key-indicator" id="smtp-pass-ind">não definido</span></div>
+        </div>
+        <div class="form-field"><label class="form-label">Nome do Remetente</label><input class="form-input" id="cfg-smtp-from" placeholder="Avaliações de Atendimento"></div>
+        <div style="display:flex;gap:9px;flex-wrap:wrap">
+          <button class="btn-sm green" onclick="saveCfgSMTP()">Salvar SMTP</button>
+          <button class="btn-sm ghost" onclick="testSMTP()">📨 Enviar E-mail de Teste</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- IA -->
+    <div class="stab-panel" id="panel-ai">
+      <div class="settings-card" style="max-width:540px">
+        <div class="settings-card-title">🤖 API Google Gemini</div>
+        <div class="form-field"><label class="form-label">Chave de API</label>
+          <div class="key-input"><input class="form-input" type="password" id="cfg-anthropic" placeholder="AIza...">
+          <span class="key-indicator" id="anthropic-ind">não definido</span></div>
+        </div>
+        <div style="color:var(--muted);font-size:.78rem;margin-bottom:16px">Obtenha gratuitamente em <span style="color:var(--accent2)">aistudio.google.com</span> → Get API Key. A IA analisa as conversas e sugere notas automaticamente.</div>
+        <div class="form-field">
+          <label class="form-label">Modelo</label>
+          <select class="select-input" id="cfg-ai-model">
+            <option value="gemini-2.0-flash">gemini-2.0-flash (gratuito, recomendado)</option>
+            <option value="gemini-2.0-flash-lite">gemini-2.0-flash-lite (mais leve)</option>
+            <option value="gemini-1.5-flash">gemini-1.5-flash</option>
+            <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+            <option value="gemini-2.5-flash-preview-04-17">gemini-2.5-flash-preview (experimental)</option>
+          </select>
+          <div style="font-size:.72rem;color:var(--muted);margin-top:5px">Ou digite um modelo personalizado abaixo:</div>
+          <input class="form-input" id="cfg-ai-model-custom" style="margin-top:6px" placeholder="Ex: gemini-2.0-flash-exp">
+        </div>
+        <button class="btn-sm green" onclick="saveCfgAI()">Salvar Configurações IA</button>
+      </div>
+      <div class="settings-card" style="max-width:540px">
+        <div class="settings-card-title">📄 Documentação Base</div>
+        <div style="color:var(--muted);font-size:.8rem;margin-bottom:12px">Cole aqui os critérios, SLAs, scripts e boas práticas. A IA usará como referência ao avaliar atendimentos.</div>
+        <textarea class="basicamp-area" id="cfg-basicamp" placeholder="Ex: Critérios de atendimento...&#10;- Sempre cumprimentar pelo nome&#10;- Confirmar entendimento do problema&#10;- Oferecer solução dentro de 24h&#10;..."></textarea>
+        <button class="btn-sm green" style="margin-top:10px" onclick="saveCfgBasicamp()">Salvar Documentação</button>
+      </div>
+    </div>
+
+    <!-- Avaliadores -->
+    <!-- Agentes -->
+    <div class="stab-panel" id="panel-agents">
+      <div class="settings-card" style="max-width:100%">
+        <div class="settings-card-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+          <span>👤 Agentes</span>
+          <button class="btn-sm green" onclick="syncAgents()">🔄 Sincronizar com Zendesk</button>
+        </div>
+        <div style="color:var(--muted);font-size:.8rem;margin-bottom:16px">
+          Agentes importados do Zendesk. Marque <strong style="color:var(--text)">Avaliador</strong> para permitir avaliar tickets · <strong style="color:var(--text)">Admin</strong> para acesso total. Marque <strong style="color:var(--text)">Resp.</strong> para definir os grupos que este agente gerencia. Defina o e-mail para receber notificações.
+        </div>
+        <div id="agents-list">
+          <div class="empty-state" style="padding:20px"><div class="icon">👤</div><p>Clique em "Sincronizar com Zendesk" para importar os agentes.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Simular (admin) -->
+    <div class="stab-panel" id="panel-simulate">
+      <div class="settings-card" style="max-width:480px">
+        <div class="settings-card-title">🧪 Simular Ticket (Teste)</div>
+        <div class="form-field"><label class="form-label">Consultor</label><select class="select-input" id="sim-assignee"></select></div>
+        <div class="form-field"><label class="form-label">Assunto (opcional)</label><input class="form-input" id="sim-subject" placeholder="Ex: Problema com fatura"></div>
+        <div class="form-field"><label class="form-label">Cliente (opcional)</label><input class="form-input" id="sim-requester" placeholder="Ex: João Silva"></div>
+        <button class="btn-sm green" onclick="simulateTicket()">Criar Ticket Simulado</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ MODAL ═══════════════════════ -->
+<div id="modal-wrap" style="display:none">
+  <div class="modal-overlay" onclick="onOverlayClick(event)">
+    <div class="modal" id="modal-box" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">–</div>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+</div>
+<div id="toasts"></div>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   CONSTANTES
+══════════════════════════════════════════════════════ */
+const QUOTA = 10;
+const CRITERIA = [
+  { key:'solucao',  label:'Solução'  },
+  { key:'empatia',  label:'Empatia'  },
+  { key:'conducao', label:'Condução' }
+];
+const EMOJIS = [
+  { val:1, e:'😞', l:'Péssimo', pts:0   },
+  { val:2, e:'😕', l:'Ruim',    pts:25  },
+  { val:3, e:'🙂', l:'Médio',   pts:50  },
+  { val:4, e:'😊', l:'Bom',     pts:75  },
+  { val:5, e:'🤩', l:'Ótimo',   pts:100 }
+];
+const AMAP = {
+  "30235984721815":"Leticia","34323495409943":"Erika",
+  "27566549990295":"Gabriel","1529827574762":"Marcelo",
+  "27566497005975":"Henrique","412356865654":"Alessandra",
+  "23339270934935":"Emilly","424200531334":"Gilberto",
+  "34323518871063":"Ives","34323447873559":"Miriam"
+};
+
+/* ══════════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════════ */
+let S = {
+  token: localStorage.getItem('qa_token') || null,
+  user:  null,
+  filter:'all',
+  page:  1
+};
+try { S.user = JSON.parse(localStorage.getItem('qa_user') || 'null'); } catch { S.user = null; }
+
+let evalScores   = {};
+let cfgEvaluators = []; // ids marcados como avaliadores
+let allUsers     = [];
+
+/* ══════════════════════════════════════════════════════
+   HELPERS
+══════════════════════════════════════════════════════ */
+function canEval() {
+  return S.user && (S.user.role === 'admin' || S.user.role === 'evaluator');
+}
+function isAdmin() {
+  return S.user && S.user.role === 'admin';
+}
+function isGroupManager() {
+  return S.user && S.user.role === 'manager';
+}
+function calcScore(sc) {
+  const map = {1:0, 2:25, 3:50, 4:75, 5:100};
+  const filled = CRITERIA.map(c => sc[c.key]).filter(v => v > 0 || v === 0);
+  if (!filled.length) return null;
+  return Math.round(filled.reduce((a, v) => {
+    // se for escala 1-5 converte, se já for 0-100 usa direto
+    const pts = map[v] !== undefined ? map[v] : Number(v);
+    return a + pts;
+  }, 0) / filled.length);
+}
+function scoreColor(s) {
+  if (s===null||s===undefined) return 'var(--muted)';
+  return s>=75?'var(--accent)':s>=50?'var(--warn)':'var(--danger)';
+}
+function emojiFor(val) {
+  const n = Number(val);
+  // Aceita escala 1-5 (val) ou 0,25,50,75,100 (pts)
+  return EMOJIS.find(e => e.val === n) || EMOJIS.find(e => e.pts === n) || null;
+}
+function fmtDate(iso) {
+  if (!iso) return '–';
+  return new Date(iso).toLocaleDateString('pt-BR')+' '+new Date(iso).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+function monthName(m) {
+  return ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][m-1]||'';
+}
+
+/* ══════════════════════════════════════════════════════
+   API
+══════════════════════════════════════════════════════ */
+async function api(method, path, body) {
+  if (location.protocol === 'file:') throw new Error('Abra via http://localhost:3001');
+  const opts = { method, headers:{'Content-Type':'application/json'} };
+  if (S.token) opts.headers['Authorization'] = 'Bearer '+S.token;
+  if (body) opts.body = JSON.stringify(body);
+  let res;
+  try { res = await fetch(path, opts); }
+  catch { throw new Error('Servidor indisponível. Verifique se node server.js está rodando.'); }
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Erro desconhecido');
+  return data;
+}
+
+/* ══════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  if (S.token && S.user && S.user.role) {
+    showApp();
+  } else {
+    S.token = null; S.user = null;
+    localStorage.removeItem('qa_token'); localStorage.removeItem('qa_user');
+  }
+  document.getElementById('inp-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+  document.getElementById('inp-user').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('inp-pass').focus(); });
+});
+
+/* ══════════════════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════════════════ */
+async function doLogin() {
+  const username = document.getElementById('inp-user').value.trim();
+  const password = document.getElementById('inp-pass').value;
+  const errEl    = document.getElementById('login-error');
+  const btn      = document.getElementById('btn-login');
+  errEl.style.display = 'none';
+  if (!username||!password) { errEl.textContent='Preencha usuário e senha.'; errEl.style.display='block'; return; }
+  btn.disabled=true; btn.textContent='Entrando...';
+  try {
+    const d = await api('POST','/api/login',{username,password});
+    S.token = d.token; S.user = d.user;
+    localStorage.setItem('qa_token', d.token);
+    localStorage.setItem('qa_user',  JSON.stringify(d.user));
+    showApp();
+  } catch(e) { errEl.textContent=e.message; errEl.style.display='block'; }
+  finally { btn.disabled=false; btn.textContent='Entrar'; }
+}
+
+function loginWithGoogle() {
+  // Redireciona para o endpoint de autenticação OAuth do Google
+  const redirectUri = window.location.origin + '/api/auth/google/callback';
+  const clientId = 'GOOGLE_CLIENT_ID'; // Será configurado no backend
+  
+  // Armazena a URL atual para retornar após login
+  sessionStorage.setItem('auth_redirect', window.location.href);
+  
+  // Redireciona para autorização Google
+  window.location.href = `/api/auth/google`;
+}
+
+// Processa callback do Google OAuth
+async function handleGoogleCallback() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const token = urlParams.get('token');
+  const error = urlParams.get('error');
+  const errEl = document.getElementById('login-error');
+  
+  if (error) {
+    errEl.textContent = 'Erro ao autenticar com Google: ' + error;
+    errEl.style.display = 'block';
+    return;
+  }
+  
+  if (token) {
+    try {
+      // Valida o token recebido
+      const d = await api('GET', '/api/auth/validate', null, token);
+      S.token = token;
+      S.user = d.user;
+      localStorage.setItem('qa_token', token);
+      localStorage.setItem('qa_user', JSON.stringify(d.user));
+      
+      // Limpa parâmetros da URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+      
+      showApp();
+    } catch(e) {
+      errEl.textContent = 'Erro ao validar autenticação: ' + e.message;
+      errEl.style.display = 'block';
+    }
+  }
+}
+
+// Verifica se há callback do Google ao carregar
+if (window.location.search.includes('token=') || window.location.search.includes('error=')) {
+  handleGoogleCallback();
+}
+
+function doLogout() {
+  S.token=null; S.user=null;
+  localStorage.removeItem('qa_token'); localStorage.removeItem('qa_user');
+  document.getElementById('view-app').classList.remove('active');
+  document.getElementById('view-login').classList.add('active');
+  document.getElementById('inp-user').value='';
+  document.getElementById('inp-pass').value='';
+}
+
+function toggleChPass(show) {
+  document.getElementById('login-main').style.display  = show ? 'none' : '';
+  document.getElementById('login-chpass').style.display = show ? 'block' : 'none';
+  if (show) { ['chp-user','chp-cur','chp-new','chp-conf'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';}); }
+  document.getElementById('chpass-err').style.display = 'none';
+  document.getElementById('chpass-ok').style.display  = 'none';
+}
+
+async function doChangePass() {
+  const username = document.getElementById('chp-user').value.trim();
+  const cur = document.getElementById('chp-cur').value;
+  const nw  = document.getElementById('chp-new').value;
+  const cf  = document.getElementById('chp-conf').value;
+  const err = document.getElementById('chpass-err');
+  const ok  = document.getElementById('chpass-ok');
+  err.style.display='none'; ok.style.display='none';
+  if (!username||!cur||!nw||!cf) { err.textContent='Preencha todos os campos.'; err.style.display='block'; return; }
+  if (nw!==cf) { err.textContent='As senhas não coincidem.'; err.style.display='block'; return; }
+  if (nw.length<6) { err.textContent='Nova senha deve ter no mínimo 6 caracteres.'; err.style.display='block'; return; }
+  try {
+    const login = await api('POST','/api/login',{username,password:cur});
+    const saved = S.token; S.token = login.token;
+    await api('POST','/api/change-password',{currentPassword:cur,newPassword:nw});
+    S.token = saved;
+    ok.textContent='✅ Senha alterada com sucesso! Faça login com a nova senha.'; ok.style.display='block';
+    ['chp-user','chp-cur','chp-new','chp-conf'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    setTimeout(()=>toggleChPass(false),2500);
+  } catch(e) {
+    err.textContent=e.message.includes('incorretos')?'Usuário ou senha atual incorretos.':e.message;
+    err.style.display='block';
+  }
+}
+
+function showApp() {
+  document.getElementById('view-login').classList.remove('active');
+  document.getElementById('view-app').classList.add('active');
+  const u = S.user;
+  const initials = u.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('user-avatar').textContent    = initials;
+  document.getElementById('user-name-disp').textContent = u.name;
+  document.getElementById('user-role-disp').textContent = isAdmin()?'Admin':canEval()?'Avaliador':isGroupManager()?'Responsável':'Consultor';
+
+  if (canEval()) {
+    document.getElementById('nav-csat').style.display = '';
+    loadCsatBadge();
+    document.getElementById('th-consultant').style.display  = '';
+    document.getElementById('btn-import').style.display     = '';
+    document.getElementById('pill-discarded').style.display = '';
+    // CSAT: mostra importar e descartados
+    document.getElementById('csat-pill-discarded').style.display = '';
+    document.getElementById('csat-btn-import').style.display     = '';
+    if (isAdmin()) {
+      document.getElementById('stab-simulate').style.display = '';
+    }
+    loadCfgSettings();
+  } else if (isGroupManager()) {
+    document.getElementById('nav-manager').style.display   = '';
+    document.getElementById('nav-settings').style.display  = 'none';
+    document.getElementById('th-consultant').style.display = '';
+    document.getElementById('tickets-title').textContent   = 'Atendimentos do Grupo';
+    document.getElementById('tickets-sub').textContent     = 'Tickets dos consultores do seu grupo';
+  } else {
+    // Consultor: esconde filtros, importar, descartados e coluna status
+    document.getElementById('nav-settings').style.display  = 'none';
+    document.getElementById('btn-import').style.display    = 'none';
+    document.getElementById('pill-discarded').style.display= 'none';
+    document.getElementById('pill-ai').style.display       = 'none';
+    document.getElementById('th-status').style.display     = 'none';
+    document.getElementById('tickets-title').textContent   = 'Meus Atendimentos';
+    document.getElementById('tickets-sub').textContent     = 'Atendimentos avaliados de '+u.name;
+  }
+
+  loadStats();
+  loadTickets();
+}
+
+/* ══════════════════════════════════════════════════════
+   NAVEGAÇÃO
+══════════════════════════════════════════════════════ */
+function goPage(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  document.getElementById('nav-'+name).classList.add('active');
+  if (name==='history')  loadHistory();
+  if (name==='manager')  loadManagerPanel();
+  if (name==='settings') loadCfgSettings();
+  if (name==='csat')     loadCsatTickets();
+}
+
+function switchStab(name, el) {
+  document.querySelectorAll('.stab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.stab-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+  if (name==='agents')        loadAgentsList();
+}
+
+/* ══════════════════════════════════════════════════════
+   STATS
+══════════════════════════════════════════════════════ */
+async function loadStats() {
+  try {
+    const s = await api('GET','/api/stats');
+    document.getElementById('st-total').textContent     = s.totalTickets;
+    document.getElementById('st-pending').textContent   = s.pending;
+    document.getElementById('st-evaluated').textContent = s.evaluated;
+    document.getElementById('st-avg').textContent       = s.avgOverall>0?s.avgOverall:'–';
+    const badge = document.getElementById('pending-badge');
+    if (s.pending>0) { badge.style.display='inline'; badge.textContent=s.pending; }
+    else badge.style.display='none';
+    if (canEval() && s.quotaByConsultant) {
+      document.getElementById('quota-section').style.display = 'block';
+      const entries = Object.entries(s.quotaByConsultant).sort((a,b)=>a[0].localeCompare(b[0]));
+      document.getElementById('quota-grid').innerHTML = entries.map(([name,cnt],i) => {
+        const pct = Math.min((cnt/QUOTA)*100,100), rem = Math.max(QUOTA-cnt,0);
+        const cls = cnt>=QUOTA?'done':cnt>0?'partial':'empty';
+        return `<div class="quota-card" style="animation-delay:${i*.03}s" onclick="filterByConsultant('${name}')" id="qcard-${name}">
+          <div class="quota-card-header"><span class="quota-name">${name}</span><span class="quota-cnt ${cls}">${cnt}/${QUOTA}</span></div>
+          <div class="quota-bar"><div class="quota-fill ${cls}" style="width:${pct}%"></div></div>
+          <div class="quota-rem">${rem>0?'Faltam '+rem:'✅ Meta atingida'}</div>
+        </div>`;
+      }).join('');
+    } else {
+      document.getElementById('quota-section').style.display = 'none';
+    }
+  } catch(e) { console.warn('loadStats:',e.message); }
+}
+
+/* ══════════════════════════════════════════════════════
+   TICKETS
+══════════════════════════════════════════════════════ */
+let consultantFilter = null;
+
+function filterByConsultant(name) {
+  // Clicou no mesmo → limpa filtro
+  if (consultantFilter === name) {
+    consultantFilter = null;
+    document.querySelectorAll('.quota-card').forEach(c => c.classList.remove('active-filter'));
+  } else {
+    consultantFilter = name;
+    document.querySelectorAll('.quota-card').forEach(c => c.classList.remove('active-filter'));
+    const card = document.getElementById('qcard-' + name);
+    if (card) card.classList.add('active-filter');
+  }
+  S.page = 1;
+  loadTickets();
+}
+
+function setFilter(f, el) {
+  S.filter=f; S.page=1;
+  consultantFilter = null;
+  document.querySelectorAll('.quota-card').forEach(c => c.classList.remove('active-filter'));
+  document.querySelectorAll('.filter-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  loadTickets();
+}
+async function refreshTickets() {
+  await Promise.all([loadTickets(), loadStats()]);
+  showToast('Atualizado!','info');
+}
+async function loadTickets() {
+  const search = document.getElementById('search-inp').value.trim();
+  const searchLow = search.toLowerCase();
+  try {
+    let tickets, total, pages;
+    if (!canEval() && !isGroupManager()) {
+      // Consultor: busca todos os tickets avaliados (normal + csat juntos)
+      const [rNormal, rCsat] = await Promise.all([
+        api('GET', `/api/tickets?filter=evaluated&page=1&limit=999`),
+        api('GET', `/api/csat/tickets?filter=evaluated&page=1&limit=999`).catch(() => ({ tickets: [] }))
+      ]);
+      tickets = [...(rNormal.tickets || []), ...(rCsat.tickets || [])];
+      tickets.sort((a, b) => new Date(b.importado_em || b.received_at) - new Date(a.importado_em || a.received_at));
+      total = tickets.length;
+      pages = 1;
+    } else {
+      const searchParam = search ? `&search=${encodeURIComponent(search)}` : '';
+      const r = await api('GET', `/api/tickets?filter=${S.filter}&page=${S.page}&limit=15${searchParam}`);
+      tickets = r.tickets;
+      total   = r.total;
+      pages   = r.pages;
+    }
+    if (searchLow) tickets = tickets.filter(t =>
+      String(t.id_zendesk || t.zendesk_id || '').includes(searchLow) ||
+      (t.assunto || t.subject || '').toLowerCase().includes(searchLow) ||
+      (t.nome_cliente || t.requester_name || '').toLowerCase().includes(searchLow)
+    );
+    if (consultantFilter) tickets = tickets.filter(t => (t.nome_consultor || t.consultant_name || '') === consultantFilter);
+    renderTickets(tickets, consultantFilter ? tickets.length : total, pages);
+  } catch(e) { showToast('Erro: '+e.message,'error'); }
+}
+
+function renderTickets(tickets, total, pages) {
+  const tbody = document.getElementById('tickets-tbody');
+  document.getElementById('tickets-count').textContent = total+' ticket'+(total!==1?'s':'');
+  const ev   = canEval();
+  const cons = !ev && !isGroupManager(); // consultor puro
+  const cols = ev ? 7 : cons ? 5 : 6;
+
+  if (!tickets.length) {
+    tbody.innerHTML = `<tr><td colspan="${cols}"><div class="empty-state"><div class="icon">📭</div><p>Nenhum ticket encontrado.</p></div></td></tr>`;
+    document.getElementById('tickets-pag').innerHTML=''; return;
+  }
+
+  tbody.innerHTML = tickets.map(t => {
+    const evaluated = t.evaluated===true||t.evaluated==='true'||t.avaliado===true;
+    const discarded = t.discarded===true||t.descartado===true;
+    const isCsat    = t.tipo === 'csat';
+    const subject   = t.assunto || t.subject || '–';
+    const cliente   = t.nome_cliente || t.requester_name || '–';
+    const zid       = t.id_zendesk || t.zendesk_id || 'N/A';
+    const recebido  = t.importado_em || t.received_at;
+
+    // ── CONSULTOR: visão simplificada só de avaliados ──
+    if (cons) {
+      const hasReply = !!(t.resposta_consultor || t.consultant_reply);
+      const hasCmt   = !!(t.comentario_consultor || t.consultant_comment);
+      const replyDot = hasReply ? ' <span style="width:6px;height:6px;background:#60a5fa;border-radius:50%;display:inline-block;margin-left:2px"></span>' : '';
+      const cmtDot   = hasCmt  ? ' <span style="width:6px;height:6px;background:#a78bfa;border-radius:50%;display:inline-block;margin-left:2px"></span>' : '';
+      const csatBadge = isCsat ? `<span style="font-size:.64rem;font-family:var(--fm);padding:1px 5px;border-radius:6px;background:rgba(239,68,68,.12);color:#f87171;margin-left:5px">CSAT</span>` : '';
+      const aiBadge   = (t.ai_initiated||t.iniciado_por_ia) ? `<span class="ai-init-badge">🤖 IA</span>` : '';
+      return `<tr>
+        <td><span class="ticket-id">#${zid}</span></td>
+        <td><span class="ticket-subject" title="${subject}">${subject}</span>${csatBadge}${aiBadge}</td>
+        <td style="font-size:.83rem">${cliente}</td>
+        <td style="font-size:.76rem;color:var(--muted);font-family:var(--fm)">${fmtDate(recebido)}</td>
+        <td><button class="btn-action view" onclick="viewTicket('${t.id}','${t.tipo||''}')">👁 Ver${replyDot}${cmtDot}</button></td>
+      </tr>`;
+    }
+
+    // ── AVALIADOR / MANAGER: visão completa ──
+    const statusHtml = discarded
+      ? `<span class="status-badge discarded">🗑 Descartado</span>`
+      : evaluated
+        ? `<span class="status-badge done">✓ Avaliado</span>`
+        : `<span class="status-badge pending">⏳ Pendente</span>`;
+
+    let btns = '';
+    if (discarded) {
+      if (ev) btns = `<button class="btn-action restore" onclick="restoreTicket('${t.id}')">↩ Restaurar</button>`;
+    } else if (evaluated) {
+      const hasReply = !!(t.resposta_consultor || t.consultant_reply);
+      const hasCmt   = !!(t.comentario_consultor || t.consultant_comment);
+      const replyDot = hasReply ? ' <span style="width:6px;height:6px;background:#60a5fa;border-radius:50%;display:inline-block;margin-left:2px"></span>' : '';
+      const cmtDot   = hasCmt  ? ' <span style="width:6px;height:6px;background:#a78bfa;border-radius:50%;display:inline-block;margin-left:2px"></span>' : '';
+      btns = `<button class="btn-action view" onclick="viewTicket('${t.id}')">👁 Ver${replyDot}${cmtDot}</button>`;
+    } else if (ev) {
+      btns = `<div class="actions-cell">
+        <button class="btn-action eval" onclick="openEvalModal('${t.id}')">✏️ Avaliar</button>
+        <button class="btn-action discard" onclick="discardTicket('${t.id}')">🗑</button>
+      </div>`;
+    } else {
+      btns = `<button class="btn-action comment" onclick="openCommentModal('${t.id}')">💬 Comentar${(t.comentario_consultor||t.consultant_comment)?` <span style="width:6px;height:6px;background:var(--purple);border-radius:50%;display:inline-block"></span>`:''}</button>`;
+    }
+
+    return `<tr class="${discarded?'discarded-row':''}">
+      <td><span class="ticket-id">#${zid}</span></td>
+      <td><span class="ticket-subject" title="${subject}">${subject}</span>${(t.ai_initiated||t.iniciado_por_ia)?` <span class="ai-init-badge">🤖 IA</span>`:''}</td>
+      <td style="font-size:.83rem">${cliente}</td>
+      ${ev?`<td><span class="consultant-tag">${t.nome_consultor||t.consultant_name||'–'}</span></td>`:''}
+      <td style="font-size:.76rem;color:var(--muted);font-family:var(--fm)">${fmtDate(recebido)}</td>
+      <td>${statusHtml}</td>
+      <td>${btns}</td>
+    </tr>`;
+  }).join('');
+
+  const pag = document.getElementById('tickets-pag');
+  if (pages<=1) { pag.innerHTML=''; return; }
+  let h = `<button class="page-btn" onclick="changePage(${S.page-1})" ${S.page===1?'disabled':''}>‹</button>`;
+  for (let i=1;i<=pages;i++) h+=`<button class="page-btn ${i===S.page?'active':''}" onclick="changePage(${i})">${i}</button>`;
+  h+=`<button class="page-btn" onclick="changePage(${S.page+1})" ${S.page===pages?'disabled':''}>›</button>`;
+  pag.innerHTML=h;
+}
+function changePage(p) { S.page=p; loadTickets(); }
+
+async function discardTicket(id) {
+  if (!confirm('Descartar este ticket? Ele não será avaliado.')) return;
+  try { await api('POST',`/api/tickets/${id}/discard`); showToast('Ticket descartado','info'); loadTickets(); loadStats(); }
+  catch(e) { showToast(e.message,'error'); }
+}
+async function restoreTicket(id) {
+  try { await api('POST',`/api/tickets/${id}/restore`); showToast('Ticket restaurado','success'); loadTickets(); loadStats(); }
+  catch(e) { showToast(e.message,'error'); }
+}
+
+/* ══════════════════════════════════════════════════════
+   IMPORTAR MODAL
+══════════════════════════════════════════════════════ */
+let _importGroups = []; // cache de grupos para o modal
+
+async function openImportModal() {
+  const now = new Date();
+  const ym  = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  document.getElementById('modal-title').textContent = '📥 Filtrar e Importar Tickets';
+  document.getElementById('modal-box').className = 'modal wide';
+  document.getElementById('modal-body').innerHTML = `
+    <!-- Abas de modo de busca -->
+    <div style="display:flex;gap:6px;margin-bottom:16px">
+      <button class="imp-mode-btn active" id="imp-mode-consultant" onclick="switchImportMode('consultant')">👤 Por Consultor</button>
+      <button class="imp-mode-btn" id="imp-mode-ticket" onclick="switchImportMode('ticket')">🔢 Por Número de Ticket</button>
+    </div>
+
+    <!-- Modo: Consultor -->
+    <div id="imp-panel-consultant">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+        <div class="form-field" style="margin:0">
+          <label class="form-label">Grupos <span id="imp-group-count" style="color:var(--accent2)"></span></label>
+          <div class="group-picker" id="imp-group-picker">
+            <button type="button" class="group-picker-trigger" id="imp-group-trigger" onclick="toggleGroupPicker()">
+              <span id="imp-group-label">⏳ Carregando grupos...</span>
+              <span style="font-size:.7rem;opacity:.6">▼</span>
+            </button>
+            <div class="group-picker-dropdown" id="imp-group-dropdown"></div>
+          </div>
+          <div class="group-picker-tags" id="imp-group-tags"></div>
+        </div>
+        <div class="form-field" style="margin:0">
+          <label class="form-label">Consultor</label>
+          <select class="select-input" id="imp-assignee" disabled>
+            <option value="">— Selecione os grupos primeiro —</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;margin-bottom:14px;align-items:end">
+        <div class="form-field" style="margin:0">
+          <label class="form-label">Mês / Ano</label>
+          <input type="month" class="form-input" id="imp-month" value="${ym}">
+        </div>
+        <label style="display:flex;align-items:center;gap:7px;cursor:pointer;font-size:.8rem;color:var(--muted);white-space:nowrap;padding-bottom:2px">
+          <input type="checkbox" id="imp-only-ai" style="width:14px;height:14px;accent-color:var(--accent);cursor:pointer" onchange="applyImportFilter()">
+          🤖 Somente IA
+        </label>
+        <button class="btn-sm green" onclick="fetchImportTickets()">🔍 Buscar</button>
+      </div>
+    </div>
+
+    <!-- Modo: Por número de ticket -->
+    <div id="imp-panel-ticket" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:14px;align-items:end">
+        <div class="form-field" style="margin:0">
+          <label class="form-label">Números de Ticket <span style="color:var(--muted);font-weight:400">(separe por vírgula ou espaço)</span></label>
+          <input class="form-input" id="imp-ticket-ids" placeholder="Ex: 12345, 67890, 11111">
+        </div>
+        <button class="btn-sm green" onclick="fetchImportByIds()">🔍 Buscar</button>
+      </div>
+    </div>
+
+    <!-- Barra de filtro pós-busca -->
+    <div id="imp-filter-bar" style="display:none;margin-bottom:10px">
+      <div class="form-field" style="margin:0;position:relative">
+        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:.8rem;color:var(--muted)">🔍</span>
+        <input class="form-input" id="imp-search" placeholder="Filtrar por nº ou assunto..." oninput="applyImportFilter()" style="padding-left:30px">
+      </div>
+    </div>
+
+    <div id="imp-select-bar" style="display:none;align-items:center;justify-content:space-between;margin-bottom:10px;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:8px">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.85rem;font-weight:500">
+        <input type="checkbox" id="imp-check-all" style="width:16px;height:16px;accent-color:var(--accent);cursor:pointer" onchange="toggleAllImport(this.checked)">
+        Selecionar todos os novos
+      </label>
+      <div style="display:flex;gap:7px">
+        <button class="btn-action view" style="font-size:.78rem;padding:4px 11px" onclick="toggleAllImport(true)">✅ Marcar todos</button>
+        <button class="btn-action discard" style="font-size:.78rem;padding:4px 11px" onclick="toggleAllImport(false)">✕ Desmarcar todos</button>
+      </div>
+    </div>
+    <div id="imp-results"><div class="empty-state" style="padding:30px"><div class="icon">🔍</div><p>Selecione um modo de busca acima.</p></div></div>
+    <div id="imp-footer" style="display:none">
+      <div id="imp-summary" class="import-summary"></div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+        <button class="btn-save" id="imp-btn-confirm" onclick="confirmImport()">📥 Importar Selecionados</button>
+      </div>
+    </div>`;
+  showModal();
+  document.getElementById('modal-body').addEventListener('click', e => {
+    if (!e.target.closest('#imp-group-picker')) closeGroupPicker();
+  });
+  try {
+    const r = await api('GET', '/api/admin/groups');
+    _importGroups = r.groups;
+    const dd = document.getElementById('imp-group-dropdown');
+    if (!dd) return;
+    dd.innerHTML = r.groups.map(g => `
+      <label class="group-picker-opt">
+        <input type="checkbox" class="imp-group-cb" value="${g.name}" onchange="onImportGroupsChange()">
+        <span>${g.name} <span style="font-size:.72rem;color:var(--muted);font-family:var(--fm)">(${g.consultants.length})</span></span>
+      </label>`).join('');
+    document.getElementById('imp-group-label').textContent = '— Selecione os grupos —';
+  } catch(e) {
+    const lbl = document.getElementById('imp-group-label');
+    if (lbl) lbl.textContent = 'Erro ao carregar grupos';
+  }
+}
+
+function switchImportMode(mode) {
+  document.getElementById('imp-panel-consultant').style.display = mode === 'consultant' ? 'block' : 'none';
+  document.getElementById('imp-panel-ticket').style.display     = mode === 'ticket'     ? 'block' : 'none';
+  document.getElementById('imp-mode-consultant').classList.toggle('active', mode === 'consultant');
+  document.getElementById('imp-mode-ticket').classList.toggle('active',     mode === 'ticket');
+  // Reseta resultados
+  _impAllTickets = []; _impFilteredTickets = []; _impPage = 1;
+  document.getElementById('imp-results').innerHTML = '<div class="empty-state" style="padding:30px"><div class="icon">🔍</div><p>Preencha os campos e clique em Buscar.</p></div>';
+  document.getElementById('imp-footer').style.display = 'none';
+  document.getElementById('imp-select-bar').style.display = 'none';
+  document.getElementById('imp-filter-bar').style.display = 'none';
+}
+
+function toggleGroupPicker() {
+  const trigger  = document.getElementById('imp-group-trigger');
+  const dropdown = document.getElementById('imp-group-dropdown');
+  const isOpen   = dropdown.classList.contains('open');
+  if (isOpen) { dropdown.classList.remove('open'); trigger.classList.remove('open'); }
+  else        { dropdown.classList.add('open');    trigger.classList.add('open'); }
+}
+function closeGroupPicker() {
+  document.getElementById('imp-group-dropdown')?.classList.remove('open');
+  document.getElementById('imp-group-trigger')?.classList.remove('open');
+}
+
+function onImportGroupsChange() {
+  const checked = [...document.querySelectorAll('.imp-group-cb:checked')].map(cb => cb.value);
+  const count   = checked.length;
+  // Atualiza label do trigger
+  const lbl = document.getElementById('imp-group-label');
+  if (lbl) lbl.textContent = count === 0 ? '— Selecione os grupos —' : count === 1 ? checked[0] : `${count} grupos selecionados`;
+  // Tags visuais
+  const tags = document.getElementById('imp-group-tags');
+  if (tags) tags.innerHTML = checked.map(g => `
+    <span style="display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-family:var(--fm);padding:2px 8px;border-radius:10px;background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);color:#60a5fa">
+      🏷 ${g}
+      <span style="cursor:pointer;opacity:.7" onclick="removeGroupTag('${g}')">✕</span>
+    </span>`).join('');
+  // Atualiza contador
+  const cnt = document.getElementById('imp-group-count');
+  if (cnt) cnt.textContent = count > 0 ? `(${count} selecionado${count>1?'s':''})` : '';
+  // Atualiza consultor
+  const consSel = document.getElementById('imp-assignee');
+  if (!consSel) return;
+  if (!count) {
+    consSel.innerHTML = '<option value="">— Selecione os grupos primeiro —</option>';
+    consSel.disabled = true;
+    return;
+  }
+  // Merge consultores dos grupos selecionados (sem duplicatas), usando id_zendesk como valor
+  const seen = new Map(); // id_zendesk → name
+  checked.forEach(gname => {
+    const g = _importGroups.find(x => x.name === gname);
+    (g?.consultants || []).forEach(c => {
+      if (c.id_zendesk && !seen.has(c.id_zendesk)) seen.set(c.id_zendesk, c.name);
+    });
+  });
+  const merged = [...seen.entries()].sort((a,b) => a[1].localeCompare(b[1]));
+  consSel.disabled = false;
+  consSel.innerHTML = `<option value="">— Selecione o consultor —</option>` +
+    merged.map(([zid, name]) => `<option value="${zid}">${name}</option>`).join('');
+  // Limpa resultados
+  const res = document.getElementById('imp-results');
+  if (res) res.innerHTML = '<div class="empty-state" style="padding:30px"><div class="icon">🔍</div><p>Clique em Buscar para carregar os tickets.</p></div>';
+  document.getElementById('imp-footer').style.display = 'none';
+  document.getElementById('imp-select-bar').style.display = 'none';
+}
+
+function removeGroupTag(groupName) {
+  const cb = document.querySelector(`.imp-group-cb[value="${groupName}"]`);
+  if (cb) { cb.checked = false; onImportGroupsChange(); }
+}
+
+let _impAllTickets = [];
+let _impFilteredTickets = []; // lista após filtro IA
+const IMP_PAGE_SIZE = 10;
+let _impPage = 1;
+
+// Aplica filtros combinados: IA + busca por texto/número
+function applyImportFilter() {
+  const onlyAI = document.getElementById('imp-only-ai')?.checked;
+  const search = (document.getElementById('imp-search')?.value || '').trim().toLowerCase();
+  _impFilteredTickets = _impAllTickets.filter(t => {
+    if (onlyAI && !t.ai_initiated) return false;
+    if (search) {
+      const matchId   = String(t.zendesk_id).includes(search);
+      const matchSubj = (t.subject || '').toLowerCase().includes(search);
+      if (!matchId && !matchSubj) return false;
+    }
+    return true;
+  });
+  _impPage = 1;
+  renderImportPage();
+}
+// Alias legado
+const applyIAFilter = applyImportFilter;
+
+function renderImportPage() {
+  const list    = _impFilteredTickets.length || document.getElementById('imp-search')?.value || document.getElementById('imp-only-ai')?.checked
+    ? _impFilteredTickets
+    : _impAllTickets;
+  const start   = (_impPage - 1) * IMP_PAGE_SIZE;
+  const page    = list.slice(start, start + IMP_PAGE_SIZE);
+  const total   = list.length;
+  const pages   = Math.ceil(total / IMP_PAGE_SIZE);
+  const newOnes = list.filter(t => !t.already_imported).length;
+
+  const rows = page.map(t => `
+    <div class="import-ticket-row ${t.already_imported?'already':'selected'}" id="itr-${t.zendesk_id}">
+      <input type="checkbox" class="import-ticket-cb" id="icb-${t.zendesk_id}" value="${t.zendesk_id}"
+        ${t.already_imported?'disabled':'checked'} ${t.already_imported?'':'onchange="syncImportMaster()"'}>
+      <div class="import-ticket-info">
+        <div class="import-ticket-id">#${t.zendesk_id} ${t.ai_initiated?'<span class="ai-init-badge">🤖 IA</span>':''}</div>
+        <div class="import-ticket-subj">${t.subject}</div>
+        <div class="import-ticket-meta">${t.requester_name} · ${t.solved_at?new Date(t.solved_at).toLocaleDateString('pt-BR'):'–'}</div>
+      </div>
+      <span class="import-ticket-badge ${t.already_imported?'exist':'new'}">${t.already_imported?'já importado':'novo'}</span>
+    </div>`).join('');
+
+  const aiCount = _impAllTickets.filter(t => t.ai_initiated).length;
+  const aiInfo  = aiCount ? `<span style="font-size:.72rem;color:var(--purple);font-family:var(--fm);margin-left:8px">🤖 ${aiCount} c/ IA</span>` : '';
+
+  let pagBtns = `<button class="imp-pag-btn" onclick="goImpPage(${_impPage-1})" ${_impPage===1?'disabled':''}>‹</button>`;
+  for (let i = 1; i <= pages; i++) {
+    pagBtns += `<button class="imp-pag-btn ${i===_impPage?'active':''}" onclick="goImpPage(${i})">${i}</button>`;
+  }
+  pagBtns += `<button class="imp-pag-btn" onclick="goImpPage(${_impPage+1})" ${_impPage===pages||pages===0?'disabled':''}>›</button>`;
+
+  const pag = pages > 1
+    ? `<div class="imp-pag"><span class="imp-pag-info">Pág ${_impPage}/${pages} · ${total} ticket${total!==1?'s':''}${aiInfo}</span><div class="imp-pag-btns">${pagBtns}</div></div>`
+    : (aiInfo ? `<div style="margin-top:8px;font-size:.72rem;color:var(--purple)">${aiInfo}</div>` : '');
+
+  const empty = `<div class="empty-state" style="padding:20px"><div class="icon">🔍</div><p>Nenhum ticket encontrado com esses filtros.</p></div>`;
+  document.getElementById('imp-results').innerHTML = (rows || empty) + pag;
+  updateImportSummary(total, newOnes);
+}
+
+function goImpPage(p) {
+  const list  = (_impFilteredTickets.length || document.getElementById('imp-search')?.value || document.getElementById('imp-only-ai')?.checked)
+    ? _impFilteredTickets : _impAllTickets;
+  const pages = Math.ceil(list.length / IMP_PAGE_SIZE);
+  if (p < 1 || p > pages) return;
+  _impPage = p;
+  renderImportPage();
+}
+
+function _afterFetchTickets(allTickets) {
+  if (!allTickets.length) {
+    document.getElementById('imp-results').innerHTML = `<div class="empty-state" style="padding:30px"><div class="icon">📭</div><p>Nenhum ticket encontrado.</p></div>`;
+    return;
+  }
+  _impAllTickets      = allTickets;
+  _impFilteredTickets = [...allTickets];
+  _impPage = 1;
+  // Mostra barra de filtro pós-busca
+  const fb = document.getElementById('imp-filter-bar');
+  if (fb) { fb.style.display = 'block'; const s = document.getElementById('imp-search'); if (s) s.value = ''; }
+  applyImportFilter();
+  document.getElementById('imp-footer').style.display = 'block';
+  document.getElementById('imp-select-bar').style.display = 'flex';
+  document.getElementById('imp-check-all').checked = true;
+}
+
+async function fetchImportTickets() {
+  const selectedGroups = [...document.querySelectorAll('.imp-group-cb:checked')].map(cb => cb.value);
+  const assignee_id    = document.getElementById('imp-assignee').value;
+  const month          = document.getElementById('imp-month').value;
+  if (!selectedGroups.length) { showToast('Selecione pelo menos um grupo','error'); return; }
+  if (!assignee_id) { showToast('Selecione o consultor','error'); return; }
+  if (!month)       { showToast('Selecione o mês','error'); return; }
+  closeGroupPicker();
+  const [year, m] = month.split('-');
+  const results = document.getElementById('imp-results');
+  results.innerHTML = `<div class="ai-loading"><div class="ai-spinner"></div><p>Buscando tickets no Zendesk...</p></div>`;
+  document.getElementById('imp-footer').style.display = 'none';
+  document.getElementById('imp-select-bar').style.display = 'none';
+  try {
+    const data = await api('GET', `/api/zendesk/import?assignee_id=${assignee_id}&year=${year}&month=${m}`);
+    _afterFetchTickets(data.tickets || []);
+  } catch(e) {
+    results.innerHTML = `<div class="empty-state" style="padding:30px;color:var(--danger)"><div class="icon">⚠️</div><p>${e.message}</p></div>`;
+  }
+}
+
+async function fetchImportByIds() {
+  const raw = (document.getElementById('imp-ticket-ids')?.value || '').trim();
+  if (!raw) { showToast('Digite pelo menos um número de ticket','error'); return; }
+  const ids = raw.split(/[\s,;]+/).map(s => s.trim()).filter(Boolean);
+  if (!ids.length) { showToast('Nenhum número válido encontrado','error'); return; }
+  const results = document.getElementById('imp-results');
+  results.innerHTML = `<div class="ai-loading"><div class="ai-spinner"></div><p>Buscando ${ids.length} ticket(s) no Zendesk...</p></div>`;
+  document.getElementById('imp-footer').style.display = 'none';
+  document.getElementById('imp-select-bar').style.display = 'none';
+  try {
+    const data = await api('GET', `/api/zendesk/import?ticket_ids=${ids.join(',')}`);
+    _afterFetchTickets(data.tickets || []);
+  } catch(e) {
+    results.innerHTML = `<div class="empty-state" style="padding:30px;color:var(--danger)"><div class="icon">⚠️</div><p>${e.message}</p></div>`;
+  }
+}
+
+function toggleAllImport(check) {
+  // Marca/desmarca em memória (todos, não só os visíveis)
+  _impAllTickets.forEach(t => { if (!t.already_imported) t._checked = check; });
+  // Atualiza checkboxes visíveis
+  document.querySelectorAll('.import-ticket-cb:not([disabled])').forEach(cb => {
+    cb.checked = check;
+    const row = cb.closest('.import-ticket-row');
+    if (row) row.classList.toggle('selected', check);
+  });
+  const masterCb = document.getElementById('imp-check-all');
+  if (masterCb) masterCb.checked = check;
+  updateImportSummary();
+}
+
+function updateImportSummary(total, newOnes) {
+  // Salva estado dos visíveis
+  document.querySelectorAll('.import-ticket-cb:not([disabled])').forEach(cb => {
+    const t = _impAllTickets.find(x => String(x.zendesk_id) === cb.value);
+    if (t) t._checked = cb.checked;
+  });
+  const selectedCount = _impAllTickets.filter(t => !t.already_imported && t._checked !== false).length;
+  const el = document.getElementById('imp-summary');
+  if (el) el.innerHTML = `<span>Total encontrado: <strong>${total||_impAllTickets.length}</strong></span><span>Novos: <strong>${newOnes !== undefined ? newOnes : _impAllTickets.filter(t=>!t.already_imported).length}</strong></span><span>Selecionados: <strong style="color:#60a5fa">${selectedCount}</strong></span>`;
+}
+
+function syncImportMaster() {
+  const all  = document.querySelectorAll('.import-ticket-cb:not([disabled])');
+  const checked = [...all].filter(cb => cb.checked);
+  const master = document.getElementById('imp-check-all');
+  if (master) master.checked = checked.length === all.length;
+  updateImportSummary();
+}
+
+async function confirmImport() {
+  // Salva estado dos checkboxes visíveis antes de coletar
+  document.querySelectorAll('.import-ticket-cb:not([disabled])').forEach(cb => {
+    const t = _impAllTickets.find(x => String(x.zendesk_id) === cb.value);
+    if (t) t._checked = cb.checked;
+  });
+  const checked = _impAllTickets.filter(t => !t.already_imported && t._checked !== false).map(t => t.zendesk_id);
+  if (!checked.length) { showToast('Nenhum ticket selecionado','error'); return; }
+  const btn = document.getElementById('imp-btn-confirm');
+  btn.disabled=true; btn.textContent='Importando...';
+  try {
+    const r = await api('POST','/api/zendesk/import',{ticket_ids:checked});
+    closeModal(); showToast(`✅ ${r.imported} ticket(s) importado(s)!`,'success');
+    loadTickets(); loadStats();
+  } catch(e) { showToast(e.message,'error'); btn.disabled=false; btn.textContent='📥 Importar Selecionados'; }
+}
+
+/* ══════════════════════════════════════════════════════
+   MODAL AVALIAR (com IA)
+══════════════════════════════════════════════════════ */
+
+
+function enableReevalMode(ticketId, prevNotes, prevScores) {
+  prevNotes  = prevNotes  ?? window._reevalData?.notes  ?? '';
+  prevScores = prevScores ?? window._reevalData?.scores ?? null;
+  const staticDiv = document.getElementById('view-scores-static');
+  const editDiv   = document.getElementById('view-scores-edit');
+  if (!staticDiv || !editDiv) return;
+  staticDiv.style.display = 'none';
+  editDiv.style.display   = 'block';
+
+  const EMOJIS = [{v:1,e:'😞',l:'Péssimo'},{v:2,e:'😕',l:'Ruim'},{v:3,e:'🙂',l:'Médio'},{v:4,e:'😊',l:'Bom'},{v:5,e:'🤩',l:'Ótimo'}];
+  const mkCriterion = (key, label) => `
+    <div class="criterion" style="margin-bottom:18px" id="crit-${key}">
+      <div class="criterion-label">
+        <span>${label}</span>
+        <span class="criterion-pts" id="pts-${key}">– pts</span>
+      </div>
+      <div class="emoji-row">
+        ${EMOJIS.map(em=>`<button class="emoji-btn" data-key="${key}" data-val="${em.v}" onclick="pickReeval(this)">
+          <span class="e">${em.e}</span><span class="l">${em.l}</span>
+        </button>`).join('')}
+      </div>
+    </div>`;
+
+  editDiv.innerHTML = `
+    <div class="section-label" style="margin-bottom:14px">🔄 Reavaliação — selecione os critérios</div>
+    ${mkCriterion('solucao','Solução')}
+    ${mkCriterion('empatia','Empatia')}
+    ${mkCriterion('conducao','Condução')}
+    <div id="reeval-score-box" style="background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:14px;text-align:center;margin-bottom:14px;display:none">
+      <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px">Nota Final</div>
+      <div id="reeval-score-num" style="font-family:var(--fh);font-size:2.6rem;font-weight:800"></div>
+    </div>
+    <div class="section-label" style="margin-bottom:8px">📝 Observação</div>
+    <textarea class="notes-area" id="reeval-notes" style="margin-bottom:12px;min-height:70px" placeholder="Observação para o consultor...">${prevNotes}</textarea>
+    <label class="email-toggle" style="margin-bottom:14px">
+      <input type="checkbox" id="reeval-email" checked>
+      <span>📧 Enviar nova avaliação por e-mail ao consultor</span>
+    </label>
+    <div style="display:flex;gap:8px">
+      <button class="btn-cancel" style="flex:1" onclick="cancelReeval()">Cancelar</button>
+      <button class="btn-save" id="reeval-save-btn" style="flex:2;opacity:.4;cursor:not-allowed" disabled onclick="submitReeval('${ticketId}')">💾 Salvar Reavaliação</button>
+    </div>`;
+
+  // Pré-seleciona emojis com scores anteriores
+  if (prevScores) {
+    const VAL_MAP = {0:1,25:2,50:3,75:4,100:5};
+    ['solucao','empatia','conducao'].forEach(key => {
+      const val = VAL_MAP[prevScores[key]];
+      if (val) {
+        const b = document.querySelector(`.emoji-btn[data-key="${key}"][data-val="${val}"]`);
+        if (b) { b.classList.add('sel'); pickReeval(b); }
+      }
+    });
+  }
+}
+
+function pickReeval(btn) {
+  const key = btn.dataset.key;
+  document.querySelectorAll(`.emoji-btn[data-key="${key}"]`).forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  const PTS = {1:0,2:25,3:50,4:75,5:100};
+  document.getElementById('pts-'+key).textContent = (PTS[btn.dataset.val]||0) + ' pts';
+  // recalcula nota
+  const keys = ['solucao','empatia','conducao'];
+  const vals  = keys.map(k => {
+    const sel = document.querySelector(`.emoji-btn[data-key="${k}"].sel`);
+    return sel ? PTS[sel.dataset.val] : null;
+  });
+  if (vals.every(v => v !== null)) {
+    const avg = Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+    const box = document.getElementById('reeval-score-box');
+    const num = document.getElementById('reeval-score-num');
+    box.style.display = 'block';
+    num.textContent   = avg;
+    num.style.color   = avg>=75?'#3b82f6':avg>=50?'#f59e0b':'#ef4444';
+    const btn2 = document.getElementById('reeval-save-btn');
+    btn2.disabled = false; btn2.style.opacity='1'; btn2.style.cursor='pointer';
+  }
+}
+
+function cancelReeval() {
+  const staticDiv = document.getElementById('view-scores-static');
+  const editDiv   = document.getElementById('view-scores-edit');
+  if (staticDiv) staticDiv.style.display = 'block';
+  if (editDiv)   editDiv.style.display   = 'none';
+}
+
+async function submitReeval(ticketId) {
+  const PTS   = {1:0,2:25,3:50,4:75,5:100};
+  const keys  = ['solucao','empatia','conducao'];
+  const scores = {};
+  for (const k of keys) {
+    const sel = document.querySelector(`.emoji-btn[data-key="${k}"].sel`);
+    if (!sel) { showToast('Selecione todos os critérios.','error'); return; }
+    scores[k] = Number(sel.dataset.val);
+  }
+  const overall   = Math.round(Object.values(scores).map(v=>PTS[v]).reduce((a,b)=>a+b,0)/3);
+  const notes     = document.getElementById('reeval-notes')?.value?.trim()||'';
+  const sendEmail = document.getElementById('reeval-email')?.checked||false;
+  const btn       = document.getElementById('reeval-save-btn');
+  btn.disabled    = true; btn.textContent = 'Salvando...';
+  try {
+    await api('POST',`/api/tickets/${ticketId}/reevaluate`);
+    await api('POST',`/api/tickets/${ticketId}/evaluate`,{scores,overall,notes,sendEmail});
+    showToast('✅ Reavaliação salva!','success');
+    closeModal();
+    loadTickets();
+  } catch(e) { showToast(e.message,'error'); btn.disabled=false; btn.textContent='💾 Salvar Reavaliação'; }
+}
+
+async function reevaluateTicket(ticketId) {
+  if (!confirm('Liberar este ticket para reavaliação?\nA nota atual será descartada e uma nova avaliação poderá ser feita.')) return;
+  try {
+    await api('POST', `/api/tickets/${ticketId}/reevaluate`);
+    showToast('✅ Ticket liberado para reavaliação!', 'success');
+    loadTickets();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+async function openEvalModal(ticketId) {
+  try {
+    const { ticket } = await api('GET',`/api/tickets/${ticketId}`);
+    evalScores = {};
+    document.getElementById('modal-box').className = 'modal wide';
+    document.getElementById('modal-title').textContent = (ticket.reevaluating ? '🔄 Reavaliação' : '✏️ Avaliar') + ' #'+ticket.zendesk_id+' — '+ticket.consultant_name;
+    document.getElementById('modal-body').innerHTML = `
+      <div class="ticket-info-grid">
+        <div class="info-field"><label>Consultor</label><span>${ticket.consultant_name}</span></div>
+        <div class="info-field"><label>Cliente</label><span>${ticket.requester_name}</span></div>
+        <div class="info-field" style="grid-column:1/-1"><label>Assunto</label><span>${ticket.subject}</span></div>
+      </div>
+      ${ticket.consultant_comment?`<div style="background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.22);border-radius:9px;padding:12px;margin-bottom:16px">
+        <div class="box-label purple">💬 Comentário do Consultor</div>
+        <div class="box-text">${ticket.consultant_comment}</div>
+        <div class="box-date">${fmtDate(ticket.comment_date)}</div>
+      </div>`:''}
+      <div id="conv-drawer" class="conv-drawer" data-ticket-id="${ticket.id}" data-zendesk-id="${ticket.zendesk_id}">
+        <div class="conv-drawer-header" onclick="toggleConvDrawer()">
+          <span class="conv-drawer-title">💬 Ler Conversa Completa</span>
+          <span class="conv-drawer-toggle" id="conv-drawer-arrow">▶ expandir</span>
+        </div>
+        <div class="conv-drawer-body" id="conv-drawer-body"></div>
+      </div>
+      <div id="ai-review-area">
+        <div class="ai-loading"><div class="ai-spinner"></div><p style="font-size:.88rem">Analisando conversa com IA...</p></div>
+      </div>
+      <div id="eval-scores-area" style="display:none">
+        <div class="section-label">⭐ Critérios de Avaliação <span style="color:var(--accent2);margin-left:6px">(ajuste se necessário)</span></div>
+        ${CRITERIA.map(c=>`
+        <div class="criterion">
+          <div class="criterion-label"><span>${c.label}</span><span class="criterion-pts" id="pts-${c.key}">— pts</span></div>
+          <div class="emoji-row">${EMOJIS.map(em=>`
+            <button class="emoji-btn" id="eb-${c.key}-${em.val}" onclick="pickEmoji('${c.key}',${em.val})">
+              <span class="e">${em.e}</span><span class="l">${em.l}</span>
+            </button>`).join('')}
+          </div>
+        </div>`).join('')}
+        <div class="score-box">
+          <div class="score-box-label">Nota Final — Calculada Automaticamente</div>
+          <div class="score-pending" id="score-display">Avalie os 3 critérios</div>
+          <div class="score-of" id="score-of" style="display:none">pontos de 100</div>
+        </div>
+        <div class="section-label">📝 Observação Final para o Consultor</div>
+        <textarea class="notes-area" id="eval-notes" placeholder="Escreva seu feedback detalhado, pontos de melhoria..."></textarea>
+        <label class="email-toggle">
+          <input type="checkbox" id="eval-sendemail" checked>
+          <span>📧 Enviar avaliação por e-mail ao consultor</span>
+        </label>
+        <div class="modal-footer">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" id="btn-eval-save" onclick="submitEval('${ticket.id}')">${ticket.reevaluating ? '🔄 Salvar Reavaliação' : '💾 Salvar Avaliação'}</button>
+        </div>
+      </div>`;
+
+    showModal();
+    // Busca IA em background
+    loadAIReview(ticket);
+  } catch(e) { showToast('Erro: '+e.message,'error'); }
+}
+
+let _convLoaded = {};
+async function toggleConvDrawer() {
+  const drawer   = document.getElementById('conv-drawer');
+  const body     = document.getElementById('conv-drawer-body');
+  const arrow    = document.getElementById('conv-drawer-arrow');
+  if (!drawer || !body) return;
+  const isOpen   = body.classList.contains('open');
+  if (isOpen) { body.classList.remove('open'); arrow.textContent = '▶ expandir'; return; }
+  body.classList.add('open');
+  arrow.textContent = '▼ recolher';
+  const ticketId  = drawer.dataset.ticketId;
+  const zendeskId = drawer.dataset.zendeskId;
+  if (_convLoaded[ticketId]) return;
+  body.innerHTML = '<div class="conv-loading"><div class="ai-spinner" style="margin:0 auto 8px"></div>Carregando conversa...</div>';
+  try {
+    const data     = await api('GET', `/api/zendesk/tickets/${zendeskId}/comments`);
+    const comments = data.comments || [];
+    if (!comments.length) { body.innerHTML = '<div class="conv-loading">Nenhuma mensagem encontrada.</div>'; return; }
+    body.innerHTML = comments.map(c => {
+      const authorCls = (c.author?.role === 'end-user') ? 'client' : 'agent';
+      const txt = (c.plain_body || c.body || '').replace(/<[^>]*>/g,'').trim();
+      return `<div class="conv-msg">
+        <div class="conv-msg-header">
+          <span class="conv-msg-author ${authorCls}">${c.author?.name || 'Participante'}</span>
+          <span class="conv-msg-time">${new Date(c.created_at).toLocaleString('pt-BR')}</span>
+          ${c.public===false?'<span style="font-size:.62rem;background:rgba(245,158,11,.12);color:var(--warn);padding:1px 6px;border-radius:4px;font-family:var(--fm)">interno</span>':''}
+        </div>
+        <div class="conv-msg-text">${txt}</div>
+      </div>`;
+    }).join('');
+    _convLoaded[ticketId] = true;
+  } catch(e) {
+    body.innerHTML = `<div class="conv-loading" style="color:var(--danger)">Erro ao carregar: ${e.message}</div>`;
+  }
+}
+
+let _currentTicketForAI = null;
+function reanalyzeAI() {
+  if (!_currentTicketForAI) return;
+  const area = document.getElementById('ai-review-area');
+  if (area) {
+    area.innerHTML = '<div class="ai-loading"><div class="ai-spinner"></div><p style="font-size:.88rem">Reanalisando conversa com IA...</p></div>';
+  }
+  loadAIReview(_currentTicketForAI, true);
+}
+
+async function loadAIReview(ticket, force = false) {
+  _currentTicketForAI = ticket;
+  try {
+    const ai = await api('POST',`/api/tickets/${ticket.id}/ai-review${force?'?force=1':''}`);
+    const area = document.getElementById('ai-review-area');
+    if (!area) return;
+
+    area.innerHTML = `
+      <div class="ai-box">
+        <div class="ai-box-header">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="ai-badge">✨ IA</span>
+            <span id="ai-cache-label" style="font-size:.72rem;color:var(--muted);font-family:var(--fm)">
+              ${ai.cached ? '✅ Cache — analisado anteriormente' : '✨ Nova análise gerada agora'}
+            </span>
+          </div>
+          <button id="ai-reanalyze-btn" onclick="reanalyzeAI()" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);color:#a78bfa;font-size:.75rem;padding:4px 11px;border-radius:6px;cursor:pointer;font-family:var(--fm);display:inline-flex;align-items:center;gap:4px">
+            🔄 Reanalisar
+          </button>
+        </div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:12px">Análise automática — revise e ajuste abaixo</div>
+        <div class="ai-resumo">${ai.resumo||''}</div>
+        <div class="ai-lists">
+          <div class="ai-list-box">
+            <div class="ai-list-title green">✅ Pontos Positivos</div>
+            <ul class="ai-list">${(ai.pontos_positivos||[]).map(p=>`<li>${p}</li>`).join('')}</ul>
+          </div>
+          <div class="ai-list-box">
+            <div class="ai-list-title orange">⚠️ Melhorias</div>
+            <ul class="ai-list">${(ai.pontos_melhoria||[]).map(p=>`<li>${p}</li>`).join('')}</ul>
+          </div>
+        </div>
+        <div class="ai-nota">
+          <div class="ai-nota-num" style="color:${scoreColor(ai.nota_sugerida)}">${ai.nota_sugerida}</div>
+          <div class="ai-nota-info">
+            <div class="ai-nota-label">Nota Sugerida pela IA</div>
+            <div class="ai-nota-just">${ai.justificativa||''}</div>
+          </div>
+        </div>
+      </div>`;
+
+    // Pré-seleciona os scores da IA
+    if (ai.scores) {
+      CRITERIA.forEach(c => {
+        const val = aiPtsToVal(ai.scores[c.key]);
+        if (val) pickEmoji(c.key, val);
+      });
+    }
+
+    document.getElementById('eval-scores-area').style.display = 'block';
+
+    // Pré-preenche a observação com a justificativa
+    const notesEl = document.getElementById('eval-notes');
+    if (notesEl && ai.justificativa) notesEl.value = ai.justificativa;
+
+  } catch(e) {
+    const area = document.getElementById('ai-review-area');
+    if (area) area.innerHTML = `<div style="background:rgba(245,158,11,.07);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:12px;margin-bottom:16px;font-size:.83rem;color:var(--warn)">
+      ⚠️ Análise IA indisponível: ${e.message}<br><span style="color:var(--muted)">Preencha os critérios manualmente.</span>
+    </div>`;
+    document.getElementById('eval-scores-area').style.display = 'block';
+  }
+}
+
+function aiPtsToVal(pts) {
+  if (pts===undefined||pts===null) return 0;
+  const n = Number(pts);
+  if (n<=0)  return 1;
+  if (n<=25) return 2;
+  if (n<=50) return 3;
+  if (n<=75) return 4;
+  return 5;
+}
+
+function pickEmoji(key, val) {
+  evalScores[key] = val;
+  EMOJIS.forEach(em => {
+    const btn = document.getElementById('eb-'+key+'-'+em.val);
+    if (btn) btn.classList.toggle('sel', em.val===val);
+  });
+  const pts = EMOJIS.find(e=>e.val===val)?.pts;
+  const el  = document.getElementById('pts-'+key);
+  if (el) el.textContent = pts+' pts';
+  recalcScore();
+}
+function recalcScore() {
+  const score = calcScore(evalScores);
+  const disp  = document.getElementById('score-display');
+  const of    = document.getElementById('score-of');
+  if (!disp) return;
+  if (score===null) { disp.className='score-pending'; disp.textContent='Avalie os 3 critérios'; disp.style.color=''; if(of) of.style.display='none'; }
+  else { disp.className='score-num'; disp.textContent=score; disp.style.color=scoreColor(score); if(of) of.style.display='block'; }
+}
+
+async function submitEval(ticketId) {
+  if (!CRITERIA.every(c=>evalScores[c.key]>0)) { showToast('Avalie os 3 critérios antes de salvar.','error'); return; }
+  const overall    = calcScore(evalScores);
+  const sendEmail  = document.getElementById('eval-sendemail')?.checked;
+  const btn        = document.getElementById('btn-eval-save');
+  btn.disabled=true; btn.textContent='Salvando...';
+  try {
+    await api('POST',`/api/tickets/${ticketId}/evaluate`,{
+      scores:evalScores, overall,
+      notes: document.getElementById('eval-notes').value,
+      sendEmail
+    });
+    closeModal(); showToast('✅ Avaliação salva'+(sendEmail?' e e-mail enviado!':'!'),'success');
+    loadTickets(); loadStats();
+  } catch(e) { showToast('Erro: '+e.message,'error'); btn.disabled=false; btn.textContent='Salvar Avaliação'; }
+  // (flag reevaluating é limpa pelo servidor ao salvar)
+}
+
+/* ══════════════════════════════════════════════════════
+   MODAL COMENTAR (consultor)
+══════════════════════════════════════════════════════ */
+async function openCommentModal(ticketId) {
+  try {
+    const { ticket } = await api('GET',`/api/tickets/${ticketId}`);
+    document.getElementById('modal-box').className = 'modal';
+    document.getElementById('modal-title').textContent = '💬 Comentar #'+ticket.zendesk_id;
+    document.getElementById('modal-body').innerHTML = `
+      <div class="ticket-info-grid">
+        <div class="info-field" style="grid-column:1/-1"><label>Assunto</label><span>${ticket.subject}</span></div>
+        <div class="info-field"><label>Cliente</label><span>${ticket.requester_name}</span></div>
+        <div class="info-field"><label>Status</label><span style="color:var(--warn)">Aguardando avaliação</span></div>
+      </div>
+      <div class="section-label">💬 Seu Comentário</div>
+      <textarea class="notes-area" id="comment-text" style="border-color:rgba(139,92,246,.3);min-height:100px" placeholder="Descreva o contexto, dificuldades encontradas...">${ticket.consultant_comment||''}</textarea>
+      <div style="font-size:.75rem;color:var(--muted);margin-bottom:16px">Visível ao avaliador quando avaliar este ticket.</div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+        <button class="btn-save-blue" onclick="submitComment('${ticket.id}')">Salvar Comentário</button>
+      </div>`;
+    showModal();
+  } catch(e) { showToast('Erro: '+e.message,'error'); }
+}
+async function submitComment(ticketId) {
+  const text = document.getElementById('comment-text').value.trim();
+  if (!text) { showToast('Digite um comentário.','error'); return; }
+  try { await api('POST',`/api/tickets/${ticketId}/comment`,{comment:text}); closeModal(); showToast('💬 Comentário salvo!','success'); loadTickets(); }
+  catch(e) { showToast('Erro: '+e.message,'error'); }
+}
+
+/* ══════════════════════════════════════════════════════
+   MODAL VER AVALIAÇÃO
+══════════════════════════════════════════════════════ */
+async function viewTicket(ticketId, tipo) {
+  try {
+    // Se for CSAT (vindos da lista unificada do consultor), usa endpoint csat
+    const isCsat = tipo === 'csat';
+    const endpoint = isCsat ? `/api/csat/tickets/${ticketId}` : `/api/tickets/${ticketId}`;
+    const { ticket, evaluation:ev } = await api('GET', endpoint);
+    document.getElementById('modal-box').className = 'modal';
+    document.getElementById('modal-title').textContent = 'Atendimento #'+ticket.zendesk_id;
+    const ev2 = canEval();
+    window._reevalData = ev ? { notes: ev.notes||'', scores: ev.scores||{} } : null;
+
+    // Barras estáticas de resultado
+    const staticScores = ev ? `
+      <div id="view-scores-static">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="section-label" style="margin:0">📊 Resultado — ${fmtDate(ev.created_at)}</div>
+          ${ev2 ? `<button onclick="enableReevalMode('${ticket.id}')" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);color:#a78bfa;font-size:.75rem;padding:4px 11px;border-radius:6px;cursor:pointer;font-family:var(--fm)">🔄 Reavaliar</button>` : ''}
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+          <div class="score-circle" style="padding:10px 18px">
+            <div class="score-circle-num" style="color:${scoreColor(ev.overall)}">${ev.overall}</div>
+            <div class="score-circle-label">/ 100</div>
+          </div>
+          <div style="font-size:.8rem;color:var(--muted)">Avaliado por<br><strong style="color:var(--text)">${ev.evaluator_name}</strong></div>
+        </div>
+        ${CRITERIA.map(c=>{
+          const val=Number(ev.scores?.[c.key])||0, entry=emojiFor(val), pts=entry?entry.pts:0;
+          return `<div class="view-score-row">
+            <span class="view-score-emoji">${entry?entry.e:'–'}</span>
+            <span class="view-score-label">${c.label}</span>
+            <div class="view-score-bar"><div class="view-score-bar-fill" style="width:${pts}%"></div></div>
+            <span class="view-score-val">${entry?entry.l:'–'} · ${pts}pts</span>
+          </div>`;
+        }).join('')}
+        ${ev.notes?`<div class="eval-note"><div class="box-label green">📝 Observação</div><div class="box-text">${ev.notes}</div></div>`:''}
+      </div>
+      <div id="view-scores-edit" style="display:none"></div>
+    ` : `<div style="text-align:center;padding:20px;color:var(--muted)">Sem avaliação.</div>`;
+    const scoresHtml = staticScores;
+
+    const preComment = (ev2 && ticket.consultant_comment) ? `
+      <div style="background:rgba(139,92,246,.07);border:1px solid rgba(139,92,246,.22);border-radius:9px;padding:12px;margin-bottom:14px">
+        <div class="box-label purple">💬 Comentário Pré-Avaliação</div>
+        <div class="box-text">${ticket.consultant_comment}</div>
+        <div class="box-date">${fmtDate(ticket.comment_date)}</div>
+      </div>` : '';
+
+    const replyHtml = ticket.consultant_reply ? `
+      <div style="background:rgba(14,165,233,.06);border:1px solid rgba(14,165,233,.2);border-radius:9px;padding:12px;margin-top:12px">
+        <div class="box-label blue">💬 Resposta do Consultor</div>
+        <div class="box-text">${ticket.consultant_reply}</div>
+        <div class="box-date">${fmtDate(ticket.reply_date)}</div>
+      </div>` : '';
+
+    const replyForm = (!ev2 && ev && !ticket.consultant_reply) ? `
+      <div class="section-label" style="margin-top:18px">✍️ Responder à Avaliação</div>
+      <textarea class="notes-area" id="reply-text" style="border-color:rgba(14,165,233,.3);min-height:80px" placeholder="Seu comentário sobre esta avaliação..."></textarea>
+      <button class="btn-save-blue" style="width:100%;padding:10px" onclick="submitReply('${ticket.id}')">Enviar Resposta</button>` : '';
+
+    document.getElementById('modal-body').innerHTML = `
+      <div class="ticket-info-grid" style="margin-bottom:14px">
+        ${ev2?`<div class="info-field"><label>Consultor</label><span>${ticket.consultant_name}</span></div>`:''}
+        <div class="info-field"><label>Cliente</label><span>${ticket.requester_name}</span></div>
+        <div class="info-field" style="grid-column:1/-1"><label>Assunto</label><span>${ticket.subject}</span></div>
+      </div>
+      ${preComment}${scoresHtml}${replyHtml}${replyForm}
+      <div class="modal-footer" style="margin-top:16px">
+        <button class="btn-cancel" style="flex:1" onclick="closeModal()">Fechar</button>
+      </div>`;
+    showModal();
+  } catch(e) { showToast('Erro: '+e.message,'error'); }
+}
+async function submitReply(ticketId) {
+  const text = document.getElementById('reply-text')?.value?.trim();
+  if (!text) { showToast('Digite uma resposta.','error'); return; }
+  try { await api('POST',`/api/tickets/${ticketId}/reply`,{reply:text}); closeModal(); showToast('✅ Resposta enviada!','success'); loadTickets(); }
+  catch(e) { showToast('Erro: '+e.message,'error'); }
+}
+
+/* ══════════════════════════════════════════════════════
+   CSAT NEGATIVOS
+══════════════════════════════════════════════════════ */
+const csatState = { filter:'all', page:1 };
+
+function setCsatFilter(f, el) {
+  csatState.filter = f; csatState.page = 1;
+  document.querySelectorAll('#page-csat .filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  loadCsatTickets();
+}
+
+async function loadCsatBadge() {
+  try {
+    const r = await api('GET', '/api/csat/tickets?filter=pending&limit=1');
+    const b = document.getElementById('csat-badge');
+    if (!b) return;
+    if (r.total > 0) { b.textContent = r.total; b.style.display = 'inline'; }
+    else b.style.display = 'none';
+  } catch(e) {}
+}
+
+async function loadCsatTickets() {
+  try {
+    const r = await api('GET', '/api/csat/tickets?filter='+csatState.filter+'&page='+csatState.page+'&limit=15');
+    renderCsatTable(r.tickets, r.pages);
+    loadCsatBadge();
+  } catch(e) { showToast('Erro ao carregar CSAT: '+e.message, 'error'); }
+}
+
+function renderCsatTable(tickets, pages) {
+  const tbody = document.getElementById('csat-tbody');
+  if (!tickets.length) {
+    tbody.innerHTML = '<tr><td colspan="8"><div class="empty-state"><div class="icon">😊</div><p>Nenhum ticket CSAT negativo aqui.</p></div></td></tr>';
+    document.getElementById('csat-pag').innerHTML = '';
+    return;
+  }
+  tbody.innerHTML = tickets.map(t => {
+    const ev = t.evaluated, disc = t.discarded;
+    const statusHtml = disc
+      ? '<span class="status-badge discarded">🗑 Descartado</span>'
+      : ev ? '<span class="status-badge done">✓ Avaliado</span>'
+           : '<span class="status-badge pending">⏳ Pendente</span>';
+    const feedTxt = t.satisfaction_comment || '';
+    const feedHtml = feedTxt
+      ? `<span title="${feedTxt.replace(/"/g,"'")}" style="font-size:.75rem;color:var(--danger);cursor:help">😞 ${feedTxt.slice(0,35)}${feedTxt.length>35?'…':''}</span>`
+      : `<span style="font-size:.75rem;color:var(--danger)">😞 sem comentário</span>`;
+    let btns = '';
+    if (disc) {
+      btns = `<button class="btn-action restore" onclick="restoreCsatTicket('${t.id}')">↩ Restaurar</button>`;
+    } else if (ev) {
+      btns = `<div class="actions-cell"><button class="btn-action view" onclick="viewCsatTicket('${t.id}')">👁 Ver</button><button class="btn-action reeval" onclick="openCsatEvalModal('${t.id}')">🔄 Reavaliar</button></div>`;
+    } else {
+      btns = `<div class="actions-cell"><button class="btn-action eval" onclick="openCsatEvalModal('${t.id}')">✏️ Avaliar</button><button class="btn-action discard" onclick="discardCsatTicket('${t.id}')">🗑</button></div>`;
+    }
+    return `<tr>
+      <td><span class="ticket-id">#${t.zendesk_id}</span></td>
+      <td><span class="ticket-subject" title="${t.subject}">${t.subject}</span>${t.ai_initiated?` <span class="ai-init-badge">🤖 IA</span>`:''}</td>
+      <td style="font-size:.83rem">${t.requester_name}</td>
+      <td><span class="consultant-tag">${t.consultant_name}</span></td>
+      <td>${feedHtml}</td>
+      <td style="font-size:.76rem;color:var(--muted);font-family:var(--fm)">${fmtDate(t.received_at)}</td>
+      <td>${statusHtml}</td>
+      <td>${btns}</td>
+    </tr>`;
+  }).join('');
+  const pag = document.getElementById('csat-pag');
+  if (pages <= 1) { pag.innerHTML = ''; return; }
+  let pg = `<button class="page-btn" onclick="csatChangePage(${csatState.page-1})" ${csatState.page===1?'disabled':''}>‹</button>`;
+  for (let i = 1; i <= pages; i++) pg += `<button class="page-btn ${i===csatState.page?'active':''}" onclick="csatChangePage(${i})">${i}</button>`;
+  pg += `<button class="page-btn" onclick="csatChangePage(${csatState.page+1})" ${csatState.page===pages?'disabled':''}>›</button>`;
+  pag.innerHTML = pg;
+}
+function csatChangePage(p) { csatState.page = p; loadCsatTickets(); }
+
+async function discardCsatTicket(id) {
+  if (!confirm('Descartar este ticket CSAT?')) return;
+  try { await api('POST', `/api/csat/tickets/${id}/discard`); showToast('Descartado','info'); loadCsatTickets(); }
+  catch(e) { showToast(e.message,'error'); }
+}
+
+async function restoreCsatTicket(id) {
+  try { await api('POST', `/api/csat/tickets/${id}/restore`); showToast('Restaurado','success'); loadCsatTickets(); }
+  catch(e) { showToast(e.message,'error'); }
+}
+
+/* ── Importar CSAT ── */
+let _csatImpTickets = [];
+function openCsatImport() {
+  const now = new Date();
+  const ym  = now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  document.getElementById('modal-title').textContent = '😞 Importar CSAT Negativos';
+  document.getElementById('modal-box').className = 'modal wide';
+  document.getElementById('modal-body').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:10px;align-items:end">
+      <div class="form-field" style="margin:0">
+        <label class="form-label">Mês de referência</label>
+        <input type="month" class="form-input" id="csat-imp-month" value="${ym}">
+      </div>
+      <button class="btn-sm green" onclick="fetchCsatPreview()">🔍 Buscar</button>
+    </div>
+    <div id="csat-imp-topbar" style="display:none;align-items:center;justify-content:space-between;padding:8px 0;margin-bottom:10px;border-bottom:1px solid var(--border)">
+      <label style="font-size:.8rem;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:6px">
+        <input type="checkbox" id="csat-sel-all" onchange="toggleCsatAll(this.checked)" checked> Selecionar todos
+      </label>
+      <span id="csat-imp-count" style="font-size:.78rem;color:var(--muted);font-family:var(--fm)"></span>
+    </div>
+    <div id="csat-imp-results">
+      <div class="empty-state" style="padding:24px">
+        <div class="icon">😞</div>
+        <p>Selecione o mês para buscar tickets com CSAT negativo.</p>
+      </div>
+    </div>
+    <div id="csat-imp-footer" style="display:none;margin-top:14px">
+      <button class="btn-save" style="width:100%" onclick="confirmCsatImport()">📥 Importar Selecionados</button>
+    </div>`;
+  showModal();
+}
+
+const CSAT_IMP_PER_PAGE = 10;
+let _csatImpPage = 1;
+let _csatImpSelected = new Set(); // IDs selecionados (persiste entre páginas)
+
+async function fetchCsatPreview() {
+  const month = document.getElementById('csat-imp-month').value;
+  if (!month) { showToast('Selecione o mês','error'); return; }
+  const [year, m] = month.split('-');
+  const results = document.getElementById('csat-imp-results');
+  results.innerHTML = '<div class="ai-loading"><div class="ai-spinner"></div><p style="font-size:.88rem">Buscando tickets com CSAT negativo...</p></div>';
+  document.getElementById('csat-imp-footer').style.display = 'none';
+  try {
+    const r = await api('GET', `/api/csat/import?year=${year}&month=${m}`);
+    _csatImpTickets = r.tickets;
+    _csatImpPage = 1;
+    // Pré-seleciona os novos por padrão
+    _csatImpSelected = new Set(r.tickets.filter(t => !t.already_imported).map(t => t.zendesk_id));
+    if (!r.tickets.length) {
+      results.innerHTML = '<div class="empty-state" style="padding:24px"><div class="icon">😊</div><p>Nenhum CSAT negativo encontrado neste mês.</p></div>';
+      return;
+    }
+    document.getElementById('csat-imp-topbar').style.display = 'flex';
+    document.getElementById('csat-imp-footer').style.display = 'block';
+    renderCsatImportPage();
+  } catch(e) {
+    results.innerHTML = `<div class="empty-state" style="padding:24px;color:var(--danger)"><div class="icon">⚠️</div><p>${e.message}</p></div>`;
+  }
+}
+
+function renderCsatImportPage() {
+  const total    = _csatImpTickets.length;
+  const pages    = Math.ceil(total / CSAT_IMP_PER_PAGE);
+  const start    = (_csatImpPage - 1) * CSAT_IMP_PER_PAGE;
+  const slice    = _csatImpTickets.slice(start, start + CSAT_IMP_PER_PAGE);
+  const newCount = _csatImpSelected.size;
+
+  // Atualiza contador
+  const cnt = document.getElementById('csat-imp-count');
+  if (cnt) cnt.textContent = `${newCount} selecionado(s) · ${total} encontrado(s)`;
+
+  // Mostra barra do topo
+  const topbar = document.getElementById('csat-imp-topbar');
+  if (topbar) topbar.style.display = 'flex';
+
+  // Atualiza checkbox "selecionar todos"
+  const allNew   = _csatImpTickets.filter(t => !t.already_imported);
+  const allChk   = document.getElementById('csat-sel-all');
+  if (allChk) allChk.checked = allNew.length > 0 && allNew.every(t => _csatImpSelected.has(t.zendesk_id));
+
+  // Lista
+  const rows = slice.map(t => {
+    const disabled = t.already_imported;
+    const checked  = disabled ? true : _csatImpSelected.has(t.zendesk_id);
+    const feed     = t.satisfaction_comment;
+    return `<div class="import-ticket-row ${disabled?'already':checked?'selected':''}" id="citr-${t.zendesk_id}">
+      <input type="checkbox" class="csat-import-cb" value="${t.zendesk_id}"
+        ${disabled?'disabled checked':''} ${!disabled&&checked?'checked':''}
+        onchange="toggleCsatOne(this)">
+      <div class="import-ticket-info">
+        <div class="import-ticket-id">#${t.zendesk_id}${t.ai_initiated?' <span class="ai-init-badge">🤖 IA</span>':''}</div>
+        <div class="import-ticket-subj">${t.subject}</div>
+        <div class="import-ticket-meta">${t.consultant_name} · ${t.requester_name}${feed?' · <em>"'+feed.slice(0,50)+(feed.length>50?'…':'')+'"</em>':''}</div>
+      </div>
+      <span class="import-ticket-badge ${disabled?'exist':'new'}" style="${disabled?'':'background:rgba(239,68,68,.12);color:var(--danger);border-color:rgba(239,68,68,.3)'}">
+        ${disabled?'já importado':'😞 negativo'}
+      </span>
+    </div>`;
+  }).join('');
+
+  // Paginação
+  let pag = '';
+  if (pages > 1) {
+    pag = `<div style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:12px">
+      <button class="page-btn" onclick="csatImpPage(${_csatImpPage-1})" ${_csatImpPage===1?'disabled':''}>‹</button>`;
+    for (let i = 1; i <= pages; i++)
+      pag += `<button class="page-btn ${i===_csatImpPage?'active':''}" onclick="csatImpPage(${i})">${i}</button>`;
+    pag += `<button class="page-btn" onclick="csatImpPage(${_csatImpPage+1})" ${_csatImpPage===pages?'disabled':''}>›</button>
+      <span style="font-size:.74rem;color:var(--muted);font-family:var(--fm);margin-left:6px">Página ${_csatImpPage} de ${pages}</span>
+    </div>`;
+  }
+
+  document.getElementById('csat-imp-results').innerHTML = rows + pag;
+}
+
+function csatImpPage(p) {
+  const pages = Math.ceil(_csatImpTickets.length / CSAT_IMP_PER_PAGE);
+  if (p < 1 || p > pages) return;
+  _csatImpPage = p;
+  renderCsatImportPage();
+}
+
+function toggleCsatOne(cb) {
+  if (cb.checked) _csatImpSelected.add(cb.value);
+  else            _csatImpSelected.delete(cb.value);
+  renderCsatImportPage();
+}
+
+function toggleCsatAll(checked) {
+  _csatImpTickets.filter(t => !t.already_imported).forEach(t => {
+    if (checked) _csatImpSelected.add(t.zendesk_id);
+    else         _csatImpSelected.delete(t.zendesk_id);
+  });
+  renderCsatImportPage();
+}
+
+async function confirmCsatImport() {
+  const ids = [..._csatImpSelected];
+  if (!ids.length) { showToast('Nenhum ticket selecionado','error'); return; }
+  try {
+    const r = await api('POST', '/api/csat/import', { ticket_ids: ids });
+    showToast('✅ '+r.message, 'success');
+    closeModal(); loadCsatTickets();
+  } catch(e) { showToast(e.message,'error'); }
+}
+
+/* ── Modal Avaliar CSAT ── */
+async function openCsatEvalModal(ticketId) {
+  try {
+    const { ticket, evaluation:ev } = await api('GET', `/api/csat/tickets/${ticketId}`);
+    evalScores = {};
+    document.getElementById('modal-box').className = 'modal wide';
+    document.getElementById('modal-title').textContent = (ev?'🔄 Reavaliar':'✏️ Avaliar')+' CSAT #'+ticket.zendesk_id+' — '+ticket.consultant_name;
+    const feedbackBox = ticket.satisfaction_comment
+      ? `<div style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.3);border-radius:9px;padding:12px;margin-bottom:14px">
+           <div class="box-label" style="color:var(--danger)">😞 Feedback Negativo do Cliente</div>
+           <div class="box-text">${ticket.satisfaction_comment}</div>
+         </div>`
+      : `<div style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.3);border-radius:9px;padding:10px;margin-bottom:14px;font-size:.83rem;color:var(--danger)">
+           😞 Cliente avaliou negativamente sem deixar comentário.
+         </div>`;
+    document.getElementById('modal-body').innerHTML = `
+      <div class="ticket-info-grid">
+        <div class="info-field"><label>Consultor</label><span>${ticket.consultant_name}</span></div>
+        <div class="info-field"><label>Cliente</label><span>${ticket.requester_name}</span></div>
+        <div class="info-field" style="grid-column:1/-1"><label>Assunto</label><span>${ticket.subject}</span></div>
+      </div>
+      ${feedbackBox}
+      <div id="conv-drawer" class="conv-drawer" data-ticket-id="${ticket.id}" data-zendesk-id="${ticket.zendesk_id}">
+        <div class="conv-drawer-header" onclick="toggleConvDrawer()">
+          <span class="conv-drawer-title">💬 Ler Conversa Completa</span>
+          <span class="conv-drawer-toggle" id="conv-drawer-arrow">▶ expandir</span>
+        </div>
+        <div class="conv-drawer-body" id="conv-drawer-body"></div>
+      </div>
+      <div id="ai-review-area">
+        <div class="ai-loading"><div class="ai-spinner"></div><p style="font-size:.88rem">Analisando conversa com IA...</p></div>
+      </div>
+      <div id="eval-scores-area" style="display:none">
+        <div class="section-label">⭐ Critérios de Avaliação <span style="color:var(--accent2);margin-left:6px">(ajuste se necessário)</span></div>
+        ${CRITERIA.map(c=>`
+        <div class="criterion">
+          <div class="criterion-label"><span>${c.label}</span><span class="criterion-pts" id="pts-${c.key}">— pts</span></div>
+          <div class="emoji-row">${EMOJIS.map(em=>`
+            <button class="emoji-btn" id="eb-${c.key}-${em.val}" onclick="pickEmoji('${c.key}',${em.val})">
+              <span class="e">${em.e}</span><span class="l">${em.l}</span>
+            </button>`).join('')}
+          </div>
+        </div>`).join('')}
+        <div class="score-box">
+          <div class="score-box-label">Nota Final — Calculada Automaticamente</div>
+          <div class="score-pending" id="score-display">Avalie os 3 critérios</div>
+          <div class="score-of" id="score-of" style="display:none">pontos de 100</div>
+        </div>
+        <div class="section-label">📝 Observação Final para o Consultor</div>
+        <textarea class="notes-area" id="eval-notes" placeholder="Escreva seu feedback detalhado..."></textarea>
+        <label class="email-toggle">
+          <input type="checkbox" id="eval-sendemail" checked>
+          <span>📧 Enviar avaliação por e-mail ao consultor</span>
+        </label>
+        <div class="modal-footer">
+          <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+          <button class="btn-save" id="btn-csat-save" onclick="submitCsatEval('${ticket.id}')">💾 Salvar Avaliação</button>
+        </div>
+      </div>`;
+    showModal();
+    loadAIReviewCsat(ticket);
+  } catch(e) { showToast('Erro: '+e.message,'error'); }
+}
+
+let _currentCsatTicket = null;
+async function loadAIReviewCsat(ticket, force = false) {
+  _currentCsatTicket = ticket;
+  const area = document.getElementById('ai-review-area');
+  if (!area) return;
+  try {
+    const ai = await api('POST', `/api/csat/tickets/${ticket.id}/ai-review${force?'?force=1':''}`);
+    area.innerHTML = `
+      <div class="ai-box">
+        <div class="ai-box-header" style="justify-content:space-between">
+          <div style="display:flex;align-items:center;gap:8px">
+            <span class="ai-badge">✨ IA Gemini</span>
+            <span style="font-size:.72rem;color:var(--muted)">${ai.cached?'✅ Cache — analisado anteriormente':'✨ Nova análise gerada agora'}</span>
+          </div>
+          <button onclick="loadAIReviewCsat(_currentCsatTicket,true)" style="background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.3);color:#60a5fa;font-size:.72rem;padding:3px 9px;border-radius:6px;cursor:pointer;font-family:var(--fm)">🔄 Reanalisar</button>
+        </div>
+        <div class="ai-resumo">${ai.resumo||''}</div>
+        ${ai.motivo_insatisfacao?`<div style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:12px;margin-bottom:12px">
+          <div style="font-size:.67rem;color:var(--danger);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:5px">⚠️ Motivo da Insatisfação</div>
+          <div style="font-size:.85rem;color:var(--text)">${ai.motivo_insatisfacao}</div>
+        </div>`:''}
+        <div class="ai-lists">
+          <div class="ai-list-box"><div class="ai-list-title green">✅ Pontos Positivos</div><ul class="ai-list">${(ai.pontos_positivos||[]).map(p=>`<li>${p}</li>`).join('')}</ul></div>
+          <div class="ai-list-box"><div class="ai-list-title orange">⚠️ Pontos de Melhoria</div><ul class="ai-list">${(ai.pontos_melhoria||[]).map(p=>`<li>${p}</li>`).join('')}</ul></div>
+        </div>
+        <div class="ai-nota-row">
+          <div class="ai-nota-num" style="color:var(--warn)">${ai.nota_sugerida||'–'}</div>
+          <div class="ai-nota-info"><div class="ai-nota-label">Nota Sugerida</div><div class="ai-nota-just">${ai.justificativa||''}</div></div>
+        </div>
+      </div>`;
+    document.getElementById('eval-scores-area').style.display = 'block';
+    if (ai.scores) {
+      const VM = {0:1,25:2,50:3,75:4,100:5};
+      ['solucao','empatia','conducao'].forEach(k => {
+        const v = VM[ai.scores[k]];
+        if (v) { const b = document.getElementById(`eb-${k}-${v}`); if(b){b.classList.add('sel');pickEmoji(k,v);} }
+      });
+    }
+    if (ai.justificativa) { const n = document.getElementById('eval-notes'); if(n) n.value = ai.justificativa; }
+  } catch(e) {
+    area.innerHTML = `<div style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);border-radius:9px;padding:12px;margin-bottom:14px;font-size:.82rem;color:var(--danger)">⚠️ IA indisponível: ${e.message}. Preencha os critérios manualmente.</div>`;
+    const esa = document.getElementById('eval-scores-area'); if(esa) esa.style.display = 'block';
+  }
+}
+
+async function submitCsatEval(ticketId) {
+  const PTS = {1:0,2:25,3:50,4:75,5:100};
+  const scores = {};
+  for (const c of CRITERIA) {
+    if (!evalScores[c.key]) { showToast('Selecione todos os critérios.','error'); return; }
+    scores[c.key] = evalScores[c.key];
+  }
+  const overall   = Math.round(Object.values(scores).map(v => PTS[v]).reduce((a,b) => a+b, 0) / 3);
+  const notes     = document.getElementById('eval-notes')?.value?.trim() || '';
+  const sendEmail = document.getElementById('eval-sendemail')?.checked || false;
+  const btn       = document.getElementById('btn-csat-save');
+  btn.disabled = true; btn.textContent = 'Salvando...';
+  try {
+    await api('POST', `/api/csat/tickets/${ticketId}/evaluate`, { scores, overall, notes, sendEmail });
+    showToast('✅ Avaliação CSAT salva!', 'success');
+    closeModal(); loadCsatTickets();
+  } catch(e) { showToast(e.message,'error'); btn.disabled=false; btn.textContent='💾 Salvar Avaliação'; }
+}
+
+/* ── Ver avaliação CSAT ── */
+async function viewCsatTicket(ticketId) {
+  try {
+    const { ticket, evaluation:ev } = await api('GET', `/api/csat/tickets/${ticketId}`);
+    document.getElementById('modal-box').className = 'modal';
+    document.getElementById('modal-title').textContent = 'CSAT #'+ticket.zendesk_id;
+    window._reevalData = ev ? { notes: ev.notes||'', scores: ev.scores||{} } : null;
+    const scoresHtml = ev ? `
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="section-label" style="margin:0">📊 Resultado — ${fmtDate(ev.created_at)}</div>
+          <button onclick="closeModal();setTimeout(()=>openCsatEvalModal('${ticket.id}'),100)" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);color:#a78bfa;font-size:.75rem;padding:4px 11px;border-radius:6px;cursor:pointer;font-family:var(--fm)">🔄 Reavaliar</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+          <div class="score-circle" style="padding:10px 18px">
+            <div class="score-circle-num" style="color:${scoreColor(ev.overall)}">${ev.overall}</div>
+            <div class="score-circle-label">/ 100</div>
+          </div>
+          <div style="font-size:.8rem;color:var(--muted)">Avaliado por<br><strong style="color:var(--text)">${ev.evaluator_name}</strong></div>
+        </div>
+        ${CRITERIA.map(c => {
+          const val=Number(ev.scores?.[c.key])||0, entry=emojiFor(val), pts=entry?entry.pts:0;
+          return `<div class="view-score-row">
+            <span class="view-score-emoji">${entry?entry.e:'–'}</span>
+            <span class="view-score-label">${c.label}</span>
+            <div class="view-score-bar"><div class="view-score-bar-fill" style="width:${pts}%"></div></div>
+            <span class="view-score-val">${entry?entry.l:'–'} · ${pts}pts</span>
+          </div>`;
+        }).join('')}
+        ${ev.notes?`<div class="eval-note"><div class="box-label green">📝 Observação</div><div class="box-text">${ev.notes}</div></div>`:''}
+      </div>` : '<div style="text-align:center;padding:20px;color:var(--muted)">Sem avaliação.</div>';
+    document.getElementById('modal-body').innerHTML = `
+      <div class="ticket-info-grid" style="margin-bottom:14px">
+        <div class="info-field"><label>Consultor</label><span>${ticket.consultant_name}</span></div>
+        <div class="info-field"><label>Cliente</label><span>${ticket.requester_name}</span></div>
+        <div class="info-field" style="grid-column:1/-1"><label>Assunto</label><span>${ticket.subject}</span></div>
+      </div>
+      ${ticket.satisfaction_comment?`<div style="background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.3);border-radius:9px;padding:12px;margin-bottom:14px">
+        <div class="box-label" style="color:var(--danger)">😞 Feedback do Cliente</div>
+        <div class="box-text">${ticket.satisfaction_comment}</div>
+      </div>`:''}
+      ${scoresHtml}
+      <div class="modal-footer" style="margin-top:16px">
+        <button class="btn-cancel" style="flex:1" onclick="closeModal()">Fechar</button>
+      </div>`;
+    showModal();
+  } catch(e) { showToast('Erro: '+e.message,'error'); }
+}
+
+/* ══════════════════════════════════════════════════════
+   HISTORY
+══════════════════════════════════════════════════════ */
+async function loadHistory() {
+  const ev2 = canEval();
+  document.getElementById('history-title').textContent = ev2 ? 'Avaliações Realizadas' : 'Minhas Avaliações';
+  document.getElementById('history-sub').textContent   = ev2 ? 'Histórico de todos os consultores' : 'Avaliações recebidas por '+S.user.name;
+  try {
+    const [hist, stats] = await Promise.all([api('GET','/api/evaluations'), api('GET','/api/stats')]);
+    if (stats.totalEvaluations > 0 && stats.avgScores) {
+      document.getElementById('scores-stats').style.display = 'grid';
+      document.getElementById('avg-solucao').textContent   = stats.avgScores?.solucao||'–';
+      document.getElementById('avg-empatia').textContent   = stats.avgScores?.empatia||'–';
+      document.getElementById('avg-conducao').textContent  = stats.avgScores?.conducao||'–';
+      document.getElementById('avg-overall').textContent   = stats.avgOverall||'–';
+    }
+    document.getElementById('ranking-section').style.display = 'none';
+    if ((isAdmin() || S.user?.role === 'evaluator') && stats.ranking?.length) {
+      document.getElementById('ranking-section').style.display = 'block';
+      const pc = i=>i===0?'gold':i===1?'silver':i===2?'bronze':'';
+      const sc = s=>s>=75?'high':s>=50?'mid':'low';
+      document.getElementById('ranking-grid').innerHTML = stats.ranking.map((r,i)=>`
+        <div class="rank-card" style="animation-delay:${i*.04}s">
+          <div class="rank-pos ${pc(i)}">${i+1}</div>
+          <div><div class="rank-name">${r.name}</div><div class="rank-count">${r.count} avaliações</div></div>
+          <div class="rank-score ${sc(r.avg)}">${r.avg}</div>
+        </div>`).join('');
+    }
+    window._histEvaluations = hist.evaluations;
+    const btnExp = document.getElementById('btn-export-csv');
+    if (btnExp) btnExp.style.display = hist.evaluations.length ? 'inline-flex' : 'none';
+    const cards = document.getElementById('eval-cards');
+    if (!hist.evaluations.length) {
+      cards.innerHTML = `<div class="empty-state"><div class="icon">📭</div><p>Nenhuma avaliação ainda.</p></div>`; return;
+    }
+    cards.innerHTML = hist.evaluations.map((ev,i)=>{
+      const color = scoreColor(ev.overall);
+      const chips = CRITERIA.map(c=>{
+        const val=Number(ev.scores?.[c.key])||0, entry=emojiFor(val);
+        return `<div class="chip"><span class="chip-emoji">${entry?entry.e:'–'}</span><div><span class="chip-label">${c.label}</span><span class="chip-val">${entry?entry.l:'–'}</span></div></div>`;
+      }).join('');
+      return `<div class="eval-card" style="animation-delay:${i*.04}s">
+        <div class="eval-card-header">
+          <div>
+            ${ev2?`<div class="eval-card-name">👤 ${ev.consultant_name}</div>`:`<div class="eval-card-name">Avaliado por ${ev.evaluator_name}</div>`}
+            <div class="eval-card-title">Ticket #${ev.zendesk_id||ev.ticket_id}</div>
+            <div class="eval-card-meta">${fmtDate(ev.created_at)}</div>
+          </div>
+          <div class="score-circle"><div class="score-circle-num" style="color:${color}">${ev.overall}</div><div class="score-circle-label">/ 100</div></div>
+        </div>
+        <div class="chips">${chips}</div>
+        ${ev.notes?`<div style="font-size:.8rem;color:var(--muted);margin-top:5px">📝 ${ev.notes}</div>`:''}
+      </div>`;
+    }).join('');
+  } catch(e) { showToast('Erro: '+e.message,'error'); }
+}
+
+
+function exportHistoryCSV() {
+  const evs = window._histEvaluations || [];
+  if (!evs.length) { showToast('Nenhuma avaliação para exportar','error'); return; }
+  const esc = v => '"' + String(v||'').replace(/"/g,'""') + '"';
+  const SCORE_LABEL = {1:'Péssimo',2:'Ruim',3:'Médio',4:'Bom',5:'Ótimo'};
+  const rows = [
+    ['Ticket','Consultor','Avaliador','Data','Solução','Empatia','Condução','Nota Final','Observação']
+      .map(esc).join(',')
+  ];
+  evs.forEach(ev => {
+    rows.push([
+      ev.zendesk_id || ev.ticket_id,
+      ev.consultant_name,
+      ev.evaluator_name,
+      new Date(ev.created_at).toLocaleString('pt-BR'),
+      SCORE_LABEL[ev.scores?.solucao]  || ev.scores?.solucao  || '',
+      SCORE_LABEL[ev.scores?.empatia]  || ev.scores?.empatia  || '',
+      SCORE_LABEL[ev.scores?.conducao] || ev.scores?.conducao || '',
+      ev.overall,
+      ev.notes || ''
+    ].map(esc).join(','));
+  });
+  const bom  = '\uFEFF';
+  const blob = new Blob([bom + rows.join('\n')], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'avaliacoes_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✅ CSV exportado!','success');
+}
+
+/* ══════════════════════════════════════════════════════
+   SETTINGS
+══════════════════════════════════════════════════════ */
+async function loadCfgSettings() {
+  if (!isAdmin()) return;
+  try {
+    const c = await api('GET','/api/admin/config');
+    // Zendesk
+    document.getElementById('cfg-subdomain').value   = c.zendeskSubdomain||'';
+    document.getElementById('cfg-zd-email').value    = c.zendeskEmail||'';
+    setKeyInd('zd-token-ind', c.zendeskHasToken);
+    document.getElementById('webhook-url-box').textContent = 'POST '+location.origin+'/webhook/zendesk';
+    // SMTP
+    document.getElementById('cfg-smtp-host').value   = c.smtpHost||'';
+    document.getElementById('cfg-smtp-port').value   = c.smtpPort||587;
+    document.getElementById('cfg-smtp-secure').checked = c.smtpSecure||false;
+    document.getElementById('cfg-smtp-user').value   = c.smtpUser||'';
+    document.getElementById('cfg-smtp-from').value   = c.smtpFromName||'';
+    setKeyInd('smtp-pass-ind', c.smtpHasPass);
+    // AI
+    setKeyInd('anthropic-ind', c.anthropicHasKey);
+    const modelSel    = document.getElementById('cfg-ai-model');
+    const modelCustom = document.getElementById('cfg-ai-model-custom');
+    const knownModels = [...modelSel.options].map(o => o.value);
+    if (knownModels.includes(c.aiModel)) {
+      modelSel.value = c.aiModel;
+      modelCustom.value = '';
+    } else {
+      modelSel.value = '';
+      modelCustom.value = c.aiModel || '';
+    }
+    document.getElementById('cfg-basicamp').value    = c.basicampDocs||'';
+    // Evaluators
+    cfgEvaluators = c.evaluatorIds||[];
+    // Simulate
+    fillSimSelect();
+  } catch(e) { console.warn('loadCfg:', e.message); }
+}
+
+function setKeyInd(id, isSet) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = isSet ? '✓ definido' : 'não definido';
+  el.className = 'key-indicator '+(isSet?'set':'empty');
+}
+
+async function saveCfgZendesk() {
+  try {
+    await api('POST','/api/admin/config',{
+      zendeskSubdomain: document.getElementById('cfg-subdomain').value,
+      zendeskEmail:     document.getElementById('cfg-zd-email').value,
+      zendeskToken:     document.getElementById('cfg-zd-token').value
+    });
+    showToast('✅ Zendesk salvo!','success');
+    document.getElementById('cfg-zd-token').value='';
+    loadCfgSettings();
+  } catch(e) { showToast(e.message,'error'); }
+}
+async function saveCfgSMTP() {
+  try {
+    await api('POST','/api/admin/config',{
+      smtpHost:     document.getElementById('cfg-smtp-host').value,
+      smtpPort:     document.getElementById('cfg-smtp-port').value,
+      smtpSecure:   document.getElementById('cfg-smtp-secure').checked,
+      smtpUser:     document.getElementById('cfg-smtp-user').value,
+      smtpPass:     document.getElementById('cfg-smtp-pass').value,
+      smtpFromName: document.getElementById('cfg-smtp-from').value
+    });
+    showToast('✅ SMTP salvo!','success');
+    document.getElementById('cfg-smtp-pass').value='';
+    loadCfgSettings();
+  } catch(e) { showToast(e.message,'error'); }
+}
+async function testSMTP() {
+  const user = document.getElementById('cfg-smtp-user').value;
+  if (!user) { showToast('Configure o SMTP antes de testar.','error'); return; }
+  showToast('📨 Enviando e-mail de teste para '+user+'...','info');
+  // Usa nodemailer via server — rota simples de teste
+  try {
+    await api('POST','/api/admin/config',{ smtpHost:document.getElementById('cfg-smtp-host').value, smtpPort:document.getElementById('cfg-smtp-port').value, smtpSecure:document.getElementById('cfg-smtp-secure').checked, smtpUser:user, smtpPass:document.getElementById('cfg-smtp-pass').value||undefined, smtpFromName:document.getElementById('cfg-smtp-from').value });
+    showToast('Configuração salva. Envie um e-mail de teste pela avaliação.','info');
+  } catch(e) { showToast(e.message,'error'); }
+}
+async function saveCfgAI() {
+  const key    = document.getElementById('cfg-anthropic').value.trim();
+  const custom = document.getElementById('cfg-ai-model-custom').value.trim();
+  const model  = custom || document.getElementById('cfg-ai-model').value;
+  if (!model) { showToast('Selecione ou digite um modelo.','error'); return; }
+  const payload = { aiModel: model };
+  if (key) payload.anthropicKey = key;
+  try {
+    await api('POST','/api/admin/config', payload);
+    const msg = key ? '✅ Chave e modelo salvos!' : '✅ Modelo salvo!';
+    showToast(msg,'success');
+    document.getElementById('cfg-anthropic').value='';
+    loadCfgSettings();
+  } catch(e) { showToast(e.message,'error'); }
+}
+async function saveCfgBasicamp() {
+  try {
+    await api('POST','/api/admin/config',{ basicampDocs: document.getElementById('cfg-basicamp').value });
+    showToast('✅ Documentação salva!','success');
+  } catch(e) { showToast(e.message,'error'); }
+}
+
+/* ══════════════════════════════════════════════════════
+   MANAGER PANEL — Meu Grupo
+══════════════════════════════════════════════════════ */
+async function loadManagerPanel() {
+  const box = document.getElementById('manager-content');
+  box.innerHTML = '<div class="empty-state" style="padding:40px"><div class="ai-spinner" style="margin:0 auto 10px"></div><p>Carregando dados do grupo...</p></div>';
+  try {
+    const r = await api('GET', '/api/manager/group');
+    const groupNames = r.groups.map(g => g.name).join(', ');
+    document.getElementById('manager-group-subtitle').textContent = `Grupos: ${groupNames} · ${r.consultants.length} consultor(es) · ${r.totalEvals} avaliação(ões)`;
+    if (!r.consultants.length) {
+      box.innerHTML = '<div class="empty-state" style="padding:40px"><div class="icon">👥</div><p>Nenhum consultor neste grupo ainda.</p></div>';
+      return;
+    }
+    const cards = r.consultants.map(c => {
+      const score = c.avgScore !== null ? c.avgScore : null;
+      const color = score === null ? 'var(--muted)' : score >= 75 ? 'var(--accent)' : score >= 50 ? 'var(--warn)' : 'var(--danger)';
+      const pct   = score !== null ? score : 0;
+      const lastEval = c.lastEval ? new Date(c.lastEval).toLocaleDateString('pt-BR') : '—';
+      return `
+        <div class="manager-card">
+          <div class="manager-card-name" title="${c.name}">${c.name}</div>
+          <div class="manager-card-email" title="${c.email||'sem e-mail'}">${c.email || '<em style="opacity:.5">sem e-mail</em>'}</div>
+          <div class="manager-card-stats">
+            <div class="manager-stat">
+              <div class="manager-stat-val" style="color:var(--text)">${c.total}</div>
+              <div class="manager-stat-lbl">tickets</div>
+            </div>
+            <div class="manager-stat">
+              <div class="manager-stat-val" style="color:var(--accent)">${c.evaluated}</div>
+              <div class="manager-stat-lbl">avaliados</div>
+            </div>
+            <div class="manager-stat">
+              <div class="manager-stat-val" style="color:${c.pending>0?'var(--warn)':'var(--muted)'}">${c.pending}</div>
+              <div class="manager-stat-lbl">pendentes</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-bottom:4px">
+            <span>Nota média</span>
+            <span style="color:${color};font-weight:700">${score !== null ? score+'%' : '—'}</span>
+          </div>
+          <div class="manager-score-bar">
+            <div class="manager-score-fill" style="width:${pct}%;background:${color}"></div>
+          </div>
+          <div style="font-size:.7rem;color:var(--muted);margin-top:6px;font-family:var(--fm)">
+            Última avaliação: ${lastEval}
+          </div>
+        </div>`;
+    }).join('');
+    box.innerHTML = `<div class="manager-grid">${cards}</div>`;
+  } catch(e) {
+    box.innerHTML = `<div class="empty-state" style="padding:40px;color:var(--danger)"><div class="icon">⚠️</div><p>${e.message}</p></div>`;
+  }
+}
+
+/* ══════════════════════════════════════════════════════
+   RESPONSÁVEIS POR GRUPO — Settings
+══════════════════════════════════════════════════════ */
+async function loadResponsaveisList() {
+  const box = document.getElementById('responsaveis-list');
+  box.innerHTML = '<div class="empty-state" style="padding:16px"><div class="ai-spinner" style="margin:0 auto 8px"></div><p>Carregando...</p></div>';
+  try {
+    const [gr, ur] = await Promise.all([api('GET','/api/admin/groups'), api('GET','/api/admin/users')]);
+    const allUsers = ur.users.filter(u => u.role !== 'admin');
+    if (!gr.groups.length) {
+      box.innerHTML = '<div class="empty-state" style="padding:16px"><div class="icon">🏷</div><p>Nenhum grupo sincronizado ainda.</p></div>';
+      return;
+    }
+    box.innerHTML = gr.groups.map(g => {
+      const mgrIds  = g.manager_ids || [];
+      const mgrs    = mgrIds.map(id => allUsers.find(u => u.id === id)).filter(Boolean);
+      const mgrTags = mgrs.map(m => `
+        <span style="display:inline-flex;align-items:center;gap:5px;font-size:.72rem;font-family:var(--fm);padding:3px 8px;border-radius:10px;background:rgba(37,99,235,.12);border:1px solid rgba(37,99,235,.3);color:#60a5fa">
+          👤 ${m.name.split(' ')[0]}
+          <span style="cursor:pointer;opacity:.7;font-size:.8rem" onclick="removeGroupManager('${g.id}','${m.id}')">✕</span>
+        </span>`).join('');
+      const usedIds = new Set(mgrIds);
+      const options = allUsers
+        .filter(u => !usedIds.has(u.id))
+        .sort((a,b) => a.name.localeCompare(b.name))
+        .map(u => `<option value="${u.id}">${u.name} (${u.role})</option>`)
+        .join('');
+      return `
+        <div class="group-manager-row" id="grp-row-${g.id}">
+          <div style="flex:0 0 180px">
+            <div class="group-manager-name">🏷 ${g.name}</div>
+            <div class="group-manager-meta">${g.consultants?.length||0} consultor(es)</div>
+          </div>
+          <div style="flex:1;display:flex;flex-wrap:wrap;align-items:center;gap:6px;min-height:28px">
+            ${mgrTags || '<span style="font-size:.74rem;color:var(--muted);opacity:.5">Nenhum responsável</span>'}
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+            <select class="select-input" id="grp-sel-${g.id}" style="padding:5px 10px;font-size:.76rem;width:200px">
+              <option value="">+ Adicionar responsável</option>
+              ${options}
+            </select>
+            <button class="btn-sm green" style="padding:4px 12px;font-size:.75rem;white-space:nowrap" onclick="addGroupManager('${g.id}')">Adicionar</button>
+          </div>
+        </div>`;
+    }).join('');
+  } catch(e) {
+    box.innerHTML = `<div style="color:var(--danger);padding:12px">${e.message}</div>`;
+  }
+}
+
+async function addGroupManager(groupId) {
+  const sel = document.getElementById(`grp-sel-${groupId}`);
+  const userId = sel?.value;
+  if (!userId) { showToast('Selecione um responsável','error'); return; }
+  try {
+    await api('POST', `/api/admin/groups/${groupId}/manager`, { manager_id: userId, action: 'add' });
+    const { users } = await api('GET', '/api/admin/users');
+    const u = users.find(x => x.id === userId);
+    if (u && u.role === 'consultant') {
+      await api('POST', `/api/admin/users/${userId}/role`, { role: 'manager' });
+      showToast(`👥 ${u.name} promovido para Responsável`, 'info');
+    }
+    showToast('✅ Responsável adicionado', 'success');
+    loadResponsaveisList();
+    loadAgentsList();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+async function removeGroupManager(groupId, userId) {
+  try {
+    await api('POST', `/api/admin/groups/${groupId}/manager`, { manager_id: userId, action: 'remove' });
+    showToast('Responsável removido', 'info');
+    loadResponsaveisList();
+    loadAgentsList();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+
+
+async function loadAgentsList() {
+  const list = document.getElementById('agents-list');
+  list.innerHTML = '<div class="empty-state" style="padding:20px"><div class="ai-spinner" style="margin:0 auto 8px"></div><p>Carregando agentes...</p></div>';
+  try {
+    const [{ users }, { groups }] = await Promise.all([
+      api('GET', '/api/admin/users'),
+      api('GET', '/api/admin/groups').catch(() => ({ groups: [] }))
+    ]);
+
+    // Monta mapa userId → grupos que ele gerencia
+    const mgrGroupsMap = {}; // userId → [{id, name}]
+    groups.forEach(g => {
+      (g.manager_ids || []).forEach(uid => {
+        if (!mgrGroupsMap[uid]) mgrGroupsMap[uid] = [];
+        mgrGroupsMap[uid].push({ id: g.id, name: g.name });
+      });
+    });
+
+    const agents = users.filter(u => u.zendesk_agent_id);
+    const manual = users.filter(u => !u.zendesk_agent_id && u.role !== 'admin');
+    const all    = [...agents, ...manual].sort((a,b) => a.name.localeCompare(b.name));
+    if (!all.length) {
+      list.innerHTML = '<div class="empty-state" style="padding:20px"><div class="icon">👤</div><p>Nenhum agente. Clique em "Sincronizar com Zendesk".</p></div>';
+      return;
+    }
+
+    // Grupos disponíveis para select (todos)
+    const allGroupsOpts = groups.map(g => `<option value="${g.id}">${g.name}</option>`).join('');
+
+    list.innerHTML = `
+      <div style="overflow-x:auto">
+      <table class="agents-table" style="table-layout:fixed;width:100%">
+        <colgroup>
+          <col style="width:190px"><col style="width:140px"><col style="width:200px"><col style="width:175px"><col style="min-width:220px"><col style="width:90px">
+        </colgroup>
+        <thead><tr>
+          <th>Nome / Username</th>
+          <th>Grupo(s)</th>
+          <th>E-mail de Login</th>
+          <th>Permissões</th>
+          <th>Responsável por</th>
+          <th></th>
+        </tr></thead>
+        <tbody>
+          ${all.map(u => {
+            const memberGroups = (u.zendesk_groups || []);
+            const groupsHtml = memberGroups.length
+              ? memberGroups.map(g => `<span class="agent-group-tag">${g}</span>`).join('')
+              : `<span style="font-size:.72rem;color:var(--muted);opacity:.5">—</span>`;
+            const emailHtml = u.email
+              ? `<span class="agent-email-cell set" title="${u.email}">${u.email}</span>`
+              : `<span class="agent-email-cell"><em style="opacity:.45">não definido</em></span>`;
+            const isAdmin = u.role === 'admin';
+            const isEval  = u.role === 'evaluator' || isAdmin;
+            const isMgr   = u.role === 'manager';
+
+            // Grupos que este agente gerencia
+            const mgrGroups = mgrGroupsMap[u.id] || [];
+            const mgrTags   = mgrGroups.map(g =>
+              `<span class="mgr-group-tag">🏷 ${g.name}<span class="mgr-tag-remove" onclick="inlineRemoveManager('${g.id}','${u.id}')">✕</span></span>`
+            ).join('');
+
+            // Grupos que ele ainda não gerencia (para o select)
+            const mgrGroupIds = new Set(mgrGroups.map(g => g.id));
+            const availOpts = groups
+              .filter(g => !mgrGroupIds.has(g.id))
+              .map(g => `<option value="${g.id}">${g.name}</option>`)
+              .join('');
+
+            const mgrPanelDisplay = isMgr ? 'block' : 'none';
+
+            return `<tr data-uid="${u.id}">
+              <td>
+                <span class="agent-name">${u.name}</span>
+                <span class="agent-username">${u.username}</span>
+              </td>
+              <td style="line-height:1.8">${groupsHtml}</td>
+              <td>${emailHtml}</td>
+              <td>
+                <div class="agent-role-checks">
+                  <label class="agent-role-check ${isEval||isAdmin?'active':''}">
+                    <input type="checkbox" data-role="evaluator" ${isEval||isAdmin?'checked':''}
+                      onchange="setAgentRole('${u.id}', 'evaluator', this.checked, '${u.role}')">
+                    Avaliador
+                  </label>
+                  <label class="agent-role-check ${isMgr?'active':''}" title="Responsável por grupo">
+                    <input type="checkbox" data-role="manager" ${isMgr?'checked':''}
+                      onchange="setAgentRole('${u.id}', 'manager', this.checked, '${u.role}')">
+                    Resp.
+                  </label>
+                </div>
+              </td>
+              <td>
+                <div class="mgr-groups-cell" id="mgr-cell-${u.id}" style="display:${mgrPanelDisplay}">
+                  <div class="mgr-tags-wrap" id="mgr-tags-${u.id}">${mgrTags || '<span class="mgr-empty">Nenhum grupo</span>'}</div>
+                  ${availOpts ? `<div class="mgr-add-row">
+                    <select class="mgr-group-select" id="mgr-sel-${u.id}">
+                      <option value="">+ Grupo...</option>
+                      ${availOpts}
+                    </select>
+                    <button class="mgr-add-btn" onclick="inlineAddManager('${u.id}')">✓</button>
+                  </div>` : ''}
+                </div>
+                ${!isMgr ? `<span style="font-size:.72rem;color:var(--muted);opacity:.35">—</span>` : ''}
+              </td>
+              <td>
+                <button class="agent-edit-btn" onclick="editAgentEmail('${u.id}','${u.email||''}','${u.name}')">✏️ E-mail</button>
+              </td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
+      </div>
+      <div style="margin-top:10px;font-size:.74rem;color:var(--muted)">
+        ${all.length} agente(s) · ${all.filter(u=>u.role==='evaluator'||u.role==='admin').length} avaliador(es) · ${all.filter(u=>u.role==='manager').length} responsável(eis) · ${all.filter(u=>!u.email).length} sem e-mail
+      </div>`;
+  } catch(e) { list.innerHTML = `<div style="color:var(--danger);padding:16px">${e.message}</div>`; }
+}
+
+async function setAgentRole(userId, targetRole, checked, currentRole) {
+  let newRole;
+  if (targetRole === 'admin') {
+    newRole = checked ? 'admin' : 'consultant';
+  } else if (targetRole === 'evaluator') {
+    if (['admin','manager'].includes(currentRole) && !checked) newRole = 'consultant';
+    else newRole = checked ? 'evaluator' : 'consultant';
+  } else if (targetRole === 'manager') {
+    newRole = checked ? 'manager' : 'consultant';
+    // Se desmarcou Resp., remove de todos os grupos
+    if (!checked) {
+      try { await api('POST', `/api/admin/groups/all/manager`, { manager_id: userId, action: 'remove-all' }).catch(()=>{}); } catch(_){}
+    }
+  }
+  if (!newRole) return;
+  try {
+    await api('POST', `/api/admin/users/${userId}/role`, { role: newRole });
+    const row = document.querySelector(`tr[data-uid="${userId}"]`);
+    if (row) {
+      const isAdm  = newRole === 'admin';
+      const isEval = newRole === 'evaluator' || isAdm;
+      const isMgr  = newRole === 'manager';
+      row.querySelectorAll('input[data-role]').forEach(cb => {
+        const r = cb.dataset.role;
+        cb.checked = r === 'evaluator' ? (isEval||isAdm) : r === 'admin' ? isAdm : r === 'manager' ? isMgr : false;
+        const lbl = cb.closest('label');
+        if (lbl) lbl.classList.toggle('active', cb.checked);
+        cb.setAttribute('onchange', `setAgentRole('${userId}', '${r}', this.checked, '${newRole}')`);
+      });
+      // Mostra ou esconde painel de grupos
+      const cell = document.getElementById(`mgr-cell-${userId}`);
+      const dash  = cell?.nextElementSibling;
+      if (cell) {
+        cell.style.display = isMgr ? 'block' : 'none';
+        if (!isMgr) {
+          // limpa tags visuais
+          const tagsWrap = document.getElementById(`mgr-tags-${userId}`);
+          if (tagsWrap) tagsWrap.innerHTML = '<span class="mgr-empty">Nenhum grupo</span>';
+        }
+      }
+      if (dash) dash.style.display = isMgr ? 'none' : '';
+    } else {
+      loadAgentsList();
+    }
+    if (newRole === 'manager') showToast('✅ Agente marcado como Responsável — selecione os grupos', 'success');
+    else if (targetRole === 'manager') showToast('Responsável removido', 'info');
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+async function inlineAddManager(userId) {
+  const sel = document.getElementById(`mgr-sel-${userId}`);
+  const groupId = sel?.value;
+  if (!groupId) { showToast('Selecione um grupo', 'error'); return; }
+  const groupName = sel.options[sel.selectedIndex]?.text || groupId;
+  try {
+    await api('POST', `/api/admin/groups/${groupId}/manager`, { manager_id: userId, action: 'add' });
+    // Remove a opção do select
+    sel.querySelector(`option[value="${groupId}"]`)?.remove();
+    sel.value = '';
+    // Adiciona tag visual
+    const tagsWrap = document.getElementById(`mgr-tags-${userId}`);
+    const empty = tagsWrap?.querySelector('.mgr-empty');
+    if (empty) empty.remove();
+    const tag = document.createElement('span');
+    tag.className = 'mgr-group-tag';
+    tag.innerHTML = `🏷 ${groupName}<span class="mgr-tag-remove" onclick="inlineRemoveManager('${groupId}','${userId}','${groupName}')">✕</span>`;
+    tagsWrap?.appendChild(tag);
+    // Esconde select se não sobrar grupos
+    if (sel.options.length <= 1) {
+      sel.closest('.mgr-add-row')?.remove();
+    }
+    showToast(`✅ Grupo "${groupName}" adicionado`, 'success');
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+async function inlineRemoveManager(groupId, userId, groupName) {
+  try {
+    await api('POST', `/api/admin/groups/${groupId}/manager`, { manager_id: userId, action: 'remove' });
+    // Remove tag visual
+    const tagsWrap = document.getElementById(`mgr-tags-${userId}`);
+    tagsWrap?.querySelectorAll('.mgr-group-tag').forEach(tag => {
+      if (tag.textContent.includes(groupName || groupId)) tag.remove();
+    });
+    if (!tagsWrap?.querySelectorAll('.mgr-group-tag').length) {
+      tagsWrap.innerHTML = '<span class="mgr-empty">Nenhum grupo</span>';
+    }
+    // Recoloca grupo no select
+    const sel = document.getElementById(`mgr-sel-${userId}`);
+    if (sel) {
+      const opt = document.createElement('option');
+      opt.value = groupId;
+      opt.text  = groupName || groupId;
+      sel.appendChild(opt);
+    }
+    showToast('Grupo removido', 'info');
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+async function syncAgents() {
+  const list = document.getElementById('agents-list');
+  list.innerHTML = '<div class="empty-state" style="padding:20px"><div class="ai-spinner" style="margin:0 auto 8px"></div><p>Sincronizando agentes com o Zendesk...</p></div>';
+  try {
+    const r = await api('POST', '/api/admin/sync-agents');
+    showToast(`✅ ${r.message}`, 'success');
+    loadAgentsList();
+  } catch(e) { showToast('Erro: '+e.message, 'error'); loadAgentsList(); }
+}
+
+function editAgentEmail(userId, currentEmail, name) {
+  document.getElementById('modal-box').className = 'modal';
+  document.getElementById('modal-title').textContent = '✏️ E-mail de Login — '+name;
+  document.getElementById('modal-body').innerHTML = `
+    <div style="margin-bottom:16px;color:var(--muted);font-size:.85rem">
+      Define o e-mail que este agente usará para receber avaliações e notificações na plataforma.
+    </div>
+    <div class="form-field">
+      <label class="form-label">E-mail</label>
+      <input class="form-input" id="agent-email-inp" type="email" placeholder="agente@empresa.com" value="${currentEmail}">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-save" onclick="saveAgentEmail('${userId}')">💾 Salvar</button>
+    </div>`;
+  showModal();
+  setTimeout(() => document.getElementById('agent-email-inp')?.focus(), 100);
+}
+
+async function saveAgentEmail(userId) {
+  const email = document.getElementById('agent-email-inp')?.value?.trim();
+  try {
+    await api('POST', `/api/admin/users/${userId}/email`, { email });
+    showToast('✅ E-mail atualizado!', 'success');
+    closeModal();
+    loadAgentsList();
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+async function updateAgentRole(userId, role) {
+  try {
+    await api('POST', `/api/admin/users/${userId}/role`, { role });
+    showToast('✅ Role atualizado!', 'success');
+  } catch(e) { showToast(e.message, 'error'); }
+}
+
+async function loadEvaluatorsList() {
+  try {
+    const { users } = await api('GET','/api/admin/users');
+    allUsers = users;
+    const container = document.getElementById('evaluators-list');
+    const nonAdmin  = users.filter(u => u.role !== 'admin');
+    container.innerHTML = nonAdmin.map(u => {
+      const isEval = u.role==='evaluator' || cfgEvaluators.includes(u.id);
+      const initials = u.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      const roleTag  = u.role==='evaluator'?'avaliador nativo':u.role==='consultant'?'consultor':'–';
+      return `<div class="user-eval-card">
+        <div class="user-eval-info">
+          <div class="user-eval-avatar">${initials}</div>
+          <div>
+            <div class="user-eval-name">${u.name}</div>
+            <div class="user-eval-role">${u.email||u.username} · <span class="status-tag ${u.role}">${roleTag}</span></div>
+          </div>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.83rem">
+          <input type="checkbox" class="toggle-check" id="eval-chk-${u.id}" ${isEval?'checked':''} ${u.role==='evaluator'?'disabled':''}>
+          <span>pode avaliar</span>
+        </label>
+      </div>`;
+    }).join('');
+  } catch(e) { showToast('Erro: '+e.message,'error'); }
+}
+
+async function saveEvaluators() {
+  const ids = allUsers
+    .filter(u => u.role !== 'admin' && u.role !== 'evaluator')
+    .filter(u => document.getElementById('eval-chk-'+u.id)?.checked)
+    .map(u => u.id);
+  try {
+    await api('POST','/api/admin/config',{ evaluatorIds: ids });
+    cfgEvaluators = ids;
+    showToast('✅ Permissões salvas!','success');
+  } catch(e) { showToast(e.message,'error'); }
+}
+
+function fillSimSelect() {
+  const sel = document.getElementById('sim-assignee');
+  if (!sel) return;
+  sel.innerHTML = Object.entries(AMAP).map(([id,name])=>`<option value="${id}">${name}</option>`).join('');
+}
+async function simulateTicket() {
+  try {
+    await api('POST','/api/admin/simulate-ticket',{
+      assignee_id:    document.getElementById('sim-assignee').value,
+      subject:        document.getElementById('sim-subject').value,
+      requester_name: document.getElementById('sim-requester').value
+    });
+    showToast('🧪 Ticket simulado criado!','info');
+    document.getElementById('sim-subject').value='';
+    document.getElementById('sim-requester').value='';
+    loadTickets(); loadStats();
+  } catch(e) { showToast(e.message,'error'); }
+}
+
+/* ══════════════════════════════════════════════════════
+   MODAL HELPERS
+══════════════════════════════════════════════════════ */
+function showModal() { document.getElementById('modal-wrap').style.display='flex'; }
+function closeModal() {
+  _convLoaded = {}; document.getElementById('modal-wrap').style.display='none'; }
+function onOverlayClick(e) { if(e.target.classList.contains('modal-overlay')) closeModal(); }
+
+/* ══════════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════════ */
+function showToast(msg, type='info') {
+  const c = document.getElementById('toasts');
+  const t = document.createElement('div');
+  t.className = 'toast '+type;
+  t.innerHTML = `<span>${{success:'✅',error:'❌',info:'ℹ️'}[type]||''}</span><span>${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(()=>{ t.style.transition='.3s'; t.style.opacity='0'; t.style.transform='translateX(16px)'; setTimeout(()=>t.remove(),300); }, 3500);
+}
+</script>
+</body>
+</html>

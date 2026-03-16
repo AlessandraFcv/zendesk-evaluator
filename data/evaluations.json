@@ -1,0 +1,155 @@
+[
+  {
+    "id": "b1839809-d60c-49eb-abfd-276b7372ffa5",
+    "ticket_id": "824062",
+    "zendesk_id": "824062",
+    "consultant_name": "Marcelo",
+    "assignee_id": "1529827574762",
+    "evaluator_id": "admin",
+    "evaluator_name": "Administrador",
+    "scores": {
+      "solucao": 4,
+      "empatia": 4,
+      "conducao": 4
+    },
+    "overall": 75,
+    "notes": "Bom atendimento Marcelo, o cliente conseguiu comprender a situação do caso referente ao cancelamento. Como melhoria eu explicaria melhor sobre o fluxo de evento de cancelamento passar pelo webservice estadual. Mas ótimo atendimento, rapido e objetivo. ",
+    "created_at": "2026-03-06T17:51:55.265Z"
+  },
+  {
+    "id": "31541289-a116-49d1-aed8-9a817849eada",
+    "ticket_id": "822157",
+    "zendesk_id": "822157",
+    "consultant_name": "Alessandra",
+    "assignee_id": "412356865654",
+    "evaluator_id": "admin",
+    "evaluator_name": "Administrador",
+    "scores": {
+      "solucao": 4,
+      "empatia": 4,
+      "conducao": 4
+    },
+    "overall": 75,
+    "notes": "Muito bom",
+    "created_at": "2026-03-09T13:42:22.102Z"
+  },
+  {
+    "id": "383ae1f5-400f-48c2-ac78-182ceb5b6dae",
+    "ticket_id": "824059",
+    "zendesk_id": "824059",
+    "consultant_name": "Alessandra",
+    "assignee_id": "412356865654",
+    "evaluator_id": "admin",
+    "evaluator_name": "Administrador",
+    "scores": {
+      "solucao": 4,
+      "empatia": 4,
+      "conducao": 4
+    },
+    "overall": 75,
+    "notes": "Otimo atendimento",
+    "created_at": "2026-03-09T13:43:59.024Z"
+  },
+  {
+    "id": "b2282cc9-ccc4-43c2-a6f7-e2f009562464",
+    "ticket_id": "817527",
+    "zendesk_id": "817527",
+    "consultant_name": "Alessandra",
+    "assignee_id": "412356865654",
+    "evaluator_id": "admin",
+    "evaluator_name": "Administrador",
+    "scores": {
+      "solucao": 4,
+      "empatia": 3,
+      "conducao": 3
+    },
+    "overall": 58,
+    "notes": "teste",
+    "created_at": "2026-03-09T14:03:53.002Z"
+  },
+  {
+    "id": "c7dedd6e-5a60-497b-9404-87a0fce1fcf7",
+    "ticket_id": "820285",
+    "zendesk_id": "820285",
+    "consultant_name": "Alessandra",
+    "assignee_id": "412356865654",
+    "evaluator_id": "admin",
+    "evaluator_name": "Administrador",
+    "scores": {
+      "solucao": 1,
+      "empatia": 3,
+      "conducao": 4
+    },
+    "overall": 42,
+    "notes": "teste",
+    "created_at": "2026-03-09T14:48:37.347Z"
+  },
+  {
+    "id": "a9879121-1ab9-4096-924c-6ca91dffb2ad",
+    "ticket_id": "811670",
+    "zendesk_id": "811670",
+    "consultant_name": "Alessandra",
+    "assignee_id": "412356865654",
+    "evaluator_id": "admin",
+    "evaluator_name": "Administrador",
+    "scores": {
+      "solucao": 4,
+      "empatia": 4,
+      "conducao": 4
+    },
+    "overall": 75,
+    "notes": "A solução foi avaliada como 'Bom' (75) porque o problema inicial foi corretamente diagnosticado e a solução de mudar para o RTM padrão (ou atualizar o personalizado) foi oferecida. As solicitações subsequentes de personalização do layout foram amplamente atendidas através de ajustes excepcionais e o layout final ficou próximo ao que o cliente esperava, com a última limitação claramente comunicada. A Empatia foi 'Bom' (75) devido ao uso consistente de saudações e despedidas cordiais, um tom paciente e prestativo, e o esforço para compreender as necessidades em constante mudança do cliente. A Condução também foi 'Bom' (75) pela profissionalismo, clareza nas explicações (incluindo a identificação da ROTA MODO como solução de longo prazo) e o gerenciamento eficaz de um atendimento complexo e prolongado, mesmo com a realização de intervenções manuais excepcionais.",
+    "created_at": "2026-03-09T17:49:41.512Z"
+  },
+  {
+    "id": "b0c9fe30-9c5f-4422-90e4-f828df88c6ef",
+    "ticket_id": "815083",
+    "zendesk_id": "815083",
+    "consultant_name": "Marcelo",
+    "assignee_id": "1529827574762",
+    "evaluator_id": "admin",
+    "evaluator_name": "Administrador",
+    "scores": {
+      "solucao": 4,
+      "empatia": 4,
+      "conducao": 4
+    },
+    "overall": 75,
+    "notes": "Teste marcelo",
+    "created_at": "2026-03-09T18:52:49.251Z"
+  },
+  {
+    "id": "5320513d-69f7-4051-b17c-282bacf2ef66",
+    "ticket_id": "820828",
+    "zendesk_id": "820828",
+    "consultant_name": "Alessandra",
+    "assignee_id": "412356865654",
+    "evaluator_id": "admin",
+    "evaluator_name": "Administrador",
+    "scores": {
+      "solucao": 3,
+      "empatia": 3,
+      "conducao": 3
+    },
+    "overall": 50,
+    "notes": "teste",
+    "created_at": "2026-03-09T19:03:36.203Z"
+  },
+  {
+    "id": "119b87fe-3f40-42f4-a46c-0aaea7da89bc",
+    "ticket_id": "821853",
+    "zendesk_id": "821853",
+    "consultant_name": "Alessandra",
+    "assignee_id": "412356865654",
+    "evaluator_id": "admin",
+    "evaluator_name": "Administrador",
+    "scores": {
+      "solucao": 4,
+      "empatia": 4,
+      "conducao": 4
+    },
+    "overall": 75,
+    "notes": "teste",
+    "created_at": "2026-03-10T15:26:42.842Z"
+  }
+]

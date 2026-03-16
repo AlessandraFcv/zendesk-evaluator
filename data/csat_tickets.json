@@ -1,0 +1,32 @@
+[
+  {
+    "id": "58858711-2394-401c-aa0c-5da79e597740",
+    "zendesk_id": "825766",
+    "subject": "Conversa com Weleny Santos",
+    "requester_name": "Cliente",
+    "assignee_id": "31754471994775",
+    "consultant_name": "ID:31754471994775",
+    "satisfaction": "bad",
+    "satisfaction_comment": "",
+    "solved_at": "2026-03-10T13:30:20Z",
+    "received_at": "2026-03-10T16:32:03.176Z",
+    "evaluated": false,
+    "discarded": false,
+    "ai_review": null
+  },
+  {
+    "id": "a4c4ee63-682e-41ce-861b-324b870f534d",
+    "zendesk_id": "824483",
+    "subject": "Conversa com Paulo Sergio",
+    "requester_name": "Cliente",
+    "assignee_id": "20415140164887",
+    "consultant_name": "ID:20415140164887",
+    "satisfaction": "bad",
+    "satisfaction_comment": "",
+    "solved_at": "2026-03-07T13:01:42Z",
+    "received_at": "2026-03-10T16:40:42.245Z",
+    "evaluated": false,
+    "discarded": false,
+    "ai_review": null
+  }
+]
