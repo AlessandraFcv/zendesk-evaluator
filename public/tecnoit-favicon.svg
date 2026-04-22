@@ -1,0 +1,20 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="tecnoitFaviconTitle tecnoitFaviconDesc">
+<title id="tecnoitFaviconTitle">Favicon TecnoIT</title>
+<desc id="tecnoitFaviconDesc">Icone da TecnoIT com monograma T e I em tons de azul.</desc>
+<defs>
+<linearGradient id="favBadge" x1="6" y1="58" x2="58" y2="7" gradientUnits="userSpaceOnUse">
+<stop stop-color="#031A4A"/>
+<stop offset="0.5" stop-color="#0353B3"/>
+<stop offset="1" stop-color="#18A3E0"/>
+</linearGradient>
+<linearGradient id="favAccent" x1="28" y1="18" x2="49" y2="49" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7BE7FF"/>
+<stop offset="1" stop-color="#4E6BFF"/>
+</linearGradient>
+</defs>
+<path d="M20.5 4H39.5C42.65 4 45.56 5.68 47.14 8.42L55.26 22.58C56.84 25.32 56.84 28.68 55.26 31.42L47.14 45.58C45.56 48.32 42.65 50 39.5 50H20.5C17.35 50 14.44 48.32 12.86 45.58L4.74 31.42C3.16 28.68 3.16 25.32 4.74 22.58L12.86 8.42C14.44 5.68 17.35 4 20.5 4Z" fill="url(#favBadge)"/>
+<path d="M24 19H42V25H35V43H27V25H24V19Z" fill="#F5FBFF"/>
+<path d="M38 26H44V43H38V26Z" fill="url(#favAccent)"/>
+<path d="M41 23C41 21.34 42.34 20 44 20H45.5C48.54 20 51 22.46 51 25.5" stroke="url(#favAccent)" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="51" cy="25.5" r="2.5" fill="#7BE7FF"/>
+</svg>

@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
   senha_hash    VARCHAR(200) NOT NULL,
   papel         VARCHAR(20)  NOT NULL DEFAULT 'consultant'
                 CHECK (papel IN ('consultant','evaluator','manager','admin')),
+  tipo_usuario  VARCHAR(30),
   id_zendesk    VARCHAR(50)  UNIQUE,
   criado_em     TIMESTAMPTZ  DEFAULT NOW(),
   atualizado_em TIMESTAMPTZ  DEFAULT NOW()

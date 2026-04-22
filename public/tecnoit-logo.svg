@@ -1,0 +1,39 @@
+<svg width="640" height="180" viewBox="0 0 640 180" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="tecnoitLogoTitle tecnoitLogoDesc">
+<title id="tecnoitLogoTitle">Logo TecnoIT</title>
+<desc id="tecnoitLogoDesc">Logo da TecnoIT com simbolo hexagonal em tons de azul e ciano e wordmark claro.</desc>
+<defs>
+<linearGradient id="tecnoitBadgeFill" x1="12" y1="152" x2="152" y2="18" gradientUnits="userSpaceOnUse">
+<stop stop-color="#031A4A"/>
+<stop offset="0.5" stop-color="#0353B3"/>
+<stop offset="1" stop-color="#18A3E0"/>
+</linearGradient>
+<linearGradient id="tecnoitInnerGlow" x1="36" y1="136" x2="122" y2="42" gradientUnits="userSpaceOnUse">
+<stop stop-color="#08122D"/>
+<stop offset="1" stop-color="#0F76B7"/>
+</linearGradient>
+<linearGradient id="tecnoitAccent" x1="62" y1="44" x2="126" y2="124" gradientUnits="userSpaceOnUse">
+<stop stop-color="#7BE7FF"/>
+<stop offset="0.5" stop-color="#32C3F3"/>
+<stop offset="1" stop-color="#4E6BFF"/>
+</linearGradient>
+<filter id="tecnoitShadow" x="0" y="0" width="184" height="184" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feOffset dy="12"/>
+<feGaussianBlur stdDeviation="10"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.0117647 0 0 0 0 0.164706 0 0 0 0 0.423529 0 0 0 0.38 0"/>
+</filter>
+</defs>
+<g filter="url(#tecnoitShadow)">
+<path d="M50 18H110C118.4 18 126.16 22.48 130.36 29.76L155.64 73.24C159.86 80.52 159.86 89.48 155.64 96.76L130.36 140.24C126.16 147.52 118.4 152 110 152H50C41.6 152 33.84 147.52 29.64 140.24L4.36 96.76C0.14 89.48 0.14 80.52 4.36 73.24L29.64 29.76C33.84 22.48 41.6 18 50 18Z" fill="url(#tecnoitBadgeFill)"/>
+</g>
+<path d="M57.5 32H102.5C109.38 32 115.74 35.68 119.18 41.66L138.32 74.84C141.76 80.82 141.76 88.18 138.32 94.16L119.18 127.34C115.74 133.32 109.38 137 102.5 137H57.5C50.62 137 44.26 133.32 40.82 127.34L21.68 94.16C18.24 88.18 18.24 80.82 21.68 74.84L40.82 41.66C44.26 35.68 50.62 32 57.5 32Z" fill="url(#tecnoitInnerGlow)" fill-opacity="0.72" stroke="#FFFFFF" stroke-opacity="0.16"/>
+<path d="M44 52H116" stroke="#FFFFFF" stroke-opacity="0.16" stroke-width="4" stroke-linecap="round"/>
+<path d="M44 118H106" stroke="#FFFFFF" stroke-opacity="0.12" stroke-width="4" stroke-linecap="round"/>
+<path d="M49 48H112V63H87V118H68V63H49V48Z" fill="#F5FBFF"/>
+<path d="M103 67H118V118H103V67Z" fill="url(#tecnoitAccent)"/>
+<path d="M110 59C110 55.69 112.69 53 116 53H124C129.52 53 134 57.48 134 63" stroke="url(#tecnoitAccent)" stroke-width="5" stroke-linecap="round"/>
+<circle cx="134" cy="63" r="6" fill="#7BE7FF"/>
+<circle cx="134" cy="63" r="10" fill="#7BE7FF" fill-opacity="0.18"/>
+<text x="188" y="98" fill="#F5FBFF" font-family="Segoe UI, Arial, sans-serif" font-size="66" font-weight="800" letter-spacing="-1.6">Tecno<tspan fill="url(#tecnoitAccent)">IT</tspan></text>
+<path d="M190 120H374" stroke="url(#tecnoitAccent)" stroke-width="4" stroke-linecap="round" opacity="0.95"/>
+<circle cx="392" cy="120" r="6" fill="#7BE7FF"/>
+</svg>
